@@ -30,7 +30,7 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
             : 'Playlist already sorted!',
           {
             position: 'bottom-right',
-            autoClose: 5_000,
+            autoClose: 3_000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -54,7 +54,7 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
           sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!',
           {
             position: 'bottom-right',
-            autoClose: 5_000,
+            autoClose: 3_000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
