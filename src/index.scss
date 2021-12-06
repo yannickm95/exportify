@@ -1,7 +1,7 @@
 // Bootstrap variables
 $link-color: #8ab4f8;
 $primary: #1db954;
-$table-hover-bg: rgba(#000, 0.025);
+$table-hover-bg: rgb(20, 20, 20);
 $btn-transition: none;
 $body-color: #fff;
 $body-bg: #202124;
@@ -177,12 +177,22 @@ td img {
   border-radius: 5px;
 }
 
-tbody {
-  tr:hover {
-    background: rgba(0, 0, 0, 0.3) !important;
-  }
-}
-
 .table tr:last-child td {
   border-bottom: 1px solid #dee2e6 !important;
+}
+
+.Toastify__toast {
+  background: rgb(20, 20, 20) !important;
+
+  .Toastify__toast-body {
+    background: rgb(20, 20, 20) !important;
+  }
+
+  .Toastify__toast-icon > * {
+    color: #1db954 !important;
+  }
+
+  .Toastify__toast-progress_bar {
+    color: #1db954 !important;
+  }
 }

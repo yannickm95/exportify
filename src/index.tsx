@@ -1,5 +1,6 @@
 import 'core-js/stable';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './index.scss';
 import './helpers/icons';
 

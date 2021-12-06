@@ -1,5 +1,6 @@
 import { ReactNode, ReactElement } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ToastContainer } from 'react-toastify';
 
 export default function Template({
   children,
@@ -28,6 +29,8 @@ export default function Template({
       </header>
 
       {children}
+
+      <ToastContainer theme="dark" />
     </div>
   );
 }

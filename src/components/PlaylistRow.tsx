@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import quickSortPlaylist from 'data/quickSortPlaylist';
@@ -18,20 +19,50 @@ const IGNORE_LIST =
 export default function PlaylistRow({ playlist, accessToken, index }) {
   const [isQuickSorting, setIsQuickSorting] = useState(false);
 
-  const sortPlaylistWithQuick = async () => {
+  const sortPlaylistWithQuick = () => {
     setIsQuickSorting(true);
 
     quickSortPlaylist(accessToken, playlist)
+      .then((sorted) =>
+        toast.success(
+          sorted !== 'is-sorted'
+            ? `Sorted all items!`
+            : 'Playlist already sorted!',
+          {
+            position: 'bottom-right',
+            autoClose: 5_000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          }
+        )
+      )
       .catch(apiCallErrorHandler)
       .finally(() => setIsQuickSorting(false));
   };
 
   const [isLastSorting, setIsLastSorting] = useState(false);
 
-  const sortPlaylistWithLast = async () => {
+  const sortPlaylistWithLast = () => {
     setIsLastSorting(true);
 
     lastSortPlaylist(accessToken, playlist)
+      .then((sorted) =>
+        toast.success(
+          sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!',
+          {
+            position: 'bottom-right',
+            autoClose: 5_000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          }
+        )
+      )
       .catch(apiCallErrorHandler)
       .finally(() => setIsLastSorting(false));
   };

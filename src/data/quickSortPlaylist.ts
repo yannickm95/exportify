@@ -74,5 +74,8 @@ export default async function quickSortPlaylist(
 
   if (!isArraySorted(tracks)) {
     await quickSort(tracks, 0, tracks.length - 1);
+    return 'sorted';
+  } else {
+    return 'is-sorted';
   }
 }
