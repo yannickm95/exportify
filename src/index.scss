@@ -8,6 +8,11 @@ $body-bg: #202124;
 $input-btn-focus-box-shadow: none;
 $input-placeholder-color: #dee2e6;
 
+:root {
+  --toastify-icon-color-success: #1db954;
+  --toastify-color-progress-success: #1db954;
+}
+
 @import 'bootstrap/scss/bootstrap';
 
 .App-header {
@@ -122,13 +127,10 @@ h1 a:hover {
   font-size: 0.9rem !important;
   font-weight: 500 !important;
   height: 35px;
+  color: #fff !important;
 
   .fa-sm {
     font-size: 1rem !important;
-  }
-
-  &:disabled {
-    cursor: not-allowed !important;
   }
 }
 
@@ -195,4 +197,9 @@ td img {
   .Toastify__toast-progress_bar {
     color: #1db954 !important;
   }
+}
+
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
 }
