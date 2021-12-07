@@ -1,8 +1,8 @@
 {
   "name": "exportify",
-  "description": "Website to export and sort spotify playlists"
+  "description": "Website to export and sort spotify playlists",
   "version": "1.0.0",
-  "author": "hatlaron"
+  "author": "Hatlaron",
   "private": true,
   "homepage": "https://yannickm95.github.io/exportify/",
   "scripts": {
