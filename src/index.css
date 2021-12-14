@@ -1,0 +1,239 @@
+/* Variables */
+
+:root {
+  --toastify-icon-color-success: #1db954;
+  --toastify-color-progress-success: #1db954;
+  --toastify-color-dark: rgb(20, 20, 20);
+  --bs-link-color: #8ab4f8;
+  --bs-link-color-hover: #6e90c6;
+  --bs-primary: #1db954;
+  --bs-table-hover-bg: rgb(20, 20, 20);
+  --bs-btn-transition: none;
+  --bs-body-color: #fff;
+  --bs-table-hover-color: #fff;
+  --bs-body-bg: #202124;
+  --bs-input-btn-focus-box-shadow: none;
+  --bs-input-placeholder-color: #dee2e6;
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Link */
+
+a {
+  color: var(--bs-link-color);
+}
+
+a:hover {
+  color: var(--bs-link-color-hover);
+}
+
+/* Table */
+
+.table {
+  color: var(--bs-body-color);
+  --bs-table-hover-color: var(--bs-body-color);
+  --bs-table-hover-bg: rgb(20, 20, 20);
+}
+
+.table tr:last-child td {
+  border-bottom: 1px solid var(--bs-input-placeholder-color);
+}
+
+tr.alt-color {
+  background: #26272b;
+}
+
+td img {
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  margin-right: 25px;
+  border-radius: 5px;
+}
+
+/* Loaders */
+
+.spinner {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.spinner:before {
+  content: 'Loading…';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+}
+
+.spinner:not(:required):before {
+  content: '';
+  border-radius: 50%;
+  border: 4px solid rgba(236, 235, 232, 1);
+  border-top-color: rgba(130, 130, 130, 1);
+  animation: spinner 1s linear infinite;
+}
+
+.loader {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.loader__content {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+
+.loader__content::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--bs-body-color);
+  animation: spinner 1s linear infinite;
+  border-radius: 50%;
+  content: '';
+}
+
+/* Buttons */
+
+.button-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 120px;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  height: 35px;
+}
+
+.button-flex .fa-sm {
+  font-size: 1rem !important;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
+.btn-primary {
+  color: var(--bs-body-color);
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+  color: var(--bs-body-color);
+  background-color: #3fc46e;
+  border-color: #34c065;
+}
+
+.btn-primary:focus {
+  color: var(--bs-body-color);
+  background-color: #3fc46e;
+  border-color: #34c065;
+  box-shadow: 0 0 0 0.25rem #199d4780;
+}
+
+.btn-primary:active,
+.btn-primary.active {
+  color: var(--bs-body-color);
+  background-color: #4ac776;
+  border-color: #34c065;
+}
+
+.btn-primary:active:focus,
+.btn-primary.active:focus {
+  box-shadow: 0 0 0 0.25rem #199d4780;
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+  color: var(--bs-body-color);
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* App */
+
+.App-header {
+  padding: 40px 15px;
+  text-align: center;
+  position: relative;
+}
+
+#spotifyErrorMessage {
+  text-align: center;
+}
+
+.login-container {
+  display: flex;
+  margin: 0 auto;
+  gap: 15px;
+  justify-content: center;
+}
+
+.login-container input {
+  width: 250px;
+}
+
+.login-container button {
+  width: 160px;
+}
+
+#logoutButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  color: var(--bs-input-placeholder-color);
+}
+
+#logoutButton:hover {
+  color: silver;
+}
+
+#playlists {
+  animation: fadeIn 1s;
+}
+
+#playlists table thead th {
+  border-top-width: 0;
+}
+
+#playlists table.table-sm td,
+#playlists table.table-sm th {
+  padding: 8px;
+}

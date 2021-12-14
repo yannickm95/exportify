@@ -24,7 +24,7 @@ export default function Template({
         </h1>
 
         <p id="subtitle" className="lead text-secondary">
-          Export your Spotify playlists.
+          Export and sort your Spotify playlists.
         </p>
       </header>
 
