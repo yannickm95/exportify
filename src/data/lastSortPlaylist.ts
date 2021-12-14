@@ -4,7 +4,7 @@ import getPlaylisTracks from './helpers/getPlaylistTracks';
 import formatCompareValue from './helpers/formatCompareValue';
 
 export default async function lastSort(accessToken: string, playlist: any) {
-  let tracks = await getPlaylisTracks(accessToken, playlist).then((data) =>
+  const tracks = await getPlaylisTracks(accessToken, playlist).then((data) =>
     data.map(({ track }) => formatCompareValue(track))
   );
 
@@ -40,11 +40,8 @@ export default async function lastSort(accessToken: string, playlist: any) {
       }
     );
 
-    tracks = [
-      ...tracks.slice(0, newIndex),
-      item,
-      ...tracks.slice(newIndex, -1),
-    ];
+    tracks.splice(newIndex, 0, item);
+    tracks.splice(-1, 1);
   }
 
   return newItems.length;
