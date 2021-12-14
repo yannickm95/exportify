@@ -8,12 +8,12 @@
   "scripts": {
     "postinstall": "husky install",
     "dev": "vite dev",
-    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json}'",
-    "lint:ts": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "test:typecheck": "tsc",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "yarn build && gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist",
+    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json}'",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "typecheck": "tsc"
   },
   "packageManager": "yarn@3.1.0",
   "dependencies": {
