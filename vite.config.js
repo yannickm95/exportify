@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
-import reactPlugin from '@vitejs/plugin-react';
-import tsConfigPathsPlugin from 'vite-tsconfig-paths';
-import eslintPlugin from '@nabla/vite-plugin-eslint';
+const eslintPlugin = require('@nabla/vite-plugin-eslint');
+const reactPlugin = require('@vitejs/plugin-react');
+const { default: tsConfigPathsPlugin } = require('vite-tsconfig-paths');
+const { defineConfig } = require('vite');
 
 const PORT = parseInt(process.env.PORT) || 9999;
 
@@ -17,6 +17,10 @@ export default defineConfig({
 
   preview: {
     port: PORT,
+  },
+
+  build: {
+    minify: false,
   },
 
   plugins: [
