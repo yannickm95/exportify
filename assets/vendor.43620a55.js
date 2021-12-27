@@ -228,7 +228,7 @@ var store$2 = sharedStore;
 (shared$5.exports = function(key2, value) {
   return store$2[key2] || (store$2[key2] = value !== void 0 ? value : {});
 })("versions", []).push({
-  version: "3.20.0",
+  version: "3.20.1",
   mode: "global",
   copyright: "\xA9 2021 Denis Pushkarev (zloirock.ru)"
 });
@@ -496,7 +496,7 @@ var inspectSource$2 = inspectSource$4;
 var InternalStateModule$c = internalState;
 var CONFIGURABLE_FUNCTION_NAME$2 = functionName.CONFIGURABLE;
 var getInternalState$b = InternalStateModule$c.get;
-var enforceInternalState$1 = InternalStateModule$c.enforce;
+var enforceInternalState$2 = InternalStateModule$c.enforce;
 var TEMPLATE = String(String).split("String");
 (redefine$l.exports = function(O2, key2, value, options2) {
   var unsafe = options2 ? !!options2.unsafe : false;
@@ -511,7 +511,7 @@ var TEMPLATE = String(String).split("String");
     if (!hasOwn$o(value, "name") || CONFIGURABLE_FUNCTION_NAME$2 && value.name !== name) {
       createNonEnumerableProperty$d(value, "name", name);
     }
-    state = enforceInternalState$1(value);
+    state = enforceInternalState$2(value);
     if (!state.source) {
       state.source = TEMPLATE.join(typeof name == "string" ? name : "");
     }
@@ -3259,7 +3259,7 @@ var TO_STRING_TAG$1 = wellKnownSymbol$f("toStringTag");
 var TYPED_ARRAY_TAG$1 = uid$2("TYPED_ARRAY_TAG");
 var TYPED_ARRAY_CONSTRUCTOR$2 = uid$2("TYPED_ARRAY_CONSTRUCTOR");
 var NATIVE_ARRAY_BUFFER_VIEWS$3 = NATIVE_ARRAY_BUFFER$1 && !!setPrototypeOf$3 && classof$c(global$U.opera) !== "Opera";
-var TYPED_ARRAY_TAG_REQIRED = false;
+var TYPED_ARRAY_TAG_REQUIRED = false;
 var NAME$1, Constructor, Prototype;
 var TypedArrayConstructorsList = {
   Int8Array: 1,
@@ -3379,7 +3379,7 @@ if (NATIVE_ARRAY_BUFFER_VIEWS$3 && getPrototypeOf$5(Uint8ClampedArrayPrototype) 
   setPrototypeOf$3(Uint8ClampedArrayPrototype, TypedArrayPrototype$2);
 }
 if (DESCRIPTORS$n && !hasOwn$f(TypedArrayPrototype$2, TO_STRING_TAG$1)) {
-  TYPED_ARRAY_TAG_REQIRED = true;
+  TYPED_ARRAY_TAG_REQUIRED = true;
   defineProperty$a(TypedArrayPrototype$2, TO_STRING_TAG$1, { get: function() {
     return isObject$o(this) ? this[TYPED_ARRAY_TAG$1] : void 0;
   } });
@@ -3391,7 +3391,7 @@ if (DESCRIPTORS$n && !hasOwn$f(TypedArrayPrototype$2, TO_STRING_TAG$1)) {
 var arrayBufferViewCore = {
   NATIVE_ARRAY_BUFFER_VIEWS: NATIVE_ARRAY_BUFFER_VIEWS$3,
   TYPED_ARRAY_CONSTRUCTOR: TYPED_ARRAY_CONSTRUCTOR$2,
-  TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQIRED && TYPED_ARRAY_TAG$1,
+  TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQUIRED && TYPED_ARRAY_TAG$1,
   aTypedArray: aTypedArray$n,
   aTypedArrayConstructor: aTypedArrayConstructor$4,
   exportTypedArrayMethod: exportTypedArrayMethod$o,
@@ -4884,9 +4884,9 @@ $$1j({ target: "Object", stat: true, forced: !DESCRIPTORS$g, sham: !DESCRIPTORS$
 });
 var $$1i = _export;
 var DESCRIPTORS$f = descriptors;
-var objectDefinePropertyModile = objectDefineProperty;
+var objectDefinePropertyModule$1 = objectDefineProperty;
 $$1i({ target: "Object", stat: true, forced: !DESCRIPTORS$f, sham: !DESCRIPTORS$f }, {
-  defineProperty: objectDefinePropertyModile.f
+  defineProperty: objectDefinePropertyModule$1.f
 });
 var $$1h = _export;
 var DESCRIPTORS$e = descriptors;
@@ -5210,7 +5210,7 @@ var Function$2 = global$B.Function;
 var MessageChannel$1 = global$B.MessageChannel;
 var String$1 = global$B.String;
 var counter = 0;
-var queue$1 = {};
+var queue$2 = {};
 var ONREADYSTATECHANGE = "onreadystatechange";
 var location$1, defer, channel, port;
 try {
@@ -5218,9 +5218,9 @@ try {
 } catch (error) {
 }
 var run = function(id2) {
-  if (hasOwn$9(queue$1, id2)) {
-    var fn = queue$1[id2];
-    delete queue$1[id2];
+  if (hasOwn$9(queue$2, id2)) {
+    var fn = queue$2[id2];
+    delete queue$2[id2];
     fn();
   }
 };
@@ -5238,14 +5238,14 @@ var post = function(id2) {
 if (!set$1 || !clear) {
   set$1 = function setImmediate2(fn) {
     var args = arraySlice$5(arguments, 1);
-    queue$1[++counter] = function() {
+    queue$2[++counter] = function() {
       apply$6(isCallable$9(fn) ? fn : Function$2(fn), void 0, args);
     };
     defer(counter);
     return counter;
   };
   clear = function clearImmediate(id2) {
-    delete queue$1[id2];
+    delete queue$2[id2];
   };
   if (IS_NODE$4) {
     defer = function(id2) {
@@ -5399,6 +5399,30 @@ var perform$3 = function(exec2) {
     return { error: true, value: error };
   }
 };
+var Queue$1 = function() {
+  this.head = null;
+  this.tail = null;
+};
+Queue$1.prototype = {
+  add: function(item) {
+    var entry = { item, next: null };
+    if (this.head)
+      this.tail.next = entry;
+    else
+      this.head = entry;
+    this.tail = entry;
+  },
+  get: function() {
+    var entry = this.head;
+    if (entry) {
+      this.head = entry.next;
+      if (this.tail === entry)
+        this.tail = null;
+      return entry.item;
+    }
+  }
+};
+var queue$1 = Queue$1;
 var engineIsBrowser = typeof window == "object";
 var $$X = _export;
 var global$x = global$1D;
@@ -5424,6 +5448,7 @@ var promiseResolve$1 = promiseResolve$2;
 var hostReportErrors = hostReportErrors$1;
 var newPromiseCapabilityModule$2 = newPromiseCapability$2;
 var perform$2 = perform$3;
+var Queue = queue$1;
 var InternalStateModule$7 = internalState;
 var isForced$1 = isForced_1;
 var wellKnownSymbol$b = wellKnownSymbol$y;
@@ -5485,55 +5510,56 @@ var isThenable = function(it) {
   var then2;
   return isObject$b(it) && isCallable$8(then2 = it.then) ? then2 : false;
 };
+var callReaction = function(reaction, state) {
+  var value = state.value;
+  var ok2 = state.state == FULFILLED;
+  var handler = ok2 ? reaction.ok : reaction.fail;
+  var resolve2 = reaction.resolve;
+  var reject2 = reaction.reject;
+  var domain = reaction.domain;
+  var result, then2, exited;
+  try {
+    if (handler) {
+      if (!ok2) {
+        if (state.rejection === UNHANDLED)
+          onHandleUnhandled(state);
+        state.rejection = HANDLED;
+      }
+      if (handler === true)
+        result = value;
+      else {
+        if (domain)
+          domain.enter();
+        result = handler(value);
+        if (domain) {
+          domain.exit();
+          exited = true;
+        }
+      }
+      if (result === reaction.promise) {
+        reject2(TypeError$a("Promise-chain cycle"));
+      } else if (then2 = isThenable(result)) {
+        call$i(then2, result, resolve2, reject2);
+      } else
+        resolve2(result);
+    } else
+      reject2(value);
+  } catch (error) {
+    if (domain && !exited)
+      domain.exit();
+    reject2(error);
+  }
+};
 var notify = function(state, isReject) {
   if (state.notified)
     return;
   state.notified = true;
-  var chain = state.reactions;
   microtask$1(function() {
-    var value = state.value;
-    var ok2 = state.state == FULFILLED;
-    var index2 = 0;
-    while (chain.length > index2) {
-      var reaction = chain[index2++];
-      var handler = ok2 ? reaction.ok : reaction.fail;
-      var resolve2 = reaction.resolve;
-      var reject2 = reaction.reject;
-      var domain = reaction.domain;
-      var result, then2, exited;
-      try {
-        if (handler) {
-          if (!ok2) {
-            if (state.rejection === UNHANDLED)
-              onHandleUnhandled(state);
-            state.rejection = HANDLED;
-          }
-          if (handler === true)
-            result = value;
-          else {
-            if (domain)
-              domain.enter();
-            result = handler(value);
-            if (domain) {
-              domain.exit();
-              exited = true;
-            }
-          }
-          if (result === reaction.promise) {
-            reject2(TypeError$a("Promise-chain cycle"));
-          } else if (then2 = isThenable(result)) {
-            call$i(then2, result, resolve2, reject2);
-          } else
-            resolve2(result);
-        } else
-          reject2(value);
-      } catch (error) {
-        if (domain && !exited)
-          domain.exit();
-        reject2(error);
-      }
+    var reactions = state.reactions;
+    var reaction;
+    while (reaction = reactions.get()) {
+      callReaction(reaction, state);
     }
-    state.reactions = [];
     state.notified = false;
     if (isReject && !state.rejection)
       onUnhandled(state);
@@ -5647,7 +5673,7 @@ if (FORCED$a) {
       done: false,
       notified: false,
       parent: false,
-      reactions: [],
+      reactions: new Queue(),
       rejection: false,
       state: PENDING,
       value: void 0
@@ -5656,15 +5682,17 @@ if (FORCED$a) {
   Internal.prototype = redefineAll$3(PromisePrototype, {
     then: function then2(onFulfilled, onRejected) {
       var state = getInternalPromiseState(this);
-      var reactions = state.reactions;
       var reaction = newPromiseCapability(speciesConstructor$4(this, PromiseConstructor));
+      state.parent = true;
       reaction.ok = isCallable$8(onFulfilled) ? onFulfilled : true;
       reaction.fail = isCallable$8(onRejected) && onRejected;
       reaction.domain = IS_NODE$2 ? process$2.domain : void 0;
-      state.parent = true;
-      reactions[reactions.length] = reaction;
-      if (state.state != PENDING)
-        notify(state, false);
+      if (state.state == PENDING)
+        state.reactions.add(reaction);
+      else
+        microtask$1(function() {
+          callReaction(reaction, state);
+        });
       return reaction.promise;
     },
     "catch": function(onRejected) {
@@ -6208,7 +6236,7 @@ var stickyHelpers$2 = regexpStickyHelpers;
 var redefine$6 = redefine$l.exports;
 var fails$j = fails$1b;
 var hasOwn$7 = hasOwnProperty_1;
-var enforceInternalState = internalState.enforce;
+var enforceInternalState$1 = internalState.enforce;
 var setSpecies$1 = setSpecies$6;
 var wellKnownSymbol$9 = wellKnownSymbol$y;
 var UNSUPPORTED_DOT_ALL$2 = regexpUnsupportedDotAll;
@@ -6342,7 +6370,7 @@ if (isForced("RegExp", BASE_FORCED)) {
     }
     result = inheritIfRequired$2(NativeRegExp(pattern, flags), thisIsRegExp ? this : RegExpPrototype$7, RegExpWrapper);
     if (dotAll || sticky || groups.length) {
-      state = enforceInternalState(result);
+      state = enforceInternalState$1(result);
       if (dotAll) {
         state.dotAll = true;
         state.raw = RegExpWrapper(handleDotAll(pattern), rawFlags);
@@ -8486,7 +8514,7 @@ var collection$1 = collection$4;
 var collectionWeak$1 = collectionWeak$2;
 var isObject$3 = isObject$A;
 var isExtensible = objectIsExtensible;
-var enforceIternalState = internalState.enforce;
+var enforceInternalState = internalState.enforce;
 var NATIVE_WEAK_MAP = nativeWeakMap;
 var IS_IE11 = !global$a.ActiveXObject && "ActiveXObject" in global$a;
 var InternalWeakMap;
@@ -8507,7 +8535,7 @@ if (NATIVE_WEAK_MAP && IS_IE11) {
   redefineAll$1(WeakMapPrototype, {
     "delete": function(key2) {
       if (isObject$3(key2) && !isExtensible(key2)) {
-        var state = enforceIternalState(this);
+        var state = enforceInternalState(this);
         if (!state.frozen)
           state.frozen = new InternalWeakMap();
         return nativeDelete(this, key2) || state.frozen["delete"](key2);
@@ -8516,7 +8544,7 @@ if (NATIVE_WEAK_MAP && IS_IE11) {
     },
     has: function has4(key2) {
       if (isObject$3(key2) && !isExtensible(key2)) {
-        var state = enforceIternalState(this);
+        var state = enforceInternalState(this);
         if (!state.frozen)
           state.frozen = new InternalWeakMap();
         return nativeHas(this, key2) || state.frozen.has(key2);
@@ -8525,7 +8553,7 @@ if (NATIVE_WEAK_MAP && IS_IE11) {
     },
     get: function get3(key2) {
       if (isObject$3(key2) && !isExtensible(key2)) {
-        var state = enforceIternalState(this);
+        var state = enforceInternalState(this);
         if (!state.frozen)
           state.frozen = new InternalWeakMap();
         return nativeHas(this, key2) ? nativeGet(this, key2) : state.frozen.get(key2);
@@ -8534,7 +8562,7 @@ if (NATIVE_WEAK_MAP && IS_IE11) {
     },
     set: function set4(key2, value) {
       if (isObject$3(key2) && !isExtensible(key2)) {
-        var state = enforceIternalState(this);
+        var state = enforceInternalState(this);
         if (!state.frozen)
           state.frozen = new InternalWeakMap();
         nativeHas(this, key2) ? nativeSet(this, key2, value) : state.frozen.set(key2, value);
@@ -8903,7 +8931,7 @@ var mapSet = uncurryThis$3(MapPrototype.set);
 var setAdd = uncurryThis$3(Set$1.prototype.add);
 var objectKeys = getBuiltin("Object", "keys");
 var push$3 = uncurryThis$3([].push);
-var bolleanValueOf = uncurryThis$3(true.valueOf);
+var booleanValueOf = uncurryThis$3(true.valueOf);
 var numberValueOf = uncurryThis$3(1 .valueOf);
 var stringValueOf = uncurryThis$3("".valueOf);
 var getFlags = uncurryThis$3(regExpFlags);
@@ -9071,7 +9099,7 @@ var structuredCloneInternal = function(value, map3) {
             cloned = Object$1(value.valueOf());
             break;
           case "Boolean":
-            cloned = Object$1(bolleanValueOf(value));
+            cloned = Object$1(booleanValueOf(value));
             break;
           case "Number":
             cloned = Object$1(numberValueOf(value));
@@ -9099,7 +9127,7 @@ var structuredCloneInternal = function(value, map3) {
                 }
               }
             } catch (error) {
-              throw new DOMException("ArrayBuffer is deatched", DATA_CLONE_ERROR);
+              throw new DOMException("ArrayBuffer is detached", DATA_CLONE_ERROR);
             }
             break;
           case "SharedArrayBuffer":

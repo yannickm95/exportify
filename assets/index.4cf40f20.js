@@ -1,4 +1,4 @@
-import { l as library, f as faSpotify, a as faCheckCircle, b as faBolt, c as faDownload, d as faSignOutAlt, e as faSort, g as faSortAmountUpAlt, j as jsxs, h as jsx, F as FontAwesomeIcon, B as Button, i as lib, k as axios, m as FileSaver_min, r as react, t as toast, T as ToastContainer, R as ReactDOM } from "./vendor.39f95637.js";
+import { l as library, f as faSpotify, a as faCheckCircle, b as faBolt, c as faDownload, d as faSignOutAlt, e as faSort, g as faSortAmountUpAlt, j as jsxs, h as jsx, F as FontAwesomeIcon, B as Button, i as lib, k as axios, m as FileSaver_min, r as react, t as toast, T as ToastContainer, R as ReactDOM } from "./vendor.43620a55.js";
 const p = function polyfill() {
   const relList = document.createElement("link").relList;
   if (relList && relList.supports && relList.supports("modulepreload")) {
@@ -365,7 +365,7 @@ function ButtonLoader() {
     })
   });
 }
-const IGNORE_LIST = ("" == null ? void 0 : "".replaceAll("_", " ").split(",")) || [];
+const IGNORE_LIST = ("Albums,Anime,Games,Edge_2000,Final_Fantasy_OST,Release_Radar,Solitude_bois_for_lyfe" == null ? void 0 : "Albums,Anime,Games,Edge_2000,Final_Fantasy_OST,Release_Radar,Solitude_bois_for_lyfe".replaceAll("_", " ").split(",")) || [];
 function PlaylistRow({
   playlist,
   accessToken,
