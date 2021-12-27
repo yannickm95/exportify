@@ -365,7 +365,7 @@ function ButtonLoader() {
     })
   });
 }
-const IGNORE_LIST = ("Albums,Anime,Games,Edge_2000,Final_Fantasy_OST,Release_Radar,Solitude_bois_for_lyfe" == null ? void 0 : "Albums,Anime,Games,Edge_2000,Final_Fantasy_OST,Release_Radar,Solitude_bois_for_lyfe".replaceAll("_", " ").split(",")) || [];
+const IGNORE_LIST = ("" == null ? void 0 : "".replaceAll("_", " ").split(",")) || [];
 function PlaylistRow({
   playlist,
   accessToken,
