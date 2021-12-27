@@ -19,10 +19,6 @@ export default defineConfig({
     port: PORT,
   },
 
-  build: {
-    minify: false,
-  },
-
   plugins: [
     reactPlugin(),
     tsConfigPathsPlugin(),
