@@ -1,3 +1,5 @@
+[![pages-build-deployment](https://github.com/yannickm95/exportify/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/yannickm95/exportify/actions/workflows/pages/pages-build-deployment)
+
 ## Usage
 
 1. Create a dev app on https://developer.spotify.com/dashboard/
