@@ -10,6 +10,9 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
 import App from 'components/App';
+import loadFonts from './assets/fontLoader';
+
+loadFonts();
 
 ReactDOM.render(
   <StrictMode>

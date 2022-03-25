@@ -33,6 +33,15 @@
   }
 }
 
+/* General */
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 /* Link */
 
 a {
@@ -186,6 +195,36 @@ button:disabled {
   border-color: var(--bs-primary);
 }
 
+/* Icons */
+
+.fonticon {
+  --color: currentColor;
+
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  color: var(--color);
+  font-feature-settings: 'liga';
+  font-size: var(--size);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  word-wrap: normal;
+}
+
+.fonticon.-vendor-material {
+  font-family: 'Material Icons', sans-serif;
+}
+
+.fonticon.-vendor-app {
+  font-family: 'App Icons', sans-serif;
+}
+
 /* App */
 
 .App-header {
@@ -210,7 +249,7 @@ button:disabled {
 }
 
 .login-container button {
-  width: 160px;
+  width: 170px;
 }
 
 #logoutButton {

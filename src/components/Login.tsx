@@ -1,9 +1,9 @@
 /* global window */
 
 import { Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { getQueryParam } from 'helpers/utils';
+import Icon from './Icon';
 
 export default function Login() {
   return (
@@ -22,8 +22,14 @@ export default function Login() {
         type="password"
         placeholder="Enter client id..."
       />
-      <Button type="submit" variant="outline-secondary" size="lg">
-        <FontAwesomeIcon icon={['far', 'check-circle']} size="sm" /> Get Started
+      <Button
+        type="submit"
+        variant="outline-secondary"
+        size="lg"
+        className="flex"
+      >
+        <Icon>check_circle_outline</Icon>
+        <span>Get Started</span>
       </Button>
     </form>
   );

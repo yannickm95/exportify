@@ -1,13 +1,12 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from './Icon';
 
 export default function Error() {
   return (
     <div id="spotifyErrorMessage" className="lead">
       <p>
-        <FontAwesomeIcon
-          icon={['fas', 'bolt']}
-          style={{ fontSize: '50px', marginBottom: '20px' }}
-        />
+        <Icon size="larger" style={{ marginBottom: '20px' }}>
+          bolt
+        </Icon>
       </p>
 
       <p>

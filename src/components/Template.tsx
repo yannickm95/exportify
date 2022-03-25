@@ -1,6 +1,6 @@
 import { ReactNode, ReactElement } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ToastContainer } from 'react-toastify';
+import Icon from './Icon';
 
 export default function Template({
   children,
@@ -14,13 +14,11 @@ export default function Template({
       <header className="App-header">
         {logoutElement}
 
-        <h1>
-          <FontAwesomeIcon
-            icon={['fab', 'spotify']}
-            color="#1ed760"
-            size="sm"
-          />{' '}
-          Hatlaron&apos;s Exportify
+        <h1 className="flex">
+          <Icon color="#1ed760" size="larger">
+            app:spotify
+          </Icon>
+          <span>Hatlaron&apos;s Exportify</span>
         </h1>
 
         <p id="subtitle" className="lead text-secondary">

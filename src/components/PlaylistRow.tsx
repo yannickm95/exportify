@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import quickSortPlaylist from 'data/quickSortPlaylist';
 import lastSortPlaylist from 'data/lastSortPlaylist';
@@ -10,6 +9,7 @@ import { apiCallErrorHandler } from 'helpers/api';
 import { isEven } from 'helpers/utils';
 
 import ButtonLoader from './ButtonLoader';
+import Icon from './Icon';
 
 const IGNORE_LIST =
   import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(
@@ -109,11 +109,7 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
             className="text-nowrap text-center button-flex"
             disabled={disabled}
           >
-            {isQuickSorting ? (
-              <ButtonLoader />
-            ) : (
-              <FontAwesomeIcon icon={['fas', 'sort']} size="sm" />
-            )}{' '}
+            {isQuickSorting ? <ButtonLoader /> : <Icon>sort_by_alpha</Icon>}
             Quicksort
           </Button>
         ) : null}
@@ -127,11 +123,7 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
             className="text-nowrap text-center button-flex"
             disabled={disabled}
           >
-            {isLastSorting ? (
-              <ButtonLoader />
-            ) : (
-              <FontAwesomeIcon icon={['fas', 'sort-amount-up-alt']} size="sm" />
-            )}{' '}
+            {isLastSorting ? <ButtonLoader /> : <Icon>sort</Icon>}
             Sort Last
           </Button>
         ) : null}
@@ -144,11 +136,7 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
           className="text-nowrap text-center button-flex"
           disabled={disabled}
         >
-          {isExporting ? (
-            <ButtonLoader />
-          ) : (
-            <FontAwesomeIcon icon={['fas', 'download']} size="sm" />
-          )}{' '}
+          {isExporting ? <ButtonLoader /> : <Icon>download</Icon>}
           Export
         </Button>
       </td>

@@ -1,5 +1,5 @@
 import { Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from './Icon';
 
 export default function Logout() {
   const handleClick = () => {
@@ -17,7 +17,7 @@ export default function Logout() {
       onClick={handleClick}
       title="Change user"
     >
-      <FontAwesomeIcon icon={['fas', 'sign-out-alt']} size="lg" />
+      <Icon size="large">logout</Icon>
     </Button>
   );
 }
