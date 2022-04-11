@@ -66,6 +66,8 @@ export default async function quickSortPlaylist(
         headers: { Authorization: 'Bearer ' + accessToken },
       }
     );
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
 
   const tracks = await getPlaylisTracks(accessToken, playlist).then((data) =>
