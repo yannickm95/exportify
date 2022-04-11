@@ -35,8 +35,5 @@ jobs:
       - name: Type check
         run: yarn test:typecheck
 
-      - name: Tests
-        run: yarn test:unit
-
       - name: Lint
         run: yarn lint:ts
