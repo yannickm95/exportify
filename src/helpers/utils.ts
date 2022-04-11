@@ -8,9 +8,16 @@ export function getQueryParam(name: string) {
   name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
   const regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
     results = regex.exec(window.location.search);
+
   return results === null
     ? ''
     : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+export function getSearchParam(value: string) {
+  const key = new URLSearchParams(window.location.hash.substring(1));
+
+  return key.get(value);
 }
 
 export function isArraySorted(array: any[]) {

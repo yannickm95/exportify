@@ -1,17 +1,19 @@
-/* global window */
-
 import { Button } from 'react-bootstrap';
 
-import { getQueryParam } from 'helpers/utils';
 import Icon from './Icon';
+import { authorize } from 'helpers/api';
 
 export default function Login() {
   return (
     <form
       className="login-container"
-      onSubmit={(event) => {
+      onSubmit={(event: any) => {
         event.preventDefault();
-        authorize(event);
+        const {
+          clientId: { value: clientId },
+        } = event.target.elements;
+
+        authorize(clientId);
       }}
     >
       <input
@@ -33,30 +35,4 @@ export default function Login() {
       </Button>
     </form>
   );
-}
-
-function authorize(event: any) {
-  const {
-    clientId: { value: clientId },
-  } = event.target.elements;
-
-  const changeUser = getQueryParam('change_user') !== '';
-
-  window.location.href =
-    'https://accounts.spotify.com/authorize' +
-    '?client_id=' +
-    clientId +
-    '&redirect_uri=' +
-    encodeURIComponent(
-      [
-        window.location.protocol,
-        '//',
-        window.location.host,
-        window.location.pathname,
-      ].join('')
-    ) +
-    '&scope=playlist-read-private%20playlist-read-collaborative%20user-library-read%20playlist-modify-private%20playlist-modify-public' +
-    '&response_type=token' +
-    '&show_dialog=' +
-    changeUser;
 }

@@ -1,4 +1,4 @@
-import { getQueryParam } from 'helpers/utils';
+import { getQueryParam, getSearchParam } from 'helpers/utils';
 
 import Error from './Error';
 import Login from './Login';
@@ -7,7 +7,7 @@ import PlaylistTable from './PlaylistTable';
 import Template from './Template';
 
 export default function App() {
-  const key = new URLSearchParams(window.location.hash.substring(1));
+  const accessToken = getSearchParam('access_token');
 
   if (getQueryParam('spotify_error') !== '') {
     return (
@@ -17,7 +17,7 @@ export default function App() {
     );
   }
 
-  if (!key.has('access_token')) {
+  if (!accessToken) {
     return (
       <Template>
         <Login />
@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <Template logoutElement={<Logout />}>
-      <PlaylistTable accessToken={key.get('access_token')!} />
+      <PlaylistTable accessToken={accessToken} />
     </Template>
   );
 }
