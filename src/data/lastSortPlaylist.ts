@@ -15,7 +15,7 @@ export default async function lastSort(accessToken: string, playlist: any) {
 
     if (
       tracks
-        .slice(index - 100 > 0 ? index - 100 : 0, index)
+        .slice(Math.max(index - 100, 0), index)
         .some((prevItem) => item < prevItem)
     ) {
       newItems.push(item);
