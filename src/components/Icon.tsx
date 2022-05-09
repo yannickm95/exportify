@@ -20,7 +20,7 @@ interface Props {
  * @example
  *   <Icon>warning</Icon>
  *   <Icon>material:warning</Icon>
- *   <Icon>app:session_ongoing</Icon>
+ *   <Icon>exportify:spotify</Icon>
  */
 export default function Icon({
   children,
@@ -59,7 +59,7 @@ export default function Icon({
  * @example
  *   parseIcon('warning')               -> ['-vendor-material', 'warning']
  *   parseIcon('material:warning')      -> ['-vendor-material', 'warning']
- *   parseIcon('app:session_ongoing')   -> ['-vendor-app', 'session_ongoing']
+ *   parseIcon('exportify:spotify')     -> ['-vendor-exportify', 'exportify']
  */
 export function parseIcon(raw: string) {
   if (!raw.includes(':')) raw = `material:${raw}`;

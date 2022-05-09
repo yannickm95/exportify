@@ -16,7 +16,7 @@ export default function Template({
 
         <h1 className="flex">
           <Icon color="#1ed760" size="larger">
-            app:spotify
+            exportify:spotify
           </Icon>
           <span>Hatlaron&apos;s Exportify</span>
         </h1>
