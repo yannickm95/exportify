@@ -17,9 +17,7 @@ export function apiCallErrorHandler(error: any) {
   } else {
     // Show error page when we get a 5XX that fails retries
 
-    window.location.href = `${
-      window.location.href.split('#')[0]
-    }?spotify_error=true`;
+    window.location.href = `${window.location.href.split('#')[0]}?spotify_error=true`;
   }
 }
 
@@ -31,14 +29,7 @@ export function authorize(clientId: string) {
     '?client_id=' +
     clientId +
     '&redirect_uri=' +
-    encodeURIComponent(
-      [
-        window.location.protocol,
-        '//',
-        window.location.host,
-        window.location.pathname,
-      ].join('')
-    ) +
+    encodeURIComponent([window.location.protocol, '//', window.location.host, window.location.pathname].join('')) +
     '&scope=playlist-read-private%20playlist-read-collaborative%20user-library-read%20playlist-modify-private%20playlist-modify-public' +
     '&response_type=token' +
     '&show_dialog=' +
@@ -46,7 +37,5 @@ export function authorize(clientId: string) {
 }
 
 export function logout() {
-  window.location.href = `${
-    window.location.href.split('#')[0]
-  }?change_user=true`;
+  window.location.href = `${window.location.href.split('#')[0]}?change_user=true`;
 }

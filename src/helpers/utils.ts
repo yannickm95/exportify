@@ -1,17 +1,14 @@
 /* eslint-disable no-control-regex */
 
 export const fileName = (name: string) =>
-  name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, '_').toLowerCase() +
-  '.csv';
+  name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, '_').toLowerCase() + '.csv';
 
 export function getQueryParam(name: string) {
   name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
   const regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
     results = regex.exec(window.location.search);
 
-  return results === null
-    ? ''
-    : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
 
 export function getSearchParam(value: string) {

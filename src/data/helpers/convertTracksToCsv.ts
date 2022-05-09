@@ -27,17 +27,11 @@ function formatTracksForCsv(items: any[]) {
   return items.map(({ track }) => ({
     uri: track.uri,
     item: [
-      track.uri.startsWith('spotify:local')
-        ? decodeURIComponent(track.uri.replaceAll('+', ' '))
-        : track.uri,
+      track.uri.startsWith('spotify:local') ? decodeURIComponent(track.uri.replaceAll('+', ' ')) : track.uri,
       track.name,
-      track.artists
-        .map((a: any) => String(a.name).replace(/,/g, '\\,'))
-        .join(', '),
+      track.artists.map((a: any) => String(a.name).replace(/,/g, '\\,')).join(', '),
       track.album.name,
-      track.album.artists
-        .map((a: any) => String(a.name).replace(/,/g, '\\,'))
-        .join(', '),
+      track.album.artists.map((a: any) => String(a.name).replace(/,/g, '\\,')).join(', '),
       track.album.release_date == null ? '' : track.album.release_date,
       track.album.images[0] == null ? '' : track.album.images[0].url,
       track.album.uri == null ? '' : track.album.uri,

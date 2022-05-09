@@ -5,10 +5,7 @@ import { isArraySorted } from 'helpers/utils';
 import getPlaylisTracks from './helpers/getPlaylistTracks';
 import formatCompareValue from './helpers/formatCompareValue';
 
-export default async function quickSortPlaylist(
-  accessToken: string,
-  playlist: any
-) {
+export default async function quickSortPlaylist(accessToken: string, playlist: any) {
   async function quickSort(arrayToSort: any[], low: number, high: number) {
     const instanceArray = [...arrayToSort];
     const index = await partition(instanceArray, low, high);

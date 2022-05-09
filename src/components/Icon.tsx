@@ -22,14 +22,7 @@ interface Props {
  *   <Icon>material:warning</Icon>
  *   <Icon>exportify:spotify</Icon>
  */
-export default function Icon({
-  children,
-  className,
-  size = 'normal',
-  color,
-  style,
-  ...rest
-}: Props) {
+export default function Icon({ children, className, size = 'normal', color, style, ...rest }: Props) {
   const [vendorClass, iconName] = parseIcon(children);
 
   const getSize = () => {

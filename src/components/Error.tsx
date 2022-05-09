@@ -10,10 +10,8 @@ export default function Error() {
       </p>
 
       <p>
-        Oops, Exportify has encountered an unexpected error (5XX) while using
-        the Spotify API. This kind of error is due to a problem on
-        Spotify&apos;s side, and although it&apos;s rare, unfortunately all we
-        can do is retry later.
+        Oops, Exportify has encountered an unexpected error (5XX) while using the Spotify API. This kind of error is due
+        to a problem on Spotify&apos;s side, and although it&apos;s rare, unfortunately all we can do is retry later.
       </p>
 
       <p style={{ marginTop: '50px' }}>

@@ -16,20 +16,8 @@ export default function Login() {
         authorize(clientId);
       }}
     >
-      <input
-        id="clientId"
-        required
-        minLength={32}
-        maxLength={32}
-        type="password"
-        placeholder="Enter client id..."
-      />
-      <Button
-        type="submit"
-        variant="outline-secondary"
-        size="lg"
-        className="flex"
-      >
+      <input id="clientId" required minLength={32} maxLength={32} type="password" placeholder="Enter client id..." />
+      <Button type="submit" variant="outline-secondary" size="lg" className="flex">
         <Icon>check_circle_outline</Icon>
         <span>Get Started</span>
       </Button>

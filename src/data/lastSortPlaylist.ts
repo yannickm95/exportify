@@ -13,11 +13,7 @@ export default async function lastSort(accessToken: string, playlist: any) {
   for (let index = tracks.length - 1; index > 0; index--) {
     const item = tracks[index];
 
-    if (
-      tracks
-        .slice(Math.max(index - 100, 0), index)
-        .some((prevItem) => item < prevItem)
-    ) {
+    if (tracks.slice(Math.max(index - 100, 0), index).some((prevItem) => item < prevItem)) {
       newItems.push(item);
     } else {
       break;

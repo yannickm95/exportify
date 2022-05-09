@@ -11,10 +11,7 @@ import { isEven } from 'helpers/utils';
 import ButtonLoader from './ButtonLoader';
 import Icon from './Icon';
 
-const IGNORE_LIST =
-  import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(
-    ','
-  ) || [];
+const IGNORE_LIST = import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(',') || [];
 
 export default function PlaylistRow({ playlist, accessToken, index }) {
   const [isQuickSorting, setIsQuickSorting] = useState(false);
@@ -24,20 +21,15 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
 
     quickSortPlaylist(accessToken, playlist)
       .then((sorted) =>
-        toast.success(
-          sorted !== 'is-sorted'
-            ? `Sorted all items!`
-            : 'Playlist already sorted!',
-          {
-            position: 'bottom-right',
-            autoClose: 3_000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: false,
-            progress: undefined,
-          }
-        )
+        toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!', {
+          position: 'bottom-right',
+          autoClose: 3_000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        })
       )
       .catch(apiCallErrorHandler)
       .finally(() => setIsQuickSorting(false));
@@ -50,18 +42,15 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
 
     lastSortPlaylist(accessToken, playlist)
       .then((sorted) =>
-        toast.success(
-          sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!',
-          {
-            position: 'bottom-right',
-            autoClose: 3_000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: false,
-            progress: undefined,
-          }
-        )
+        toast.success(sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!', {
+          position: 'bottom-right',
+          autoClose: 3_000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        })
       )
       .catch(apiCallErrorHandler)
       .finally(() => setIsLastSorting(false));

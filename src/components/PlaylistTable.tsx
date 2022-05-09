@@ -7,20 +7,13 @@ import { apiCall, apiCallErrorHandler } from 'helpers/api';
 
 import PlaylistRow from './PlaylistRow';
 
-export default function PlaylistTable({
-  accessToken,
-}: {
-  accessToken: string;
-}) {
+export default function PlaylistTable({ accessToken }: { accessToken: string }) {
   const [playlists, setPlaylists] = useState<any[] | undefined>(undefined);
 
   useEffect(() => {
     (async function () {
       try {
-        const { data: user } = await apiCall(
-          'https://api.spotify.com/v1/me',
-          accessToken
-        );
+        const { data: user } = await apiCall('https://api.spotify.com/v1/me', accessToken);
         const playlists = await fetchPlaylists(accessToken, user.id);
         const subtitleEl = document.getElementById('subtitle');
 
@@ -60,12 +53,7 @@ export default function PlaylistTable({
 
         <tbody>
           {playlists.map((playlist, index) => (
-            <PlaylistRow
-              playlist={playlist}
-              key={playlist.id}
-              index={index}
-              accessToken={accessToken}
-            />
+            <PlaylistRow playlist={playlist} key={playlist.id} index={index} accessToken={accessToken} />
           ))}
         </tbody>
       </table>
