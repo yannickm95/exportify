@@ -38,13 +38,24 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+**`yarn build`**
+
+Creates a build of the app. The build files can be found under `dist` folder.
+
+**`yarn preview`**
+
+Preview the local build to test the result.
+
+**`yarn deploy`**
+
+Create a build of the app and deploy to github pages.
+
 ### Stack
 
 In addition to [Vite](https://vitejs.dev/), the application is built using the following tools/libraries:
 
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
 - [Bootstrap 4](https://getbootstrap.com/) - styling and UI components
-- [Font Awesome 5](https://fontawesome.com/) - vector icon set and toolkit
 
 ## Notes
 

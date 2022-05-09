@@ -40,9 +40,9 @@ jobs:
         run: yarn lint:ts
 
   build-and-deploy:
-    name: Building
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master')
+    name: Build and Deploy
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main')
     needs: test
 
     steps:
