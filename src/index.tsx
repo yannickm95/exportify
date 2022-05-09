@@ -1,5 +1,3 @@
-import 'core-js/stable';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
