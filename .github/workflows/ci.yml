@@ -13,14 +13,14 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-          check-latest: true
+          node-version: 'lts/*'
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: |
           npm install --global yarn
           echo "::set-output name=dir::$(yarn config get cacheFolder)"
+
       - name: Cache node modules
         uses: actions/cache@v3
         id: yarn-cache
