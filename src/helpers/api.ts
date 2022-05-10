@@ -1,27 +1,8 @@
 /* global window */
 
-import axios from 'axios';
-import { getQueryParam } from './utils';
+import { getQueryParam, getSearchParam } from './utils';
 
-export function apiCall(url: string, accessToken: string) {
-  return axios.get(url, {
-    headers: { Authorization: 'Bearer ' + accessToken },
-  });
-}
-
-export function apiCallErrorHandler(error: any) {
-  if (error.request.status === 401) {
-    // Return to home page after auth token expiry
-
-    window.location.href = window.location.href.split('#')[0];
-  } else {
-    // Show error page when we get a 5XX that fails retries
-
-    window.location.href = `${window.location.href.split('#')[0]}?spotify_error=true`;
-  }
-}
-
-export function authorize(clientId: string) {
+export function login(clientId: string) {
   const changeUser = getQueryParam('change_user') !== '';
 
   window.location.href =
@@ -38,4 +19,21 @@ export function authorize(clientId: string) {
 
 export function logout() {
   window.location.href = `${window.location.href.split('#')[0]}?change_user=true`;
+}
+
+export async function apiCall(url: string, requestInit: RequestInit) {
+  const response = await fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + getSearchParam('access_token'),
+      'Content-Type': 'application/json',
+    },
+    ...requestInit,
+  });
+
+  if (!response.ok) {
+    const baseLocation = window.location.href.split('#')[0];
+    window.location.href = response.status === 401 ? baseLocation : `${baseLocation}?spotify_error=true`;
+  }
+
+  return await response.json();
 }

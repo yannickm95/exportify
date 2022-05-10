@@ -1,25 +1,22 @@
+import { exportToCsv, getPlaylistTracks, lastSort, quickSortPlaylist } from 'helpers/data';
+import { isEven } from 'helpers/utils';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-
-import quickSortPlaylist from 'data/quickSortPlaylist';
-import lastSortPlaylist from 'data/lastSortPlaylist';
-import exportToCsv from 'data/exportToCsv';
-import { apiCallErrorHandler } from 'helpers/api';
-import { isEven } from 'helpers/utils';
 
 import ButtonLoader from './ButtonLoader';
 import Icon from './Icon';
 
 const IGNORE_LIST = import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(',') || [];
 
-export default function PlaylistRow({ playlist, accessToken, index }) {
+export default function PlaylistRow({ playlist, index }) {
   const [isQuickSorting, setIsQuickSorting] = useState(false);
 
   const sortPlaylistWithQuick = () => {
     setIsQuickSorting(true);
 
-    quickSortPlaylist(accessToken, playlist)
+    getPlaylistTracks(playlist)
+      .then((tracks) => quickSortPlaylist(tracks, playlist.id))
       .then((sorted) =>
         toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!', {
           position: 'bottom-right',
@@ -31,7 +28,6 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
           progress: undefined,
         })
       )
-      .catch(apiCallErrorHandler)
       .finally(() => setIsQuickSorting(false));
   };
 
@@ -40,7 +36,8 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
   const sortPlaylistWithLast = () => {
     setIsLastSorting(true);
 
-    lastSortPlaylist(accessToken, playlist)
+    getPlaylistTracks(playlist)
+      .then((tracks) => lastSort(tracks, playlist.id))
       .then((sorted) =>
         toast.success(sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!', {
           position: 'bottom-right',
@@ -52,7 +49,6 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
           progress: undefined,
         })
       )
-      .catch(apiCallErrorHandler)
       .finally(() => setIsLastSorting(false));
   };
 
@@ -61,8 +57,8 @@ export default function PlaylistRow({ playlist, accessToken, index }) {
   const exportPlaylist = () => {
     setIsExporting(true);
 
-    exportToCsv(accessToken, playlist)
-      .catch(apiCallErrorHandler)
+    getPlaylistTracks(playlist)
+      .then((tracks) => exportToCsv(tracks, playlist.name))
       .finally(() => setIsExporting(false));
   };
 

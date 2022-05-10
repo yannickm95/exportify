@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <Template logoutElement={<Logout />}>
-      <PlaylistTable accessToken={accessToken} />
+      <PlaylistTable />
     </Template>
   );
 }
