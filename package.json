@@ -10,9 +10,9 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json}'",
-    "lint:ts": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "test:typecheck": "tsc"
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "typecheck": "tsc"
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {

@@ -17,17 +17,17 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
           cache: yarn
 
       - name: Install dependencies
         run: yarn install --immutable
 
       - name: Type check
-        run: yarn test:typecheck
+        run: yarn typecheck
 
       - name: Lint
-        run: yarn lint:ts
+        run: yarn lint
 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
           cache: yarn
 
       - name: Install dependencies
