@@ -6,11 +6,12 @@ import { defineConfig } from 'vite';
 // @ts-expect-error
 const PORT = parseInt(process.env.PORT) || 9999;
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   base: '/exportify/',
 
   server: {
     port: PORT,
+    host: '0.0.0.0',
     strictPort: true,
     open: true,
   },
@@ -19,5 +20,9 @@ export default defineConfig({
     port: PORT,
   },
 
-  plugins: [reactPlugin(), tsConfigPathsPlugin(), eslintPlugin({ eslintOptions: { cache: false } })],
-});
+  plugins: [
+    reactPlugin(),
+    tsConfigPathsPlugin(),
+    mode === 'development' && eslintPlugin({ eslintOptions: { cache: false } }),
+  ],
+}));
