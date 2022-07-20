@@ -24,7 +24,7 @@
     "react-toastify": "^9.0.6"
   },
   "devDependencies": {
-    "@nabla/vite-plugin-eslint": "^1.4.0",
+    "@nabla/vite-plugin-eslint": "^1.4.1",
     "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.15",
     "@types/react-bootstrap": "^0.32.30",
