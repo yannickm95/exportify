@@ -11,12 +11,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "lint": "eslint .",
-    "typecheck": "tsc"
+    "lint:ts": "eslint .",
+    "test:typecheck": "tsc"
   },
   "packageManager": "yarn@3.2.1",
   "dependencies": {
-    "bootstrap": "^5.1.3",
+    "bootstrap": "^5.2.0",
     "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
