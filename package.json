@@ -30,7 +30,7 @@
     "@types/react-bootstrap": "^0.32.30",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
-    "@typescript-eslint/parser": "^5.33.1",
+    "@typescript-eslint/parser": "^5.34.0",
     "@vitejs/plugin-react": "^2.0.1",
     "eslint": "^8.22.0",
     "eslint-plugin-import": "^2.26.0",
