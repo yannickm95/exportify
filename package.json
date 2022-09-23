@@ -26,7 +26,7 @@
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^1.4.1",
     "@types/file-saver": "^2.0.5",
-    "@types/react": "^18.0.20",
+    "@types/react": "^18.0.21",
     "@types/react-bootstrap": "^0.32.30",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
