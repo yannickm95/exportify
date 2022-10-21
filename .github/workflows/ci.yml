@@ -1,8 +1,4 @@
-on:
-  push:
-    branches-ignore:
-      # Do not trigger on dependabot branches
-      - 'dependabot/**'
+on: 'push'
 
 name: CI
 
