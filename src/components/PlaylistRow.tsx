@@ -7,8 +7,6 @@ import { toast } from 'react-toastify';
 import ButtonLoader from './ButtonLoader';
 import Icon from './Icon';
 
-const IGNORE_LIST = import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(',') || [];
-
 export default function PlaylistRow({ playlist, index }) {
   const [isQuickSorting, setIsQuickSorting] = useState(false);
 
@@ -86,7 +84,7 @@ export default function PlaylistRow({ playlist, index }) {
       </td>
       <td className="align-middle">{playlist.tracks.total}</td>
       <td className="text-center align-middle">
-        {!IGNORE_LIST.includes(playlist.name) ? (
+        {showButton(playlist.name) ? (
           <Button
             type="submit"
             variant="primary"
@@ -100,7 +98,7 @@ export default function PlaylistRow({ playlist, index }) {
         ) : null}
       </td>
       <td className="text-center align-middle">
-        {!IGNORE_LIST.includes(playlist.name) ? (
+        {showButton(playlist.name) ? (
           <Button
             type="submit"
             variant="primary"
@@ -127,4 +125,12 @@ export default function PlaylistRow({ playlist, index }) {
       </td>
     </tr>
   );
+}
+
+function showButton(playlistName: string) {
+  const IGNORE_LIST = (import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(',') || []).map((l) =>
+    l.toUpperCase()
+  );
+
+  return !IGNORE_LIST.includes(playlistName.toUpperCase());
 }
