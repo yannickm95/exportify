@@ -43,13 +43,10 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Create env file
-        run: |
-          touch .env.production
-          echo VITE_APP_PLAYLIST_IGNORE_LIST=${{ secrets.VITE_APP_PLAYLIST_IGNORE_LIST }} >> .env.production
-
       - name: Build
         run: yarn build
+        env:
+          VITE_APP_PLAYLIST_IGNORE_LIST: ${{ secrets.VITE_APP_PLAYLIST_IGNORE_LIST }}
 
       - name: Deploy with gh-pages
         run: |
