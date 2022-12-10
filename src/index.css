@@ -228,7 +228,7 @@ button:disabled {
 /* App */
 
 .App-header {
-  padding: 40px 15px;
+  padding: 30px 15px 10px 15px;
   text-align: center;
   position: relative;
 }
@@ -256,7 +256,7 @@ button:disabled {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 20px;
+  padding: 40px 20px 20px 20px;
   color: var(--bs-input-placeholder-color);
 }
 
