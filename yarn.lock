@@ -227,16 +227,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nabla/vite-plugin-eslint@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@nabla/vite-plugin-eslint@npm:1.4.2"
+"@nabla/vite-plugin-eslint@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@nabla/vite-plugin-eslint@npm:1.5.0"
   dependencies:
     "@types/eslint": "*"
     chalk: ^4
   peerDependencies:
     eslint: "*"
     vite: ^2 || ^3 || ^4
-  checksum: 2f7001629884d8d1374cf6959dcf6d3864b17a305262eac0b689296a7757c9234f34be1bc1afbddf33597c526bf4ff48eacd970a563f89980b86afce925530c2
+  checksum: c50511a6ea80c25e97978b9ab96f363cebd830cb4087ad932cd5698d4e5004de8898b6ce72ef7310e2dbf6a2e1511a8ff07fc4a6f09a3292a9b2b2626de8e5ef
   languageName: node
   linkType: hard
 
@@ -1706,7 +1706,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "exportify@workspace:."
   dependencies:
-    "@nabla/vite-plugin-eslint": ^1.4.2
+    "@nabla/vite-plugin-eslint": ^1.5.0
     "@types/file-saver": ^2.0.5
     "@types/react": ^18.0.26
     "@types/react-bootstrap": ^0.32.32
