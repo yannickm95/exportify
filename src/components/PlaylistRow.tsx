@@ -1,4 +1,4 @@
-import { exportToCsv, getPlaylistTracks, lastSort, quickSortPlaylist } from 'helpers/data';
+import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from 'helpers/data';
 import { isEven } from 'helpers/utils';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
@@ -8,6 +8,27 @@ import ButtonLoader from './ButtonLoader';
 import Icon from './Icon';
 
 export default function PlaylistRow({ playlist, index }) {
+  const [isJsSorting, setIsJsSorting] = useState(false);
+
+  const sortPlaylistWithJS = () => {
+    setIsJsSorting(true);
+
+    getPlaylistTracks(playlist)
+      .then((tracks) => jsSort(tracks, playlist.id))
+      .then((sorted) =>
+        toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!', {
+          position: 'bottom-right',
+          autoClose: 3_000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        })
+      )
+      .finally(() => setIsJsSorting(false));
+  };
+
   const [isQuickSorting, setIsQuickSorting] = useState(false);
 
   const sortPlaylistWithQuick = () => {
@@ -60,7 +81,7 @@ export default function PlaylistRow({ playlist, index }) {
       .finally(() => setIsExporting(false));
   };
 
-  const disabled = isExporting || isQuickSorting || isLastSorting;
+  const disabled = isExporting || isQuickSorting || isLastSorting || isJsSorting;
 
   if (playlist.uri == null) {
     return (
@@ -83,45 +104,64 @@ export default function PlaylistRow({ playlist, index }) {
         <a href={playlist.uri}>{playlist.name}</a>
       </td>
       <td className="align-middle">{playlist.tracks.total}</td>
-      <td className="text-center align-middle">
-        {showButton(playlist.name) ? (
-          <Button
-            type="submit"
-            variant="primary"
-            onClick={sortPlaylistWithQuick}
-            className="text-nowrap text-center button-flex"
-            disabled={disabled}
-          >
-            {isQuickSorting ? <ButtonLoader /> : <Icon>sort_by_alpha</Icon>}
-            Quicksort
-          </Button>
-        ) : null}
-      </td>
-      <td className="text-center align-middle">
-        {showButton(playlist.name) ? (
-          <Button
-            type="submit"
-            variant="primary"
-            onClick={sortPlaylistWithLast}
-            className="text-nowrap text-center button-flex"
-            disabled={disabled}
-          >
-            {isLastSorting ? <ButtonLoader /> : <Icon>sort</Icon>}
-            Sort Last
-          </Button>
-        ) : null}
-      </td>
-      <td className="text-center align-middle">
-        <Button
-          type="submit"
-          variant="primary"
-          onClick={exportPlaylist}
-          className="text-nowrap text-center button-flex"
-          disabled={disabled}
+      <td className="align-middle">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 10,
+            alignItems: 'center',
+          }}
         >
-          {isExporting ? <ButtonLoader /> : <Icon>download</Icon>}
-          Export
-        </Button>
+          {showButton(playlist.name) ? (
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={sortPlaylistWithJS}
+              className="text-nowrap text-center"
+              disabled={disabled}
+            >
+              {isJsSorting ? <ButtonLoader /> : 'JS*'}
+            </Button>
+          ) : null}
+
+          {showButton(playlist.name) ? (
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={sortPlaylistWithQuick}
+              className="text-nowrap text-center button-flex"
+              disabled={disabled}
+            >
+              {isQuickSorting ? <ButtonLoader /> : <Icon>sort_by_alpha</Icon>}
+              Quicksort
+            </Button>
+          ) : null}
+
+          {showButton(playlist.name) ? (
+            <Button
+              type="submit"
+              variant="primary"
+              onClick={sortPlaylistWithLast}
+              className="text-nowrap text-center button-flex"
+              disabled={disabled}
+            >
+              {isLastSorting ? <ButtonLoader /> : <Icon>sort</Icon>}
+              Sort Last
+            </Button>
+          ) : null}
+
+          <Button
+            type="submit"
+            variant="primary"
+            onClick={exportPlaylist}
+            className="text-nowrap text-center button-flex"
+            disabled={disabled}
+          >
+            {isExporting ? <ButtonLoader /> : <Icon>download</Icon>}
+            Export
+          </Button>
+        </div>
       </td>
     </tr>
   );

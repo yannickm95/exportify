@@ -27,18 +27,18 @@ export default function PlaylistTable() {
       <table className="table table-hover table-sm">
         <thead>
           <tr>
-            <th style={{ width: '100px' }} />
-            <th>Name</th>
-            <th>Tracks</th>
-            <th style={{ width: '130px' }} />
-            <th style={{ width: '130px' }} />
+            <th style={{ width: '5%' }} />
+            <th style={{ width: '27.5%' }}>Name</th>
+            <th style={{ width: '7.5%' }}>Tracks</th>
             <th
               style={{
-                width: '130px',
+                width: '55%',
                 textAlign: 'right',
-                paddingRight: '15px',
               }}
             >
+              <span style={{ fontWeight: 400, fontSize: 10 }}>
+                (* JS-sort will update &apos;date added&apos; to the time it was sorted, use with caution!)
+              </span>{' '}
               Actions
             </th>
           </tr>

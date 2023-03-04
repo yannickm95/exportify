@@ -1,4 +1,5 @@
 import { saveAs } from 'file-saver';
+import chunk from 'lodash/chunk';
 
 import { apiCall } from './api';
 import { convertTracksToCsv, fileName, formatCompareValue, isArraySorted } from './utils';
@@ -49,41 +50,6 @@ export function exportToCsv(tracks: any[], playlistName: string) {
   const blob = new Blob([convertTracksToCsv(tracks)], { type: 'text/csv;charset=utf-8' });
 
   saveAs(blob, fileName(playlistName));
-}
-
-export async function lastSort(items: any[], playlistId: string) {
-  const tracks = items.map(({ track }) => formatCompareValue(track));
-
-  const newItems: any[] = [];
-
-  for (let index = tracks.length - 1; index > 0; index--) {
-    const item = tracks[index];
-
-    if (tracks.slice(Math.max(index - 100, 0), index).some((prevItem) => item < prevItem)) {
-      newItems.push(item);
-    } else {
-      break;
-    }
-  }
-
-  if (newItems.length === 0) return 0;
-
-  for (const item of newItems) {
-    const newIndex = tracks.findIndex((t) => t > item);
-
-    await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        range_start: tracks.length - 1,
-        insert_before: newIndex,
-      }),
-    });
-
-    tracks.splice(newIndex, 0, item);
-    tracks.splice(-1, 1);
-  }
-
-  return newItems.length;
 }
 
 export async function quickSortPlaylist(items: any[], playlistId: string) {
@@ -152,4 +118,82 @@ export async function quickSortPlaylist(items: any[], playlistId: string) {
   } else {
     return 'is-sorted';
   }
+}
+
+export async function lastSort(items: any[], playlistId: string, amount = 95) {
+  const tracks = items.map(({ track }) => formatCompareValue(track));
+
+  const newItems: any[] = [];
+
+  for (let index = tracks.length - 1; index > 0; index--) {
+    const item = tracks[index];
+
+    if (tracks.slice(Math.max(index - (amount + 5), 0), index).some((prevItem) => item < prevItem)) {
+      newItems.push(item);
+    } else {
+      break;
+    }
+  }
+
+  if (newItems.length === 0) return 0;
+
+  for (const item of newItems) {
+    const newIndex = tracks.findIndex((t) => t > item);
+
+    await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        range_start: tracks.length - 1,
+        insert_before: newIndex,
+      }),
+    });
+
+    tracks.splice(newIndex, 0, item);
+    tracks.splice(-1, 1);
+  }
+
+  return newItems.length;
+}
+
+export async function jsSort(items: any[], playlistId: string) {
+  const tracks = items
+    .map((item) => ({ ...item, sortValue: formatCompareValue(item.track) }))
+    .sort((a, b) => {
+      if (a.sortValue < b.sortValue) return -1;
+      if (a.sortValue > b.sortValue) return 1;
+      return 0;
+    });
+
+  if (isArraySorted(items.map(({ track }) => formatCompareValue(track)))) return 'is-sorted';
+
+  const nonLocalTracks = tracks.filter(({ track }) => !track.is_local);
+  const chunkedTracks = chunk(nonLocalTracks, 100);
+
+  for (const chunk of chunkedTracks) {
+    await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        tracks: chunk.map(({ track }) => ({ uri: track.uri })),
+      }),
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+
+  for (const chunk of chunkedTracks.reverse()) {
+    await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+      method: 'POST',
+      body: JSON.stringify({
+        uris: chunk.map(({ track }) => track.uri),
+        position: 0,
+      }),
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+
+  const localTracks = tracks.filter(({ track }) => track.is_local);
+  await lastSort([...nonLocalTracks, ...localTracks], playlistId, localTracks.length);
+
+  return 'sorted';
 }

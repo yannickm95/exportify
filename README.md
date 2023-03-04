@@ -2,12 +2,13 @@
 
 ## Usage
 
-1. Create a dev app on https://developer.spotify.com/dashboard/
+1. Create a dev app on <https://developer.spotify.com/dashboard/>
 2. Enter your `client ID` you generated with the app in the input.
 3. Grant `Exportify` access to view and edit your playlists
 4. Click the `Export` button to export a playlist
 5. Click the `Quick Sort` button to sort a playlist completely based on the quicksort algorithm (this takes a while)
 6. Click the `Last Sort` button to sort items at the bottom of the playlist that have not been sorted yet.
+7. Click the `JS` button to sort a playlist inline in JS, this is pretty fast but will delete and re-add the items. So the downside is that `date addded` will be reset!
 
 ### Export Format
 
