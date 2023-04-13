@@ -560,14 +560,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16.9.11, @types/react@npm:>=18.0.28, @types/react@npm:^18.0.34":
-  version: 18.0.34
-  resolution: "@types/react@npm:18.0.34"
+"@types/react@npm:*, @types/react@npm:>=16.9.11, @types/react@npm:>=18.0.28, @types/react@npm:^18.0.35":
+  version: 18.0.35
+  resolution: "@types/react@npm:18.0.35"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: 60d2766e7644ec480075bbb154bf8fb8476089466b643662ef59964e27cae2d8c71fd9c717a4dfa9627c3e050fa2ae866d10d16f66b4509058d1bfe2a564b18c
+  checksum: e65670397216e037b150a509ec08189140b4c20b82b612ac00b2a7133202be2d1def1e7ee69617b2df06ab4c00c43c4ee23e84788ad661aea9664da2f27c518a
   languageName: node
   linkType: hard
 
@@ -1804,7 +1804,7 @@ __metadata:
     "@nabla/vite-plugin-eslint": ^1.5.0
     "@types/file-saver": ^2.0.5
     "@types/lodash": ^4.14.192
-    "@types/react": ^18.0.34
+    "@types/react": ^18.0.35
     "@types/react-bootstrap": ^0.32.32
     "@types/react-dom": ^18.0.11
     "@typescript-eslint/eslint-plugin": ^5.58.0
@@ -1827,7 +1827,7 @@ __metadata:
     react-toastify: ^9.1.2
     typescript: ^5.0.4
     vite: ^4.2.1
-    vite-tsconfig-paths: ^4.1.0
+    vite-tsconfig-paths: ^4.2.0
   languageName: unknown
   linkType: soft
 
@@ -2943,9 +2943,9 @@ __metadata:
   linkType: hard
 
 "minipass@npm:^4.0.0":
-  version: 4.2.7
-  resolution: "minipass@npm:4.2.7"
-  checksum: 55669510e5ff681889ba30b3bebe7dc70eac687197c9fe119b4d6eee36d96755b240f11b75e81edc2b6f8ce8338154a26896fb0555ae34b4fa4c607d31557ee9
+  version: 4.2.8
+  resolution: "minipass@npm:4.2.8"
+  checksum: 7f4914d5295a9a30807cae5227a37a926e6d910c03f315930fde52332cf0575dfbc20295318f91f0baf0e6bb11a6f668e30cde8027dea7a11b9d159867a3c830
   languageName: node
   linkType: hard
 
@@ -4173,9 +4173,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-tsconfig-paths@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "vite-tsconfig-paths@npm:4.1.0"
+"vite-tsconfig-paths@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "vite-tsconfig-paths@npm:4.2.0"
   dependencies:
     debug: ^4.1.1
     globrex: ^0.1.2
@@ -4185,7 +4185,7 @@ __metadata:
   peerDependenciesMeta:
     vite:
       optional: true
-  checksum: ee41bf4223538b094e721ae4c6dcd153689d5c8206624f19ca42bc5f1f0af57b5ef329ac2e2b68e527c63c574ffb2fbf360e7e6f75210c4a16840e0b85d6eea3
+  checksum: 73a8467de72d7ac502328454fd00c19571cd4bad2dd5982643b24718bb95e449a3f4153cfc2d58a358bfc8f37e592fb442fc10884b59ae82138c1329160cd952
   languageName: node
   linkType: hard
 
