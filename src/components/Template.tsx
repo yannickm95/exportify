@@ -28,7 +28,7 @@ export default function Template({
 
       {children}
 
-      <ToastContainer theme="dark" />
+      <ToastContainer theme="dark" limit={3} />
     </div>
   );
 }
