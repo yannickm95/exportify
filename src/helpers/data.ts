@@ -29,7 +29,10 @@ export async function getPlaylists(userId: string) {
     playlists = [...playlists, ...items];
   }
 
-  return playlists;
+  return [
+    ...playlists.filter((p) => p.name.toLowerCase() !== "release radar"),
+    ...playlists.filter((p) => p.name.toLowerCase() === "release radar"),
+  ];
 }
 
 export async function getPlaylistTracks(playlist: any) {
