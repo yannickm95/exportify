@@ -29,9 +29,9 @@ Track data is exported in [CSV](http://en.wikipedia.org/wiki/Comma-separated_val
 
 This project was built with [Vite](https://vitejs.dev/).
 
-In the project directory, first run `yarn install` to set up dependencies, then you can run:
+In the project directory, first run `pnpm install` to set up dependencies, then you can run:
 
-**`yarn dev`**
+**`pnpm run dev`**
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -39,15 +39,15 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-**`yarn build`**
+**`pnpm run build`**
 
 Creates a build of the app. The build files can be found under `dist` folder.
 
-**`yarn preview`**
+**`pnpm run preview`**
 
 Preview the local build to test the result.
 
-**`yarn deploy`**
+**`pnpm run deploy`**
 
 Create a build of the app and deploy to github pages.
 
