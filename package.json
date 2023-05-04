@@ -7,7 +7,7 @@
   "homepage": "https://yannickm95.github.io/exportify/",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "husky install",
+    "prepare": "husky install",
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
