@@ -1,9 +1,7 @@
 import { CSSProperties, MouseEvent } from 'react';
-import cx from 'classnames';
 
 interface Props {
   children: string;
-  className?: string;
 
   // classes
   size?: 'normal' | 'small' | 'smaller' | 'large' | 'larger';
@@ -22,7 +20,7 @@ interface Props {
  *   <Icon>material:warning</Icon>
  *   <Icon>exportify:spotify</Icon>
  */
-export default function Icon({ children, className, size = 'normal', color, style, ...rest }: Props) {
+export default function Icon({ children, size = 'normal', color, style, ...rest }: Props) {
   const [vendorClass, iconName] = parseIcon(children);
 
   const getSize = () => {
@@ -39,7 +37,7 @@ export default function Icon({ children, className, size = 'normal', color, styl
   return (
     <i
       data-testid="icon"
-      className={cx('fonticon', vendorClass, className)}
+      className={`fonticon ${vendorClass}`}
       style={{ ...style, ['--size' as string]: `${getSize()}px`, color }}
       {...rest}
     >
