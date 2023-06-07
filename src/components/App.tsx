@@ -1,12 +1,12 @@
 import { getQueryParam, getSearchParam } from 'helpers/utils';
 
-import Error from './Error';
-import Login from './Login';
-import Logout from './Logout';
-import PlaylistTable from './PlaylistTable';
-import Template from './Template';
+import { Error } from './Error';
+import { Login } from './Login';
+import { Logout } from './Logout';
+import { PlaylistTable } from './PlaylistTable';
+import { Template } from './Template';
 
-export default function App() {
+export function App() {
   const accessToken = getSearchParam('access_token');
 
   if (getQueryParam('spotify_error') !== '') {

@@ -1,8 +1,9 @@
 import { ReactNode, ReactElement } from 'react';
 import { ToastContainer } from 'react-toastify';
-import Icon from './Icon';
 
-export default function Template({
+import { Icon } from './Icon';
+
+export function Template({
   children,
   logoutElement = null,
 }: {

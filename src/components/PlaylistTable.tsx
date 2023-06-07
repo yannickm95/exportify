@@ -1,11 +1,10 @@
-/* global document */
-
-import { getPlaylists, getUser } from 'helpers/data';
 import { useState, useEffect } from 'react';
 
-import PlaylistRow from './PlaylistRow';
+import { getPlaylists, getUser } from 'helpers/data';
 
-export default function PlaylistTable() {
+import { PlaylistRow } from './PlaylistRow';
+
+export function PlaylistTable() {
   const [playlists, setPlaylists] = useState<any[] | undefined>();
 
   useEffect(() => {

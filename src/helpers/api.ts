@@ -1,5 +1,3 @@
-/* global window */
-
 import { getQueryParam, getSearchParam } from './utils';
 
 export function login(clientId: string) {

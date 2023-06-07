@@ -1,6 +1,6 @@
-import Icon from './Icon';
+import { Icon } from './Icon';
 
-export default function Error() {
+export function Error() {
   return (
     <div id="spotifyErrorMessage" className="lead">
       <p>

@@ -1,9 +1,10 @@
 import { Button } from 'react-bootstrap';
 
-import Icon from './Icon';
 import { login } from 'helpers/api';
 
-export default function Login() {
+import { Icon } from './Icon';
+
+export function Login() {
   return (
     <form
       className="login-container"
