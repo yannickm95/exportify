@@ -19,7 +19,7 @@ module.exports = {
     'no-debugger': 'error',
     'no-empty': ['error', { allowEmptyCatch: true }],
     'no-restricted-globals': ['error', 'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval'].concat(
-      restrictedGlobals
+      restrictedGlobals,
     ),
     'no-restricted-exports': [
       'error',

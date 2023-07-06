@@ -25,7 +25,7 @@ export function PlaylistRow({ playlist, index }) {
           pauseOnHover: true,
           draggable: false,
           progress: undefined,
-        })
+        }),
       )
       .finally(() => setIsJsSorting(false));
   };
@@ -46,7 +46,7 @@ export function PlaylistRow({ playlist, index }) {
           pauseOnHover: true,
           draggable: false,
           progress: undefined,
-        })
+        }),
       )
       .finally(() => setIsQuickSorting(false));
   };
@@ -67,7 +67,7 @@ export function PlaylistRow({ playlist, index }) {
           pauseOnHover: true,
           draggable: false,
           progress: undefined,
-        })
+        }),
       )
       .finally(() => setIsLastSorting(false));
   };
@@ -170,7 +170,7 @@ export function PlaylistRow({ playlist, index }) {
 
 function showButton(playlistName: string) {
   const IGNORE_LIST = (import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(',') || []).map((l) =>
-    l.toUpperCase()
+    l.toUpperCase(),
   );
 
   return !IGNORE_LIST.includes(playlistName.toUpperCase());
