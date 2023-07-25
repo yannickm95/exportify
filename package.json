@@ -29,11 +29,11 @@
     "@nabla/vite-plugin-eslint": "^1.5.0",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.195",
-    "@types/react": "^18.2.15",
+    "@types/react": "^18.2.16",
     "@types/react-bootstrap": "^0.32.32",
     "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@typescript-eslint/parser": "^6.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "confusing-browser-globals": "^1.0.11",
     "eslint": "^8.45.0",
@@ -45,7 +45,7 @@
     "lint-staged": "^13.2.3",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.6",
+    "vite": "^4.4.7",
     "vite-tsconfig-paths": "^4.2.0"
   }
 }
