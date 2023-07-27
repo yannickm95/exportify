@@ -17,7 +17,7 @@
   },
   "packageManager": "pnpm@8.6.10",
   "dependencies": {
-    "bootstrap": "^5.3.0",
+    "bootstrap": "^5.3.1",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
@@ -29,7 +29,7 @@
     "@nabla/vite-plugin-eslint": "^1.5.0",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.196",
-    "@types/react": "^18.2.16",
+    "@types/react": "^18.2.17",
     "@types/react-bootstrap": "^0.32.32",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
