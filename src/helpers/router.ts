@@ -39,7 +39,7 @@ export function useLoginRedirect() {
 
 export const navigate = (path: string) => {
   const baseLocation = `${window.location.origin}/exportify`;
-  const formattedPath = path ? `${path}/` : '';
+  const formattedPath = path !== '/' ? `${path}/` : path;
 
   window.history.pushState({}, '', `${baseLocation}${formattedPath}`);
 
