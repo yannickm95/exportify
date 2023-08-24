@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from 'helpers/data';
-import { isEven } from 'helpers/utils';
+import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from 'helpers/data/actions';
 
 import { ButtonLoader } from './ButtonLoader';
 import { Icon } from './Icon';
@@ -166,6 +165,11 @@ export function PlaylistRow({ playlist, index }) {
       </td>
     </tr>
   );
+}
+
+function isEven(value: number) {
+  if (value % 2 === 0) return true;
+  else return false;
 }
 
 function showButton(playlistName: string) {

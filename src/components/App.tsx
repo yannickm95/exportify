@@ -1,5 +1,4 @@
-import { getQueryParam, getSearchParam } from 'helpers/utils';
-
+import { useLoginRedirect, useRouter } from 'helpers/router';
 import { Error } from './Error';
 import { Login } from './Login';
 import { Logout } from './Logout';
@@ -7,9 +6,10 @@ import { PlaylistTable } from './PlaylistTable';
 import { Template } from './Template';
 
 export function App() {
-  const accessToken = getSearchParam('access_token');
+  const { matchRoute } = useRouter();
+  useLoginRedirect();
 
-  if (getQueryParam('spotify_error') !== '') {
+  if (matchRoute('spotify_error')) {
     return (
       <Template>
         <Error />
@@ -17,17 +17,17 @@ export function App() {
     );
   }
 
-  if (!accessToken) {
+  if (matchRoute('playlists')) {
     return (
-      <Template>
-        <Login />
+      <Template logoutElement={<Logout />}>
+        <PlaylistTable />
       </Template>
     );
   }
 
   return (
-    <Template logoutElement={<Logout />}>
-      <PlaylistTable />
+    <Template>
+      <Login />
     </Template>
   );
 }

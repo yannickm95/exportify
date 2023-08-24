@@ -1,6 +1,9 @@
+import { getAccessToken } from 'helpers/storage';
 import { Icon } from './Icon';
 
 export function Error() {
+  const path = getAccessToken() ? 'exportify/playlists' : 'exportify';
+
   return (
     <div id="spotifyErrorMessage" className="lead">
       <p>
@@ -20,7 +23,7 @@ export function Error() {
           Spotify Web API Status page
         </a>{' '}
         to see if there are any known problems right now, and then{' '}
-        <a rel="noreferrer" href="?">
+        <a rel="noreferrer" href={`${window.location.origin}/${path}`}>
           retry
         </a>
         .

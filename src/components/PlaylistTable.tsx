@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { getPlaylists, getUser } from 'helpers/data';
+import { getPlaylists, getUser } from 'helpers/data/actions';
 
 import { PlaylistRow } from './PlaylistRow';
 

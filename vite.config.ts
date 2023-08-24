@@ -7,7 +7,7 @@ import { defineConfig } from 'vite';
 const PORT = parseInt(process.env.PORT) || 9999;
 
 export default defineConfig(({ mode }) => ({
-  base: '/exportify/',
+  base: '/exportify',
 
   server: {
     port: PORT,

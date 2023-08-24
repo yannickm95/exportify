@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap';
 
-import { logout } from 'helpers/api';
+import { logout } from 'helpers/data/api';
 
 import { Icon } from './Icon';
 

@@ -1,28 +1,5 @@
 /* eslint-disable no-control-regex */
 
-export function isEven(value: number) {
-  if (value % 2 === 0) return true;
-  else return false;
-}
-
-// ==========================
-// URL
-// ==========================
-
-export function getQueryParam(name: string) {
-  name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-  const regex = new RegExp('[\\?&]' + name + '=([^&#]*)'),
-    results = regex.exec(window.location.search);
-
-  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-
-export function getSearchParam(value: string) {
-  const key = new URLSearchParams(window.location.hash.substring(1));
-
-  return key.get(value);
-}
-
 // ==========================
 // SORTING
 // ==========================
