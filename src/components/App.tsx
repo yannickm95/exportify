@@ -9,7 +9,7 @@ export function App() {
   const { matchRoute } = useRouter();
   useLoginRedirect();
 
-  if (matchRoute('spotify_error')) {
+  if (matchRoute('/spotify_error')) {
     return (
       <Template>
         <Error />
@@ -17,7 +17,7 @@ export function App() {
     );
   }
 
-  if (matchRoute('playlists')) {
+  if (matchRoute('/playlists')) {
     return (
       <Template logoutElement={<Logout />}>
         <PlaylistTable />

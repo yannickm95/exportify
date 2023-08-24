@@ -2,7 +2,7 @@ import { getAccessToken } from 'helpers/storage';
 import { Icon } from './Icon';
 
 export function Error() {
-  const path = getAccessToken() ? 'exportify/playlists' : 'exportify';
+  const path = getAccessToken() ? 'exportify/playlists/' : 'exportify/';
 
   return (
     <div id="spotifyErrorMessage" className="lead">

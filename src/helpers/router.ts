@@ -18,7 +18,7 @@ export function useRouter() {
 
   const matchRoute = useCallback(
     (path: string) => {
-      return pathname.endsWith(path);
+      return pathname.slice(0, -1).endsWith(path);
     },
     [pathname],
   );
@@ -32,14 +32,14 @@ export function useLoginRedirect() {
   useEffect(() => {
     if (accessToken) {
       setAccessToken(accessToken);
-      navigate('playlists');
+      navigate('/playlists');
     }
   }, [accessToken]);
 }
 
 export const navigate = (path: string) => {
   const baseLocation = `${window.location.origin}/exportify`;
-  const formattedPath = path ? `/${path}` : '';
+  const formattedPath = path ? `${path}/` : '';
 
   window.history.pushState({}, '', `${baseLocation}${formattedPath}`);
 

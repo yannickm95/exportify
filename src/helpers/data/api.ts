@@ -14,7 +14,7 @@ export function login(clientId: string) {
 
 export function logout() {
   setAccessToken(undefined);
-  navigate('');
+  navigate('/');
 }
 
 export async function apiCall(url: string, requestInit: RequestInit) {
@@ -27,7 +27,7 @@ export async function apiCall(url: string, requestInit: RequestInit) {
   });
 
   if (!response.ok) {
-    response.status === 401 ? logout() : navigate('spotify_error');
+    response.status === 401 ? logout() : navigate('/spotify_error');
   }
 
   return await response.json();
