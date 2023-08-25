@@ -1,9 +1,9 @@
 {
   "name": "exportify",
-  "description": "Website to export and sort spotify playlists",
   "version": "1.0.0",
-  "author": "Hatlaron",
+  "description": "Website to export and sort spotify playlists",
   "private": true,
+  "author": "Hatlaron",
   "homepage": "https://yannickm95.github.io/exportify/",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -44,7 +44,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.2",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vite": "^4.4.9",
     "vite-tsconfig-paths": "^4.2.0"
   }

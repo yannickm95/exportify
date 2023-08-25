@@ -162,7 +162,7 @@ export async function lastSort(items: any[], playlistId: string, amount = 95) {
 export async function jsSort(items: any[], playlistId: string) {
   const tracks = items
     .map((item) => ({ ...item, sortValue: formatCompareValue(item.track) }))
-    .sort((a, b) => {
+    .toSorted((a, b) => {
       if (a.sortValue < b.sortValue) return -1;
       if (a.sortValue > b.sortValue) return 1;
 
