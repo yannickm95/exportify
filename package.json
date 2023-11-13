@@ -15,7 +15,7 @@
     "lint:ts": "eslint .",
     "test:typecheck": "tsc"
   },
-  "packageManager": "pnpm@8.10.0",
+  "packageManager": "pnpm@8.10.3",
   "dependencies": {
     "bootstrap": "5.3.1",
     "file-saver": "^2.0.5",
@@ -42,8 +42,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
-    "lint-staged": "^15.0.2",
-    "prettier": "^3.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.1.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-tsconfig-paths": "^4.2.1"
