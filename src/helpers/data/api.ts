@@ -8,7 +8,7 @@ export function login(clientId: string) {
     clientId +
     '&redirect_uri=' +
     encodeURIComponent([window.location.protocol, '//', window.location.host, window.location.pathname].join('')) +
-    '&scope=playlist-read-private%20playlist-read-collaborative%20user-library-read%20playlist-modify-private%20playlist-modify-public' +
+    '&scope=playlist-read-private%20playlist-read-collaborative%20user-library-read%20playlist-modify-private%20playlist-modify-public%20user-follow-read' +
     '&response_type=token';
 }
 
