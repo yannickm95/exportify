@@ -3,9 +3,12 @@ import { useState, useEffect } from 'react';
 import { getPlaylists, getUser } from 'helpers/data/actions';
 
 import { PlaylistRow } from './PlaylistRow';
+import { useSubtitleDataContext } from './SubtitleDataContext';
 
 export function PlaylistTable() {
   const [playlists, setPlaylists] = useState<any[] | undefined>();
+
+  const { setSubtitleData } = useSubtitleDataContext();
 
   useEffect(() => {
     (async function () {
@@ -13,11 +16,9 @@ export function PlaylistTable() {
       const playlists = await getPlaylists(user.id);
 
       setPlaylists(playlists);
-
-      const subtitleEl = document.getElementById('subtitle');
-      subtitleEl!.textContent = `${playlists.length} playlists for ${user.id}`;
+      setSubtitleData({ playlistAmount: playlists.length, userId: user.id });
     })();
-  }, []);
+  }, [setSubtitleData]);
 
   if (!playlists) return <div className="spinner" />;
 

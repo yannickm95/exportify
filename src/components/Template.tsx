@@ -2,6 +2,8 @@ import { ReactNode, ReactElement } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import { Icon } from './Icon';
+import { useSubtitleDataContext } from './SubtitleDataContext';
+import { exportToCsv, getFollowedArtists } from 'helpers/data/actions';
 
 export function Template({
   children,
@@ -10,6 +12,8 @@ export function Template({
   children: ReactNode;
   logoutElement?: ReactElement | null;
 }) {
+  const { viewType, playlistAmount, userId } = useSubtitleDataContext();
+
   return (
     <div className="App container">
       <header className="App-header">
@@ -22,9 +26,28 @@ export function Template({
           <span>Hatlaron&apos;s Exportify</span>
         </h1>
 
-        <p id="subtitle" className="lead text-secondary">
-          Export and sort your Spotify playlists.
-        </p>
+        {viewType === 'login' ? (
+          <p className="lead text-secondary">Export and sort your Spotify playlists.</p>
+        ) : viewType === 'playlists' && playlistAmount !== 0 ? (
+          <p className="lead text-secondary">
+            {playlistAmount} playlists for {userId}
+            {' ('}
+            <span
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+              tabIndex={0}
+              className="download-artists"
+              onClick={async () => {
+                const artists = await getFollowedArtists();
+                exportToCsv(artists, 'Followed_artists', 'artist');
+              }}
+            >
+              download followed artists
+            </span>
+            {')'}
+          </p>
+        ) : null}
+
+        <div id="subtitle" />
       </header>
 
       {children}
