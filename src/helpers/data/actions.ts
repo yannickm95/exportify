@@ -2,7 +2,7 @@ import { saveAs } from 'file-saver';
 import chunk from 'lodash/chunk';
 
 import { apiCall } from './api';
-import { convertTracksToCsv, fileName, formatCompareValue, isArraySorted } from './utils';
+import { convertArtistsToCsv, convertTracksToCsv, fileName, formatCompareValue, isArraySorted } from './utils';
 
 export function getUser() {
   const user = apiCall('https://api.spotify.com/v1/me', { method: 'GET' });
@@ -49,10 +49,31 @@ export async function getPlaylistTracks(playlist: any) {
   return trackResponses.flatMap((response) => response.items.filter((i: any) => i.track));
 }
 
-export function exportToCsv(tracks: any[], playlistName: string) {
-  const blob = new Blob([convertTracksToCsv(tracks)], { type: 'text/csv;charset=utf-8' });
+export async function getFollowedArtists() {
+  let artists: any[] = [];
 
-  saveAs(blob, fileName(playlistName));
+  let after = 'start';
+
+  while (after !== null) {
+    const afterParam = after === 'start' ? '' : `&after=${after}`;
+
+    const { artists: response } = await apiCall(
+      `https://api.spotify.com/v1/me/following?type=artist&limit=50${afterParam}`,
+      { method: 'GET' },
+    );
+
+    after = response.cursors.after;
+    artists = [...artists, ...response.items];
+  }
+
+  return artists.filter((artist) => !!artist);
+}
+
+export function exportToCsv(input: any[], name: string, type: 'tracks' | 'artist') {
+  const converter = type === 'tracks' ? convertTracksToCsv : convertArtistsToCsv;
+  const blob = new Blob([converter(input)], { type: 'text/csv;charset=utf-8' });
+
+  saveAs(blob, fileName(name));
 }
 
 export async function quickSortPlaylist(items: any[], playlistId: string) {

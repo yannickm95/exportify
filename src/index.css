@@ -276,3 +276,17 @@ button:disabled {
 #playlists table.table-sm th {
   padding: 8px;
 }
+
+.download-artists {
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: underline;
+  color: white;
+}
+
+.download-artists:hover,
+.download-artists:focus {
+  opacity: 0.8;
+  background-color: black;
+  border-radius: 7.5px;
+}

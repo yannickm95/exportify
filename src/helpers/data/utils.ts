@@ -89,6 +89,16 @@ export function convertTracksToCsv(tracks: any[]) {
   return lines.map((line) => line.map(sanitizeLine).join(',') + '\n').join('');
 }
 
+export function convertArtistsToCsv(artists: any[]) {
+  const formattedArtists = artists
+    .map(({ uri, name, id, external_urls }) => [uri, name, id, external_urls.spotify])
+    .sort((a, b) => a[1].localeCompare(b[1]));
+
+  const lines = [['Artist URI', 'Artist Name', 'Artist ID', 'Spotify URL'], ...formattedArtists];
+
+  return lines.map((line) => line.map(sanitizeLine).join(',') + '\n').join('');
+}
+
 export function sanitizeLine(value: string) {
   return '"' + String(value).replace(/"/g, '""') + '"';
 }

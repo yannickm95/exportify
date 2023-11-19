@@ -77,7 +77,7 @@ export function PlaylistRow({ playlist, index }) {
     setIsExporting(true);
 
     getPlaylistTracks(playlist)
-      .then((tracks) => exportToCsv(tracks, playlist.name))
+      .then((tracks) => exportToCsv(tracks, playlist.name, 'tracks'))
       .finally(() => setIsExporting(false));
   };
 
