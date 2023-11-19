@@ -41,7 +41,7 @@ export function Template({
                 exportToCsv(artists, 'Followed_artists', 'artist');
               }}
             >
-              download followed artists
+              export followed artists
             </span>
             {')'}
           </p>
