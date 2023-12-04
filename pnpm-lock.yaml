@@ -19,7 +19,7 @@ dependencies:
     version: 18.2.0
   react-bootstrap:
     specifier: 2.8.0
-    version: 2.8.0(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)
+    version: 2.8.0(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0)
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
@@ -38,8 +38,8 @@ devDependencies:
     specifier: ^4.14.202
     version: 4.14.202
   '@types/react':
-    specifier: ^18.2.39
-    version: 18.2.39
+    specifier: ^18.2.41
+    version: 18.2.41
   '@types/react-bootstrap':
     specifier: ^0.32.35
     version: 0.32.35
@@ -683,23 +683,23 @@ packages:
   /@types/react-bootstrap@0.32.35:
     resolution: {integrity: sha512-NI5oZZSo0Z+MEELS2X8f4PzIK3GPxNeRsv/q8KREEeCvFxK33+8izMB4Uchy7EuxE1V9Ed4+0dc0T5dtWzOogA==}
     dependencies:
-      '@types/react': 18.2.39
+      '@types/react': 18.2.41
     dev: true
 
   /@types/react-dom@18.2.17:
     resolution: {integrity: sha512-rvrT/M7Df5eykWFxn6MYt5Pem/Dbyc1N8Y0S9Mrkw2WFCRiqUgw9P7ul2NpwsXCSM1DVdENzdG9J5SreqfAIWg==}
     dependencies:
-      '@types/react': 18.2.39
+      '@types/react': 18.2.41
     dev: true
 
   /@types/react-transition-group@4.4.9:
     resolution: {integrity: sha512-ZVNmWumUIh5NhH8aMD9CR2hdW0fNuYInlocZHaZ+dgk/1K49j1w/HoAuK1ki+pgscQrOFRTlXeoURtuzEkV3dg==}
     dependencies:
-      '@types/react': 18.2.39
+      '@types/react': 18.2.41
     dev: false
 
-  /@types/react@18.2.39:
-    resolution: {integrity: sha512-Oiw+ppED6IremMInLV4HXGbfbG6GyziY3kqAwJYOR0PNbkYDmLWQA3a95EhdSmamsvbkJN96ZNN+YD+fGjzSBA==}
+  /@types/react@18.2.41:
+    resolution: {integrity: sha512-CwOGr/PiLiNBxEBqpJ7fO3kocP/2SSuC9fpH5K7tusrg4xPSRT/193rzolYwQnTN02We/ATXKnb6GqA5w4fRxw==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
@@ -2477,7 +2477,7 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /react-bootstrap@2.8.0(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0):
+  /react-bootstrap@2.8.0(@types/react@18.2.41)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-e/aNtxl0Z2ozrIaR82jr6Zz7ss9GSoaXpQaxmvtDUsTZIq/XalkduR/ZXP6vbQHz2T4syvjA+4FbtwELxxmpww==}
     peerDependencies:
       '@types/react': '>=16.14.8'
@@ -2490,7 +2490,7 @@ packages:
       '@babel/runtime': 7.23.5
       '@restart/hooks': 0.4.11(react@18.2.0)
       '@restart/ui': 1.6.6(react-dom@18.2.0)(react@18.2.0)
-      '@types/react': 18.2.39
+      '@types/react': 18.2.41
       '@types/react-transition-group': 4.4.9
       classnames: 2.3.2
       dom-helpers: 5.2.1
@@ -2969,7 +2969,7 @@ packages:
       react: '>=15.0.0'
     dependencies:
       '@babel/runtime': 7.23.5
-      '@types/react': 18.2.39
+      '@types/react': 18.2.41
       invariant: 2.2.4
       react: 18.2.0
       react-lifecycles-compat: 3.0.4
