@@ -26,7 +26,7 @@ export function formatCompareValue(track: any) {
   return artist + releaseDate + albumName + trackNumber;
 }
 
-export function sanitizeTrack(value: string) {
+function sanitizeTrack(value: string) {
   let returnValue = value;
 
   if (value.toLowerCase().startsWith('a ')) {
@@ -99,11 +99,11 @@ export function convertArtistsToCsv(artists: any[]) {
   return lines.map((line) => line.map(sanitizeLine).join(',') + '\n').join('');
 }
 
-export function sanitizeLine(value: string) {
+function sanitizeLine(value: string) {
   return '"' + String(value).replace(/"/g, '""') + '"';
 }
 
-export function millisecondsToHuman(ms: number) {
+function millisecondsToHuman(ms: number) {
   const seconds = Math.floor((ms / 1000) % 60);
   const minutes = Math.floor(ms / 1000 / 60);
 

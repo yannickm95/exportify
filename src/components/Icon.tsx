@@ -52,7 +52,7 @@ export function Icon({ children, size = 'normal', color, style, ...rest }: Props
  *   parseIcon('material:warning')      -> ['-vendor-material', 'warning']
  *   parseIcon('exportify:spotify')     -> ['-vendor-exportify', 'exportify']
  */
-export function parseIcon(raw: string) {
+function parseIcon(raw: string) {
   if (!raw.includes(':')) raw = `material:${raw}`;
 
   const [vendor, iconName] = raw.split(':');
