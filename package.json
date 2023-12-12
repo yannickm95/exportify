@@ -16,7 +16,7 @@
     "lint:ts": "eslint .",
     "test:typecheck": "tsc"
   },
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@8.12.0",
   "dependencies": {
     "bootstrap": "5.3.1",
     "file-saver": "^2.0.5",
@@ -33,8 +33,8 @@
     "@types/react": "^18.2.43",
     "@types/react-bootstrap": "^0.32.35",
     "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^6.13.2",
-    "@typescript-eslint/parser": "^6.13.2",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "confusing-browser-globals": "^1.0.11",
     "eslint": "^8.55.0",
