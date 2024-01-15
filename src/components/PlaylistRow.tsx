@@ -15,7 +15,7 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => jsSort(tracks, playlist.id))
-      .then((sorted) => toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!'))
+      .then(successToast(playlist.name))
       .finally(() => setIsJsSorting(false));
   };
 
@@ -26,7 +26,7 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => quickSortPlaylist(tracks, playlist.id))
-      .then((sorted) => toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!'))
+      .then(successToast(playlist.name))
       .finally(() => setIsQuickSorting(false));
   };
 
@@ -37,7 +37,9 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => lastSort(tracks, playlist.id))
-      .then((sorted) => toast.success(sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!'))
+      .then((sorted) =>
+        toast.success(sorted ? `Sorted ${sorted} items of "${playlist.name}"!` : `"${playlist.name}" already sorted!`),
+      )
       .finally(() => setIsLastSorting(false));
   };
 
@@ -149,3 +151,9 @@ function showButton(playlistName: string) {
 
   return !IGNORE_LIST.includes(playlistName.toUpperCase());
 }
+
+const successToast = (playlistName: string) => (sorted: string) => {
+  return toast.success(
+    sorted !== 'is-sorted' ? `Sorted all items of "${playlistName}"!` : `"${playlistName}" already sorted!`,
+  );
+};
