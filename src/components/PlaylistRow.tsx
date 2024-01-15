@@ -15,17 +15,7 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => jsSort(tracks, playlist.id))
-      .then((sorted) =>
-        toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!', {
-          position: 'bottom-right',
-          autoClose: 3_000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        }),
-      )
+      .then((sorted) => toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!'))
       .finally(() => setIsJsSorting(false));
   };
 
@@ -36,17 +26,7 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => quickSortPlaylist(tracks, playlist.id))
-      .then((sorted) =>
-        toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!', {
-          position: 'bottom-right',
-          autoClose: 3_000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        }),
-      )
+      .then((sorted) => toast.success(sorted !== 'is-sorted' ? `Sorted all items!` : 'Playlist already sorted!'))
       .finally(() => setIsQuickSorting(false));
   };
 
@@ -57,17 +37,7 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => lastSort(tracks, playlist.id))
-      .then((sorted) =>
-        toast.success(sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!', {
-          position: 'bottom-right',
-          autoClose: 3_000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        }),
-      )
+      .then((sorted) => toast.success(sorted ? `Sorted ${sorted} items!` : 'Playlist already sorted!'))
       .finally(() => setIsLastSorting(false));
   };
 

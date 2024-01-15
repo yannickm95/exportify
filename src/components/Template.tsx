@@ -52,7 +52,7 @@ export function Template({
 
       {children}
 
-      <ToastContainer theme="dark" limit={3} />
+      <ToastContainer theme="dark" autoClose={3_000} limit={5} stacked position="bottom-right" hideProgressBar />
     </div>
   );
 }
