@@ -30,7 +30,7 @@
     "@nabla/vite-plugin-eslint": "^2.0.2",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.0",
-    "@types/react": "^18.2.77",
+    "@types/react": "^18.2.79",
     "@types/react-bootstrap": "^0.32.36",
     "@types/react-dom": "^18.2.25",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
