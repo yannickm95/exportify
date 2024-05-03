@@ -22,17 +22,17 @@ importers:
         version: 18.2.0
       react-bootstrap:
         specifier: 2.8.0
-        version: 2.8.0(@types/react@18.2.79)(react-dom@18.2.0)(react@18.2.0)
+        version: 2.8.0(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       react-toastify:
         specifier: ^10.0.5
-        version: 10.0.5(react-dom@18.2.0)(react@18.2.0)
+        version: 10.0.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@nabla/vite-plugin-eslint':
         specifier: ^2.0.4
-        version: 2.0.4(eslint@8.57.0)(vite@5.2.10)
+        version: 2.0.4(eslint@8.57.0)(vite@5.2.11)
       '@types/file-saver':
         specifier: ^2.0.7
         version: 2.0.7
@@ -50,13 +50,13 @@ importers:
         version: 18.2.25
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.7.0
-        version: 7.7.0(@typescript-eslint/parser@7.7.0)(eslint@8.57.0)(typescript@5.4.5)
+        version: 7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/parser':
         specifier: ^7.7.0
         version: 7.7.0(eslint@8.57.0)(typescript@5.4.5)
       '@vitejs/plugin-react-swc':
         specifier: ^3.6.0
-        version: 3.6.0(vite@5.2.10)
+        version: 3.6.0(@swc/helpers@0.5.10)(vite@5.2.11)
       confusing-browser-globals:
         specifier: ^1.0.11
         version: 1.0.11
@@ -65,7 +65,7 @@ importers:
         version: 8.57.0
       eslint-plugin-import:
         specifier: ^2.29.1
-        version: 2.29.1(@typescript-eslint/parser@7.7.0)(eslint@8.57.0)
+        version: 2.29.1(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)
       eslint-plugin-jsx-a11y:
         specifier: ^6.8.0
         version: 6.8.0(eslint@8.57.0)
@@ -88,11 +88,11 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.2.10
-        version: 5.2.10
+        specifier: ^5.2.11
+        version: 5.2.11
       vite-tsconfig-paths:
         specifier: ^4.3.2
-        version: 4.3.2(typescript@5.4.5)(vite@5.2.10)
+        version: 4.3.2(typescript@5.4.5)(vite@5.2.11)
 
 packages:
 
@@ -1755,8 +1755,8 @@ packages:
       vite:
         optional: true
 
-  vite@5.2.10:
-    resolution: {integrity: sha512-PAzgUZbP7msvQvqdSD+ErD5qGnSFiGOoWmV5yAKUEI0kdhjbH6nMWVyZQC/hSc4aXwc0oJ9aEdIiF9Oje0JFCw==}
+  vite@5.2.11:
+    resolution: {integrity: sha512-HndV31LWW05i1BLPMUCE1B9E9GFbOu1MbenhS58FuK6owSO5qHm7GiCotrNY1YE5rMeQSFBGmT5ZaLEjFizgiQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -1936,13 +1936,13 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@nabla/vite-plugin-eslint@2.0.4(eslint@8.57.0)(vite@5.2.10)':
+  '@nabla/vite-plugin-eslint@2.0.4(eslint@8.57.0)(vite@5.2.11)':
     dependencies:
       '@types/eslint': 8.56.10
       chalk: 4.1.2
       debug: 4.3.4
       eslint: 8.57.0
-      vite: 5.2.10
+      vite: 5.2.11
     transitivePeerDependencies:
       - supports-color
 
@@ -1970,7 +1970,7 @@ snapshots:
       dequal: 2.0.3
       react: 18.2.0
 
-  '@restart/ui@1.6.8(react-dom@18.2.0)(react@18.2.0)':
+  '@restart/ui@1.6.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.24.4
       '@popperjs/core': 2.11.8
@@ -2062,7 +2062,7 @@ snapshots:
   '@swc/core-win32-x64-msvc@1.4.16':
     optional: true
 
-  '@swc/core@1.4.16':
+  '@swc/core@1.4.16(@swc/helpers@0.5.10)':
     dependencies:
       '@swc/counter': 0.1.3
       '@swc/types': 0.1.6
@@ -2077,6 +2077,7 @@ snapshots:
       '@swc/core-win32-arm64-msvc': 1.4.16
       '@swc/core-win32-ia32-msvc': 1.4.16
       '@swc/core-win32-x64-msvc': 1.4.16
+      '@swc/helpers': 0.5.10
 
   '@swc/counter@0.1.3': {}
 
@@ -2126,7 +2127,7 @@ snapshots:
 
   '@types/warning@3.0.3': {}
 
-  '@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0)(eslint@8.57.0)(typescript@5.4.5)':
+  '@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
       '@eslint-community/regexpp': 4.10.0
       '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
@@ -2141,6 +2142,7 @@ snapshots:
       natural-compare: 1.4.0
       semver: 7.6.0
       ts-api-utils: 1.3.0(typescript@5.4.5)
+    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -2153,6 +2155,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 7.7.0
       debug: 4.3.4
       eslint: 8.57.0
+    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -2169,6 +2172,7 @@ snapshots:
       debug: 4.3.4
       eslint: 8.57.0
       ts-api-utils: 1.3.0(typescript@5.4.5)
+    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -2185,6 +2189,7 @@ snapshots:
       minimatch: 9.0.4
       semver: 7.6.0
       ts-api-utils: 1.3.0(typescript@5.4.5)
+    optionalDependencies:
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -2210,10 +2215,10 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.6.0(vite@5.2.10)':
+  '@vitejs/plugin-react-swc@3.6.0(@swc/helpers@0.5.10)(vite@5.2.11)':
     dependencies:
-      '@swc/core': 1.4.16
-      vite: 5.2.10
+      '@swc/core': 1.4.16(@swc/helpers@0.5.10)
+      vite: 5.2.11
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -2598,18 +2603,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.8.1(@typescript-eslint/parser@7.7.0)(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
+  eslint-module-utils@2.8.1(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
     dependencies:
-      '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
       debug: 3.2.7
+    optionalDependencies:
+      '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.7.0)(eslint@8.57.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0):
     dependencies:
-      '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.5
       array.prototype.flat: 1.3.2
@@ -2618,7 +2623,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.7.0)(eslint-import-resolver-node@0.3.9)(eslint@8.57.0)
+      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint-import-resolver-node@0.3.9)(eslint@8.57.0)
       hasown: 2.0.2
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -2628,6 +2633,8 @@ snapshots:
       object.values: 1.2.0
       semver: 6.3.1
       tsconfig-paths: 3.15.0
+    optionalDependencies:
+      '@typescript-eslint/parser': 7.7.0(eslint@8.57.0)(typescript@5.4.5)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -3290,12 +3297,11 @@ snapshots:
 
   queue-microtask@1.2.3: {}
 
-  react-bootstrap@2.8.0(@types/react@18.2.79)(react-dom@18.2.0)(react@18.2.0):
+  react-bootstrap@2.8.0(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.24.4
       '@restart/hooks': 0.4.16(react@18.2.0)
-      '@restart/ui': 1.6.8(react-dom@18.2.0)(react@18.2.0)
-      '@types/react': 18.2.79
+      '@restart/ui': 1.6.8(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/react-transition-group': 4.4.10
       classnames: 2.5.1
       dom-helpers: 5.2.1
@@ -3304,9 +3310,11 @@ snapshots:
       prop-types-extra: 1.1.1(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       uncontrollable: 7.2.1(react@18.2.0)
       warning: 4.0.3
+    optionalDependencies:
+      '@types/react': 18.2.79
 
   react-dom@18.2.0(react@18.2.0):
     dependencies:
@@ -3318,13 +3326,13 @@ snapshots:
 
   react-lifecycles-compat@3.0.4: {}
 
-  react-toastify@10.0.5(react-dom@18.2.0)(react@18.2.0):
+  react-toastify@10.0.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       clsx: 2.1.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
 
-  react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
+  react-transition-group@4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.24.4
       dom-helpers: 5.2.1
@@ -3552,7 +3560,7 @@ snapshots:
       typescript: 5.4.5
 
   tsconfck@3.0.3(typescript@5.4.5):
-    dependencies:
+    optionalDependencies:
       typescript: 5.4.5
 
   tsconfig-paths@3.15.0:
@@ -3627,17 +3635,18 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  vite-tsconfig-paths@4.3.2(typescript@5.4.5)(vite@5.2.10):
+  vite-tsconfig-paths@4.3.2(typescript@5.4.5)(vite@5.2.11):
     dependencies:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 3.0.3(typescript@5.4.5)
-      vite: 5.2.10
+    optionalDependencies:
+      vite: 5.2.11
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@5.2.10:
+  vite@5.2.11:
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
