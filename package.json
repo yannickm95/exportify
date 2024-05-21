@@ -16,7 +16,7 @@
     "lint:ts": "eslint .",
     "test:typecheck": "tsc"
   },
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.1.2",
   "dependencies": {
     "bootstrap": "5.3.1",
     "file-saver": "^2.0.5",
@@ -29,12 +29,12 @@
   "devDependencies": {
     "@nabla/vite-plugin-eslint": "^2.0.4",
     "@types/file-saver": "^2.0.7",
-    "@types/lodash": "^4.17.1",
+    "@types/lodash": "^4.17.4",
     "@types/react": "^18.3.2",
     "@types/react-bootstrap": "^0.32.36",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^7.9.0",
-    "@typescript-eslint/parser": "^7.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.10.0",
+    "@typescript-eslint/parser": "^7.10.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "confusing-browser-globals": "^1.0.11",
     "eslint": "^8.57.0",
