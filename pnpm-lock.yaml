@@ -55,8 +55,8 @@ importers:
         specifier: ^7.10.0
         version: 7.10.0(eslint@8.57.0)(typescript@5.4.5)
       '@vitejs/plugin-react-swc':
-        specifier: ^3.6.0
-        version: 3.6.0(@swc/helpers@0.5.11)(vite@5.2.11)
+        specifier: ^3.7.0
+        version: 3.7.0(@swc/helpers@0.5.11)(vite@5.2.11)
       confusing-browser-globals:
         specifier: ^1.0.11
         version: 1.0.11
@@ -560,8 +560,8 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@vitejs/plugin-react-swc@3.6.0':
-    resolution: {integrity: sha512-XFRbsGgpGxGzEV5i5+vRiro1bwcIaZDIdBRP16qwm+jP68ue/S8FJTBEgOeojtVDYrbSua3XFp71kC8VJE6v+g==}
+  '@vitejs/plugin-react-swc@3.7.0':
+    resolution: {integrity: sha512-yrknSb3Dci6svCd/qhHqhFPDSw0QtjumcqdKMoNNzmOl5lMXTTiqzjWtG4Qask2HdvvzaNgSunbQGet8/GrKdA==}
     peerDependencies:
       vite: ^4 || ^5
 
@@ -1088,6 +1088,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2204,7 +2205,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react-swc@3.6.0(@swc/helpers@0.5.11)(vite@5.2.11)':
+  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.11)(vite@5.2.11)':
     dependencies:
       '@swc/core': 1.5.7(@swc/helpers@0.5.11)
       vite: 5.2.11
