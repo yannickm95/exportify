@@ -27,7 +27,11 @@ export async function apiCall(url: string, requestInit: RequestInit) {
   });
 
   if (!response.ok) {
-    response.status === 401 ? logout() : navigate('/spotify_error');
+    if (response.status === 401) {
+      logout();
+    } else {
+      navigate('/spotify_error');
+    }
   }
 
   return await response.json();
