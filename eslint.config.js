@@ -1,16 +1,10 @@
-import { fixupConfigRules } from '@eslint/compat';
-import { FlatCompat } from '@eslint/eslintrc';
 import restrictedGlobals from 'confusing-browser-globals';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import jsPlugin from '@eslint/js';
 import tsPlugin from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const compat = new FlatCompat({ baseDirectory: __dirname });
 
 export default [
   { ignores: ['*', '!src'] },
@@ -20,8 +14,11 @@ export default [
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
   jsxA11yPlugin.flatConfigs.recommended,
-  ...fixupConfigRules(compat.extends('plugin:react-hooks/recommended')),
-
+  {
+    plugins: { 'react-hooks': reactHooksPlugin },
+    rules: reactHooksPlugin.configs.recommended.rules,
+    ignores: ['*.test.tsx'],
+  },
   {
     languageOptions: {
       parser: tsPlugin.parser,
