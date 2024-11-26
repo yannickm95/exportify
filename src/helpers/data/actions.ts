@@ -153,7 +153,7 @@ export async function lastSort(items: any[], playlistId: string, amount = 95) {
   for (let index = tracks.length - 1; index > 0; index--) {
     const item = tracks[index];
 
-    if (tracks.slice(Math.max(index - (amount + 5), 0), index).some((prevItem) => item < prevItem)) {
+    if (item && tracks.slice(Math.max(index - (amount + 5), 0), index).some((prevItem) => item < prevItem)) {
       newItems.push(item);
     } else {
       break;

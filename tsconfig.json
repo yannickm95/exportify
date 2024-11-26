@@ -12,6 +12,8 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
+    "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
