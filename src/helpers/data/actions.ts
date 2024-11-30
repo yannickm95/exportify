@@ -30,8 +30,8 @@ export async function getPlaylists(userId: string) {
   }
 
   return [
-    ...playlists.filter((p) => p.name.toLowerCase() !== 'release radar'),
-    ...playlists.filter((p) => p.name.toLowerCase() === 'release radar'),
+    ...playlists.filter((p) => p && p.name.toLowerCase() !== 'release radar'),
+    ...playlists.filter((p) => p && p.name.toLowerCase() === 'release radar'),
   ];
 }
 
