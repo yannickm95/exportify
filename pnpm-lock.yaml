@@ -49,8 +49,8 @@ importers:
         specifier: ^0.32.37
         version: 0.32.37
       '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.1
+        specifier: ^19.0.1
+        version: 19.0.1
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.2
         version: 3.7.2(@swc/helpers@0.5.15)(vite@6.0.3(yaml@2.5.1))
@@ -527,8 +527,8 @@ packages:
   '@types/react-bootstrap@0.32.37':
     resolution: {integrity: sha512-CVHj++uxsj1pRnM3RQ/NAXcWj+JwJZ3MqQ28sS1OQUD1sI2gRlbeAjRT+ak2nuwL+CY+gtnIsMaIDq0RNfN0PA==}
 
-  '@types/react-dom@18.3.1':
-    resolution: {integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==}
+  '@types/react-dom@19.0.1':
+    resolution: {integrity: sha512-hljHij7MpWPKF6u5vojuyfV0YA4YURsQG7KT6SzV0Zs2BXAtgdTxG6A229Ub/xiWV4w/7JL8fi6aAyjshH4meA==}
 
   '@types/react-transition-group@4.4.11':
     resolution: {integrity: sha512-RM05tAniPZ5DZPzzNFP+DmrcOdD0efDUxMy3145oljWSl3x9ZV5vhme98gTxFrj2lhXvmGNnUiuDyJgY9IKkNA==}
@@ -2071,13 +2071,13 @@ snapshots:
     dependencies:
       '@types/react': 18.3.13
 
-  '@types/react-dom@18.3.1':
+  '@types/react-dom@19.0.1':
     dependencies:
-      '@types/react': 18.3.13
+      '@types/react': 19.0.0
 
   '@types/react-transition-group@4.4.11':
     dependencies:
-      '@types/react': 18.3.13
+      '@types/react': 19.0.0
 
   '@types/react@18.3.13':
     dependencies:
@@ -3425,7 +3425,7 @@ snapshots:
   uncontrollable@7.2.1(react@19.0.0):
     dependencies:
       '@babel/runtime': 7.26.0
-      '@types/react': 18.3.13
+      '@types/react': 19.0.0
       invariant: 2.2.4
       react: 19.0.0
       react-lifecycles-compat: 3.0.4
