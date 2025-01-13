@@ -16,7 +16,7 @@
     "lint:ts": "eslint .",
     "test:typecheck": "tsc"
   },
-  "packageManager": "pnpm@9.15.2",
+  "packageManager": "pnpm@10.0.0",
   "dependencies": {
     "bootstrap": "5.3.3",
     "file-saver": "^2.0.5",
