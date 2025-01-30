@@ -10,9 +10,11 @@ export function useRouter() {
     };
 
     window.addEventListener('popstate', onLocationChange);
+    window.addEventListener('load', onLocationChange);
 
     return () => {
       window.removeEventListener('popstate', onLocationChange);
+      window.removeEventListener('load', onLocationChange);
     };
   }, []);
 
