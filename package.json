@@ -17,6 +17,12 @@
     "test:typecheck": "tsc"
   },
   "packageManager": "pnpm@10.0.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild"
+    ]
+  },
   "dependencies": {
     "bootstrap": "5.3.1",
     "file-saver": "^2.0.5",
