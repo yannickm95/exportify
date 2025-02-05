@@ -13,10 +13,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "lint:ts": "eslint .",
-    "test:typecheck": "tsc"
+    "lint": "eslint .",
+    "typecheck": "tsc"
   },
-  "packageManager": "pnpm@10.0.0",
+  "packageManager": "pnpm@10.2.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@swc/core",
