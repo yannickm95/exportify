@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react';
-import { setAccessToken } from 'helpers/storage';
 
 export function useRouter() {
   const [pathname, setCurrentPath] = useState(window.location.pathname);
@@ -26,17 +25,6 @@ export function useRouter() {
   );
 
   return { pathname, matchRoute };
-}
-
-export function useLoginRedirect() {
-  const accessToken = new URLSearchParams(window.location.hash.substring(1)).get('access_token');
-
-  useEffect(() => {
-    if (accessToken) {
-      setAccessToken(accessToken);
-      navigate('/playlists');
-    }
-  }, [accessToken]);
 }
 
 export const navigate = (path: string) => {
