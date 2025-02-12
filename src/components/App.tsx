@@ -1,4 +1,4 @@
-import { useLoginRedirect, useRouter } from 'helpers/router';
+import { useRouter } from 'helpers/router';
 import { Error } from './Error';
 import { Login } from './Login';
 import { Logout } from './Logout';
@@ -6,10 +6,13 @@ import { PlaylistTable } from './PlaylistTable';
 import { Template } from './Template';
 import { useState } from 'react';
 import { SubtitleDataContext } from './SubtitleDataContext';
+import { useExpiryLogout, useLoginRedirect } from 'helpers/data/api';
 
 export function App() {
   const { matchRoute } = useRouter();
+
   useLoginRedirect();
+  useExpiryLogout();
 
   const [subtitleData, setSubtitleData] = useState({ playlistAmount: 0, userId: '' });
 
