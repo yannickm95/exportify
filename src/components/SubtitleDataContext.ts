@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 
 export const SubtitleDataContext = createContext<
   | {
@@ -13,7 +13,7 @@ export const SubtitleDataContext = createContext<
 SubtitleDataContext.displayName = 'SubtitleDataContext';
 
 export function useSubtitleDataContext() {
-  const data = useContext(SubtitleDataContext);
+  const data = use(SubtitleDataContext);
 
   return data!;
 }

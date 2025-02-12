@@ -15,29 +15,29 @@ export function App() {
 
   if (matchRoute('/spotify_error')) {
     return (
-      <SubtitleDataContext.Provider value={{ viewType: 'error', setSubtitleData, ...subtitleData }}>
+      <SubtitleDataContext value={{ viewType: 'error', setSubtitleData, ...subtitleData }}>
         <Template>
           <Error />
         </Template>
-      </SubtitleDataContext.Provider>
+      </SubtitleDataContext>
     );
   }
 
   if (matchRoute('/playlists')) {
     return (
-      <SubtitleDataContext.Provider value={{ viewType: 'playlists', setSubtitleData, ...subtitleData }}>
+      <SubtitleDataContext value={{ viewType: 'playlists', setSubtitleData, ...subtitleData }}>
         <Template logoutElement={<Logout />}>
           <PlaylistTable />
         </Template>
-      </SubtitleDataContext.Provider>
+      </SubtitleDataContext>
     );
   }
 
   return (
-    <SubtitleDataContext.Provider value={{ viewType: 'login', setSubtitleData, ...subtitleData }}>
+    <SubtitleDataContext value={{ viewType: 'login', setSubtitleData, ...subtitleData }}>
       <Template>
         <Login />
       </Template>
-    </SubtitleDataContext.Provider>
+    </SubtitleDataContext>
   );
 }
