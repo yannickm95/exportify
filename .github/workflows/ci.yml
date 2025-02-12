@@ -52,6 +52,7 @@ jobs:
         run: pnpm run build
         env:
           VITE_APP_PLAYLIST_IGNORE_LIST: ${{ secrets.VITE_APP_PLAYLIST_IGNORE_LIST }}
+          VITE_APP_REDIRECT_URI: ${{ secrets.VITE_APP_REDIRECT_URI }}
 
       - name: Deploy with gh-pages
         run: |
