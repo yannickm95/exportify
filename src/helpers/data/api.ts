@@ -1,5 +1,5 @@
 import { navigate } from 'helpers/router';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 /**
  * For more information, read
@@ -47,29 +47,27 @@ const currentToken = {
 // Effect handlers
 
 export function useLoginRedirect() {
-  const args = new URLSearchParams(window.location.search);
-  const code = args.get('code');
-
-  const effectRan = useRef(false);
-
   useEffect(() => {
-    if (!effectRan.current) {
-      if (currentToken.access_token) {
-        navigate('/playlists');
-      } else if (code) {
-        getToken(code).then((token) => {
-          currentToken.save(token);
+    let args = new URLSearchParams(window.location.search);
+    const code = args.get('code');
 
-          if (token) navigate('/playlists');
-        });
-      }
+    if (currentToken.access_token) {
+      navigate('/playlists');
+    } else if (code) {
+      getToken(code).then((token) => {
+        currentToken.save(token);
 
-      localStorage.removeItem('code_verifier');
-      localStorage.removeItem('client_id');
-
-      effectRan.current = true;
+        if (token) navigate('/playlists');
+      });
     }
-  }, [code]);
+
+    localStorage.removeItem('code_verifier');
+    localStorage.removeItem('client_id');
+
+    return () => {
+      args = new URLSearchParams();
+    };
+  }, []);
 }
 
 async function getToken(code: string) {
