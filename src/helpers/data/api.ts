@@ -48,7 +48,7 @@ const currentToken = {
 
 export function useLoginRedirect() {
   useEffect(() => {
-    let args = new URLSearchParams(window.location.search);
+    const args = new URLSearchParams(window.location.search);
     const code = args.get('code');
 
     if (currentToken.access_token) {
@@ -65,7 +65,7 @@ export function useLoginRedirect() {
     localStorage.removeItem('client_id');
 
     return () => {
-      args = new URLSearchParams();
+      window.location.search = '';
     };
   }, []);
 }
