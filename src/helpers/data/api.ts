@@ -47,7 +47,6 @@ const currentToken = {
 // Effect handlers
 
 export function useLoginRedirect() {
-  // On page load, try to fetch auth code from current browser search URL
   const args = new URLSearchParams(window.location.search);
   const code = args.get('code');
 
@@ -55,15 +54,14 @@ export function useLoginRedirect() {
 
   useEffect(() => {
     if (!effectRan.current) {
-      // If we find a code, we're in a callback, do a token exchange
-      if (code && !currentToken.access_token) {
+      if (currentToken.access_token) {
+        navigate('/playlists');
+      } else if (code) {
         getToken(code).then((token) => {
           currentToken.save(token);
 
           if (token) navigate('/playlists');
         });
-      } else if (currentToken.access_token) {
-        navigate('/playlists');
       }
 
       localStorage.removeItem('code_verifier');
