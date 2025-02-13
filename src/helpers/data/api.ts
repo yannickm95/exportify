@@ -51,31 +51,10 @@ export function useLoginRedirect() {
   const args = new URLSearchParams(window.location.search);
   const code = args.get('code');
 
-  async function getToken(code: string) {
-    const code_verifier = localStorage.getItem('code_verifier')!;
-    const client_id = localStorage.getItem('client_id')!;
-
-    const response = await fetch(tokenEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        client_id,
-        grant_type: 'authorization_code',
-        code,
-        redirect_uri: redirectUrl,
-        code_verifier,
-      }),
-    });
-
-    return await response.json();
-  }
-
   const effectRan = useRef(false);
 
   useEffect(() => {
-    if (effectRan.current === false) {
+    if (!effectRan.current) {
       // If we find a code, we're in a callback, do a token exchange
       if (code && !currentToken.access_token) {
         getToken(code).then((token) => {
@@ -95,6 +74,27 @@ export function useLoginRedirect() {
   }, [code]);
 }
 
+async function getToken(code: string) {
+  const code_verifier = localStorage.getItem('code_verifier')!;
+  const client_id = localStorage.getItem('client_id')!;
+
+  const response = await fetch(tokenEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      client_id,
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: redirectUrl,
+      code_verifier,
+    }),
+  });
+
+  return await response.json();
+}
+
 export function useExpiryLogout() {
   const callback = () => {
     if (currentToken.expires && new Date(currentToken.expires).getTime() < new Date().getTime()) {
@@ -105,7 +105,11 @@ export function useExpiryLogout() {
   useEffect(() => {
     // Check every minute if the token has expired and if so log out.
     callback();
-    window.setInterval(callback, 60_000);
+    const intervalId = window.setInterval(callback, 60_000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
   }, []);
 }
 
