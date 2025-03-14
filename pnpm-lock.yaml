@@ -35,7 +35,7 @@ importers:
         version: 9.22.0
       '@nabla/vite-plugin-eslint':
         specifier: ^2.0.5
-        version: 2.0.5(eslint@9.22.0)(vite@6.2.1(yaml@2.7.0))
+        version: 2.0.5(eslint@9.22.0)(vite@6.2.2(yaml@2.7.0))
       '@types/file-saver':
         specifier: ^2.0.7
         version: 2.0.7
@@ -53,7 +53,7 @@ importers:
         version: 19.0.4(@types/react@19.0.10)
       '@vitejs/plugin-react-swc':
         specifier: ^3.8.0
-        version: 3.8.0(@swc/helpers@0.5.15)(vite@6.2.1(yaml@2.7.0))
+        version: 3.8.0(@swc/helpers@0.5.15)(vite@6.2.2(yaml@2.7.0))
       confusing-browser-globals:
         specifier: ^1.0.11
         version: 1.0.11
@@ -85,11 +85,11 @@ importers:
         specifier: ^8.26.1
         version: 8.26.1(eslint@9.22.0)(typescript@5.8.2)
       vite:
-        specifier: ^6.2.1
-        version: 6.2.1(yaml@2.7.0)
+        specifier: ^6.2.2
+        version: 6.2.2(yaml@2.7.0)
       vite-tsconfig-paths:
         specifier: ^5.1.4
-        version: 5.1.4(typescript@5.8.2)(vite@6.2.1(yaml@2.7.0))
+        version: 5.1.4(typescript@5.8.2)(vite@6.2.2(yaml@2.7.0))
 
 packages:
 
@@ -1725,8 +1725,8 @@ packages:
       vite:
         optional: true
 
-  vite@6.2.1:
-    resolution: {integrity: sha512-n2GnqDb6XPhlt9B8olZPrgMD/es/Nd1RdChF6CBD/fHW6pUyUTt2sQW2fPRX5GiD9XEa6+8A6A4f2vT6pSsE7Q==}
+  vite@6.2.2:
+    resolution: {integrity: sha512-yW7PeMM+LkDzc7CgJuRLMW2Jz0FxMOsVJ8Lv3gpgW9WLcb9cTW+121UEr1hvmfR7w3SegR5ItvYyzVz1vxNJgQ==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
@@ -1944,13 +1944,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.2': {}
 
-  '@nabla/vite-plugin-eslint@2.0.5(eslint@9.22.0)(vite@6.2.1(yaml@2.7.0))':
+  '@nabla/vite-plugin-eslint@2.0.5(eslint@9.22.0)(vite@6.2.2(yaml@2.7.0))':
     dependencies:
       '@types/eslint': 9.6.1
       chalk: 4.1.2
       debug: 4.4.0
       eslint: 9.22.0
-      vite: 6.2.1(yaml@2.7.0)
+      vite: 6.2.2(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -2219,10 +2219,10 @@ snapshots:
       '@typescript-eslint/types': 8.26.1
       eslint-visitor-keys: 4.2.0
 
-  '@vitejs/plugin-react-swc@3.8.0(@swc/helpers@0.5.15)(vite@6.2.1(yaml@2.7.0))':
+  '@vitejs/plugin-react-swc@3.8.0(@swc/helpers@0.5.15)(vite@6.2.2(yaml@2.7.0))':
     dependencies:
       '@swc/core': 1.11.8(@swc/helpers@0.5.15)
-      vite: 6.2.1(yaml@2.7.0)
+      vite: 6.2.2(yaml@2.7.0)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -3588,18 +3588,18 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  vite-tsconfig-paths@5.1.4(typescript@5.8.2)(vite@6.2.1(yaml@2.7.0)):
+  vite-tsconfig-paths@5.1.4(typescript@5.8.2)(vite@6.2.2(yaml@2.7.0)):
     dependencies:
       debug: 4.4.0
       globrex: 0.1.2
       tsconfck: 3.1.5(typescript@5.8.2)
     optionalDependencies:
-      vite: 6.2.1(yaml@2.7.0)
+      vite: 6.2.2(yaml@2.7.0)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@6.2.1(yaml@2.7.0):
+  vite@6.2.2(yaml@2.7.0):
     dependencies:
       esbuild: 0.25.1
       postcss: 8.5.3
