@@ -16,7 +16,7 @@
     "lint": "eslint .",
     "typecheck": "tsc"
   },
-  "packageManager": "pnpm@10.6.4",
+  "packageManager": "pnpm@10.6.5",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@swc/core",
@@ -37,7 +37,7 @@
     "@nabla/vite-plugin-eslint": "^2.0.5",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.16",
-    "@types/react": "^19.0.11",
+    "@types/react": "^19.0.12",
     "@types/react-bootstrap": "^0.32.37",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.1",
@@ -50,7 +50,7 @@
     "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.1",
+    "typescript-eslint": "^8.27.0",
     "vite": "^6.2.2",
     "vite-tsconfig-paths": "^5.1.4"
   }
