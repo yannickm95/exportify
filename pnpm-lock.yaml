@@ -49,8 +49,8 @@ importers:
         specifier: ^0.32.37
         version: 0.32.37
       '@types/react-dom':
-        specifier: ^19.0.4
-        version: 19.0.4(@types/react@19.0.12)
+        specifier: ^19.1.1
+        version: 19.1.1(@types/react@19.0.12)
       '@vitejs/plugin-react-swc':
         specifier: ^3.8.1
         version: 3.8.1(@swc/helpers@0.5.15)(vite@6.2.4(yaml@2.7.1))
@@ -544,8 +544,8 @@ packages:
   '@types/react-bootstrap@0.32.37':
     resolution: {integrity: sha512-CVHj++uxsj1pRnM3RQ/NAXcWj+JwJZ3MqQ28sS1OQUD1sI2gRlbeAjRT+ak2nuwL+CY+gtnIsMaIDq0RNfN0PA==}
 
-  '@types/react-dom@19.0.4':
-    resolution: {integrity: sha512-4fSQ8vWFkg+TGhePfUzVmat3eC14TXYSsiiDSLI0dVLsrm9gZFABjPy/Qu6TKgl1tq1Bu1yDsuQgY3A3DOjCcg==}
+  '@types/react-dom@19.1.1':
+    resolution: {integrity: sha512-jFf/woGTVTjUJsl2O7hcopJ1r0upqoq/vIOoCj0yLh3RIXxWcljlpuZ+vEBRXsymD1jhfeJrlyTy/S1UW+4y1w==}
     peerDependencies:
       '@types/react': ^19.0.0
 
@@ -2136,7 +2136,7 @@ snapshots:
     dependencies:
       '@types/react': 19.0.12
 
-  '@types/react-dom@19.0.4(@types/react@19.0.12)':
+  '@types/react-dom@19.1.1(@types/react@19.0.12)':
     dependencies:
       '@types/react': 19.0.12
 
