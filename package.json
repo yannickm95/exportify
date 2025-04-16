@@ -16,7 +16,7 @@
     "lint": "eslint .",
     "typecheck": "tsc"
   },
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.8.1",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@swc/core",
