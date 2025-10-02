@@ -70,7 +70,7 @@ export default [
       // `plugin:react/recommended` overrides
       'react/prop-types': 'off',
       'react/display-name': 'off',
-      // `pulcing:react-hooks` optional rules
+      // `plugin:react-hooks` optional rules
       'react-hooks/component-hook-factories': 'warn',
       'react-hooks/config': 'warn',
       'react-hooks/error-boundaries': 'warn',
