@@ -13,6 +13,7 @@ export default [
   ...tsPlugin.configs.stylistic,
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
+  ...reactHooksPlugin.configs['flat/recommended'],
   jsxA11yPlugin.flatConfigs.recommended,
   {
     plugins: { 'react-hooks': reactHooksPlugin },
