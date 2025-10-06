@@ -13,7 +13,7 @@ export default [
   ...tsPlugin.configs.stylistic,
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
-  ...reactHooksPlugin.configs['flat/recommended'],
+  ...reactHooksPlugin.configs['recommended-latest'],
   jsxA11yPlugin.flatConfigs.recommended,
   {
     languageOptions: {
@@ -70,22 +70,8 @@ export default [
       // `plugin:react/recommended` overrides
       'react/prop-types': 'off',
       'react/display-name': 'off',
-      // `plugin:react-hooks` optional rules
-      'react-hooks/component-hook-factories': 'warn',
-      'react-hooks/config': 'warn',
-      'react-hooks/error-boundaries': 'warn',
-      'react-hooks/gating': 'warn',
-      'react-hooks/globals': 'warn',
-      'react-hooks/immutability': 'warn',
-      'react-hooks/incompatible-library': 'warn',
-      'react-hooks/preserve-manual-memoization': 'warn',
-      'react-hooks/purity': 'warn',
-      'react-hooks/refs': 'warn',
-      'react-hooks/set-state-in-effect': 'warn',
-      'react-hooks/set-state-in-render': 'warn',
-      'react-hooks/static-components': 'warn',
-      'react-hooks/unsupported-syntax': 'warn',
-      'react-hooks/use-memo': 'warn',
+      // `plugin:react-hooks` rules
+      ...setReactHooksRules(),
       // `plugin:jsx-a11y/recommended` overrides
       'jsx-a11y/click-events-have-key-events': 'off',
       'jsx-a11y/no-static-element-interactions': 'off',
@@ -94,3 +80,11 @@ export default [
     },
   },
 ];
+
+function setReactHooksRules() {
+  return Object.fromEntries(
+    Object.entries(reactHooksPlugin.configs['recommended-latest'][0]?.rules || []).map(([key]) => {
+      return [key, key !== 'react-hooks/rules-of-hooks' ? 'warn' : 'error'];
+    }),
+  );
+}
