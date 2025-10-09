@@ -13,7 +13,7 @@ export default [
   ...tsPlugin.configs.stylistic,
   reactPlugin.configs.flat.recommended,
   reactPlugin.configs.flat['jsx-runtime'],
-  ...reactHooksPlugin.configs['recommended-latest'],
+  reactHooksPlugin.configs.flat['recommended-latest'],
   jsxA11yPlugin.flatConfigs.recommended,
   {
     languageOptions: {
@@ -83,7 +83,7 @@ export default [
 
 function setReactHooksRules() {
   return Object.fromEntries(
-    Object.entries(reactHooksPlugin.configs['recommended-latest'][0]?.rules || []).map(([key]) => {
+    Object.entries(reactHooksPlugin.configs.flat['recommended-latest'].rules || {}).map(([key]) => {
       return [key, key !== 'react-hooks/rules-of-hooks' ? 'warn' : 'error'];
     }),
   );
