@@ -83,7 +83,7 @@ export default [
 
 function setReactHooksRules() {
   return Object.fromEntries(
-    Object.entries(reactHooksPlugin.configs.flat['recommended-latest'].rules || {}).map(([key]) => {
+    Object.entries(reactHooksPlugin.configs.flat['recommended-latest'].rules).map(([key]) => {
       return [key, key !== 'react-hooks/rules-of-hooks' ? 'warn' : 'error'];
     }),
   );
