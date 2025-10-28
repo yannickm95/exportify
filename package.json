@@ -15,10 +15,9 @@
     "lint": "eslint .",
     "typecheck": "tsc"
   },
-  "packageManager": "pnpm@10.18.3",
+  "packageManager": "pnpm@10.19.0",
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@swc/core",
       "esbuild"
     ]
   },
@@ -39,7 +38,7 @@
     "@types/react": "^19.2.2",
     "@types/react-bootstrap": "^0.32.37",
     "@types/react-dom": "^19.2.2",
-    "@vitejs/plugin-react-swc": "^4.1.0",
+    "@vitejs/plugin-react": "^5.1.0",
     "confusing-browser-globals": "^1.0.11",
     "eslint": "^9.38.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
