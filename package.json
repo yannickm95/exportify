@@ -31,7 +31,7 @@
     "react-toastify": "^11.0.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.0",
+    "@eslint/js": "^9.39.1",
     "@nabla/vite-plugin-eslint": "^2.0.6",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.20",
@@ -40,7 +40,7 @@
     "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^5.1.0",
     "confusing-browser-globals": "^1.0.11",
-    "eslint": "^9.39.0",
+    "eslint": "^9.39.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
