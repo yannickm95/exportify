@@ -82,8 +82,8 @@ importers:
         specifier: ^7.2.7
         version: 7.2.7(lightningcss@1.30.2)(yaml@2.8.1)
       vite-tsconfig-paths:
-        specifier: ^5.1.4
-        version: 5.1.4(typescript@5.9.3)(vite@7.2.7(lightningcss@1.30.2)(yaml@2.8.1))
+        specifier: ^6.0.2
+        version: 6.0.2(typescript@5.9.3)(vite@7.2.7(lightningcss@1.30.2)(yaml@2.8.1))
 
 packages:
 
@@ -1720,8 +1720,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  vite-tsconfig-paths@5.1.4:
-    resolution: {integrity: sha512-cYj0LRuLV2c2sMqhqhGpaO3LretdtMn/BVX4cPLanIZuwwrkVl+lK84E/miEXkCHWXuq65rhNN4rXsBcOB3S4w==}
+  vite-tsconfig-paths@6.0.2:
+    resolution: {integrity: sha512-c06LOO8fWB5RuEPpEIHXU9t7Dt4DoiPIljnKws9UygIaQo6PoFKawTftz5/QVcO+6pOs/HHWycnq4UrZkWVYnQ==}
     peerDependencies:
       vite: '*'
     peerDependenciesMeta:
@@ -3657,7 +3657,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.2.7(lightningcss@1.30.2)(yaml@2.8.1)):
+  vite-tsconfig-paths@6.0.2(typescript@5.9.3)(vite@7.2.7(lightningcss@1.30.2)(yaml@2.8.1)):
     dependencies:
       debug: 4.4.3
       globrex: 0.1.2
