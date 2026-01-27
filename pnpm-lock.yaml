@@ -18,17 +18,17 @@ importers:
         specifier: ^4.17.23
         version: 4.17.23
       react:
-        specifier: ^19.2.3
-        version: 19.2.3
+        specifier: ^19.2.4
+        version: 19.2.4
       react-bootstrap:
         specifier: 2.8.0
-        version: 2.8.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 2.8.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-dom:
-        specifier: ^19.2.3
-        version: 19.2.3(react@19.2.3)
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
       react-toastify:
         specifier: ^11.0.5
-        version: 11.0.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 11.0.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.2
@@ -1502,10 +1502,10 @@ packages:
       '@types/react':
         optional: true
 
-  react-dom@19.2.3:
-    resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
+  react-dom@19.2.4:
+    resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
-      react: ^19.2.3
+      react: ^19.2.4
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -1529,8 +1529,8 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
 
-  react@19.2.3:
-    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
+  react@19.2.4:
+    resolution: {integrity: sha512-9nfp2hYpCwOjAN+8TZFGhtWEwgvWHXqESH8qT89AT/lWklpLON22Lc8pEtnpsZz7VmawabSU0gCjnj8aC0euHQ==}
     engines: {node: '>=0.10.0'}
 
   reflect.getprototypeof@1.0.10:
@@ -2111,33 +2111,33 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
-  '@react-aria/ssr@3.9.10(react@19.2.3)':
+  '@react-aria/ssr@3.9.10(react@19.2.4)':
     dependencies:
       '@swc/helpers': 0.5.18
-      react: 19.2.3
+      react: 19.2.4
 
-  '@restart/hooks@0.4.16(react@19.2.3)':
+  '@restart/hooks@0.4.16(react@19.2.4)':
     dependencies:
       dequal: 2.0.3
-      react: 19.2.3
+      react: 19.2.4
 
-  '@restart/hooks@0.5.1(react@19.2.3)':
+  '@restart/hooks@0.5.1(react@19.2.4)':
     dependencies:
       dequal: 2.0.3
-      react: 19.2.3
+      react: 19.2.4
 
-  '@restart/ui@1.9.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@restart/ui@1.9.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@popperjs/core': 2.11.8
-      '@react-aria/ssr': 3.9.10(react@19.2.3)
-      '@restart/hooks': 0.5.1(react@19.2.3)
+      '@react-aria/ssr': 3.9.10(react@19.2.4)
+      '@restart/hooks': 0.5.1(react@19.2.4)
       '@types/warning': 3.0.3
       dequal: 2.0.3
       dom-helpers: 5.2.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      uncontrollable: 8.0.4(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      uncontrollable: 8.0.4(react@19.2.4)
       warning: 4.0.3
 
   '@rolldown/pluginutils@1.0.0-beta.53': {}
@@ -3321,9 +3321,9 @@ snapshots:
 
   prettier@3.8.1: {}
 
-  prop-types-extra@1.1.1(react@19.2.3):
+  prop-types-extra@1.1.1(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
       react-is: 16.13.1
       warning: 4.0.3
 
@@ -3335,28 +3335,28 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  react-bootstrap@2.8.0(@types/react@19.2.9)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  react-bootstrap@2.8.0(@types/react@19.2.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       '@babel/runtime': 7.28.4
-      '@restart/hooks': 0.4.16(react@19.2.3)
-      '@restart/ui': 1.9.4(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@restart/hooks': 0.4.16(react@19.2.4)
+      '@restart/ui': 1.9.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@types/react-transition-group': 4.4.12(@types/react@19.2.9)
       classnames: 2.5.1
       dom-helpers: 5.2.1
       invariant: 2.2.4
       prop-types: 15.8.1
-      prop-types-extra: 1.1.1(react@19.2.3)
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      react-transition-group: 4.4.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      uncontrollable: 7.2.1(react@19.2.3)
+      prop-types-extra: 1.1.1(react@19.2.4)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+      react-transition-group: 4.4.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      uncontrollable: 7.2.1(react@19.2.4)
       warning: 4.0.3
     optionalDependencies:
       '@types/react': 19.2.9
 
-  react-dom@19.2.3(react@19.2.3):
+  react-dom@19.2.4(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
       scheduler: 0.27.0
 
   react-is@16.13.1: {}
@@ -3365,22 +3365,22 @@ snapshots:
 
   react-refresh@0.18.0: {}
 
-  react-toastify@11.0.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  react-toastify@11.0.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       clsx: 2.1.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
-  react-transition-group@4.4.5(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  react-transition-group@4.4.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       '@babel/runtime': 7.28.4
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
 
-  react@19.2.3: {}
+  react@19.2.4: {}
 
   reflect.getprototypeof@1.0.10:
     dependencies:
@@ -3659,17 +3659,17 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  uncontrollable@7.2.1(react@19.2.3):
+  uncontrollable@7.2.1(react@19.2.4):
     dependencies:
       '@babel/runtime': 7.28.4
       '@types/react': 19.2.9
       invariant: 2.2.4
-      react: 19.2.3
+      react: 19.2.4
       react-lifecycles-compat: 3.0.4
 
-  uncontrollable@8.0.4(react@19.2.3):
+  uncontrollable@8.0.4(react@19.2.4):
     dependencies:
-      react: 19.2.3
+      react: 19.2.4
 
   update-browserslist-db@1.2.3(browserslist@4.28.1):
     dependencies:
