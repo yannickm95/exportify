@@ -1,13 +1,13 @@
 /* fallback */
 @font-face {
-  font-family: 'Exportify Icons';
+  font-family: "Exportify Icons";
   font-style: normal;
   font-weight: 400;
-  src: url(./exportify-icons.woff2) format('woff2');
+  src: url("./exportify-icons.woff2") format("woff2");
 }
 
 .exportify-icons {
-  font-family: 'Exportify Icons';
+  font-family: "Exportify Icons";
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
