@@ -1,25 +1,19 @@
 {
   "name": "exportify",
   "version": "1.0.0",
-  "description": "Website to export and sort spotify playlists",
   "private": true,
-  "author": "Hatlaron",
+  "description": "Website to export and sort spotify playlists",
   "homepage": "https://yannickm95.github.io/exportify/",
+  "author": "Hatlaron",
   "type": "module",
   "scripts": {
     "preinstall": "npx --yes only-allow pnpm",
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "prettier --write .",
+    "format": "oxfmt --write .",
     "lint": "eslint .",
     "typecheck": "tsc"
-  },
-  "packageManager": "pnpm@10.28.2",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
   },
   "dependencies": {
     "bootstrap": "5.3.1",
@@ -31,7 +25,7 @@
     "react-toastify": "^11.0.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^9.39.3",
     "@nabla/vite-plugin-eslint": "^2.0.6",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.24",
@@ -40,14 +34,20 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
     "confusing-browser-globals": "^1.0.11",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.3",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "prettier": "^3.8.1",
+    "oxfmt": "^0.35.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6.1.1"
+  },
+  "packageManager": "pnpm@10.30.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
