@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import { useState } from "react";
+import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
-import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from 'helpers/data/actions';
+import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
 
-import { ButtonLoader } from './ButtonLoader';
-import { Icon } from './Icon';
+import { ButtonLoader } from "./ButtonLoader";
+import { Icon } from "./Icon";
 
 export function PlaylistRow({ playlist, index }) {
   const [isJsSorting, setIsJsSorting] = useState(false);
@@ -49,7 +49,7 @@ export function PlaylistRow({ playlist, index }) {
     setIsExporting(true);
 
     getPlaylistTracks(playlist)
-      .then((tracks) => exportToCsv(tracks, playlist.name, 'tracks'))
+      .then((tracks) => exportToCsv(tracks, playlist.name, "tracks"))
       .finally(() => setIsExporting(false));
   };
 
@@ -57,7 +57,7 @@ export function PlaylistRow({ playlist, index }) {
 
   if (playlist.uri == null) {
     return (
-      <tr key={playlist.name} className={!isEven(index) ? 'alt-color' : ''}>
+      <tr key={playlist.name} className={!isEven(index) ? "alt-color" : ""}>
         <td>&nbsp;</td>
         <td>{playlist.name}</td>
         <td colSpan={2}>This playlist is not supported</td>
@@ -68,7 +68,7 @@ export function PlaylistRow({ playlist, index }) {
   }
 
   return (
-    <tr key={playlist.uri} className={!isEven(index) ? 'alt-color' : ''}>
+    <tr key={playlist.uri} className={!isEven(index) ? "alt-color" : ""}>
       <td>
         <img alt="cover" src={playlist?.images?.[0].url} />
       </td>
@@ -79,10 +79,10 @@ export function PlaylistRow({ playlist, index }) {
       <td className="align-middle">
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
+            display: "flex",
+            justifyContent: "flex-end",
             gap: 10,
-            alignItems: 'center',
+            alignItems: "center",
           }}
         >
           {showButton(playlist.name) ? (
@@ -93,7 +93,7 @@ export function PlaylistRow({ playlist, index }) {
               className="text-nowrap text-center"
               disabled={disabled}
             >
-              {isJsSorting ? <ButtonLoader /> : 'JS*'}
+              {isJsSorting ? <ButtonLoader /> : "JS*"}
             </Button>
           ) : null}
 
@@ -145,7 +145,7 @@ function isEven(value: number) {
 }
 
 function showButton(playlistName: string) {
-  const IGNORE_LIST = (import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll('_', ' ').split(',') || []).map((l) =>
+  const IGNORE_LIST = (import.meta.env.VITE_APP_PLAYLIST_IGNORE_LIST?.replaceAll("_", " ").split(",") || []).map((l) =>
     l.toUpperCase(),
   );
 
@@ -154,6 +154,6 @@ function showButton(playlistName: string) {
 
 const successToast = (playlistName: string) => (sorted: string) => {
   return toast.success(
-    sorted !== 'is-sorted' ? `Sorted all items of "${playlistName}"!` : `"${playlistName}" already sorted!`,
+    sorted !== "is-sorted" ? `Sorted all items of "${playlistName}"!` : `"${playlistName}" already sorted!`,
   );
 };

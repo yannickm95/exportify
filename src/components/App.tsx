@@ -1,12 +1,14 @@
-import { useRouter } from 'helpers/router';
-import { Error } from './Error';
-import { Login } from './Login';
-import { Logout } from './Logout';
-import { PlaylistTable } from './PlaylistTable';
-import { Template } from './Template';
-import { useState } from 'react';
-import { SubtitleDataContext } from './SubtitleDataContext';
-import { useExpiryLogout, useLoginRedirect } from 'helpers/data/api';
+import { useState } from "react";
+
+import { useExpiryLogout, useLoginRedirect } from "~/helpers/data/api";
+import { useRouter } from "~/helpers/router";
+
+import { Error } from "./Error";
+import { Login } from "./Login";
+import { Logout } from "./Logout";
+import { PlaylistTable } from "./PlaylistTable";
+import { SubtitleDataContext } from "./SubtitleDataContext";
+import { Template } from "./Template";
 
 export function App() {
   const { matchRoute } = useRouter();
@@ -14,11 +16,14 @@ export function App() {
   useLoginRedirect();
   useExpiryLogout();
 
-  const [subtitleData, setSubtitleData] = useState({ playlistAmount: 0, userId: '' });
+  const [subtitleData, setSubtitleData] = useState({
+    playlistAmount: 0,
+    userId: "",
+  });
 
-  if (matchRoute('/spotify_error')) {
+  if (matchRoute("/spotify_error")) {
     return (
-      <SubtitleDataContext value={{ viewType: 'error', setSubtitleData, ...subtitleData }}>
+      <SubtitleDataContext value={{ viewType: "error", setSubtitleData, ...subtitleData }}>
         <Template>
           <Error />
         </Template>
@@ -26,9 +31,9 @@ export function App() {
     );
   }
 
-  if (matchRoute('/playlists')) {
+  if (matchRoute("/playlists")) {
     return (
-      <SubtitleDataContext value={{ viewType: 'playlists', setSubtitleData, ...subtitleData }}>
+      <SubtitleDataContext value={{ viewType: "playlists", setSubtitleData, ...subtitleData }}>
         <Template logoutElement={<Logout />}>
           <PlaylistTable />
         </Template>
@@ -37,7 +42,7 @@ export function App() {
   }
 
   return (
-    <SubtitleDataContext value={{ viewType: 'login', setSubtitleData, ...subtitleData }}>
+    <SubtitleDataContext value={{ viewType: "login", setSubtitleData, ...subtitleData }}>
       <Template>
         <Login />
       </Template>

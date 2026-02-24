@@ -1,8 +1,8 @@
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 
-import { logout } from 'helpers/data/api';
+import { logout } from "~/helpers/data/api";
 
-import { Icon } from './Icon';
+import { Icon } from "./Icon";
 
 export function Logout() {
   return (

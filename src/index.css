@@ -84,7 +84,7 @@ td img {
 }
 
 .spinner:before {
-  content: 'Loading…';
+  content: "Loading…";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -95,7 +95,7 @@ td img {
 }
 
 .spinner:not(:required):before {
-  content: '';
+  content: "";
   border-radius: 50%;
   border: 4px solid rgba(236, 235, 232, 1);
   border-top-color: rgba(130, 130, 130, 1);
@@ -132,7 +132,7 @@ td img {
   border-top-color: var(--bs-body-color);
   animation: spinner 1s linear infinite;
   border-radius: 50%;
-  content: '';
+  content: "";
 }
 
 /* Buttons */
@@ -204,7 +204,7 @@ button:disabled {
   width: 1em;
   height: 1em;
   color: var(--color);
-  font-feature-settings: 'liga';
+  font-feature-settings: "liga";
   font-size: var(--size);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -218,11 +218,11 @@ button:disabled {
 }
 
 .fonticon.-vendor-material {
-  font-family: 'Material Icons', sans-serif;
+  font-family: "Material Icons", sans-serif;
 }
 
 .fonticon.-vendor-exportify {
-  font-family: 'Exportify Icons', sans-serif;
+  font-family: "Exportify Icons", sans-serif;
 }
 
 /* App */

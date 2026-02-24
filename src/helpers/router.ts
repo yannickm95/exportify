@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from "react";
 
 export function useRouter() {
   const [pathname, setCurrentPath] = useState(window.location.pathname);
@@ -8,12 +8,12 @@ export function useRouter() {
       setCurrentPath(window.location.pathname);
     };
 
-    window.addEventListener('popstate', onLocationChange);
-    window.addEventListener('load', onLocationChange);
+    window.addEventListener("popstate", onLocationChange);
+    window.addEventListener("load", onLocationChange);
 
     return () => {
-      window.removeEventListener('popstate', onLocationChange);
-      window.removeEventListener('load', onLocationChange);
+      window.removeEventListener("popstate", onLocationChange);
+      window.removeEventListener("load", onLocationChange);
     };
   }, []);
 
@@ -29,10 +29,10 @@ export function useRouter() {
 
 export const navigate = (path: string) => {
   const baseLocation = `${window.location.origin}/exportify`;
-  const formattedPath = path !== '/' ? `${path}/` : path;
+  const formattedPath = path !== "/" ? `${path}/` : path;
 
-  window.history.pushState({}, '', `${baseLocation}${formattedPath}`);
+  window.history.pushState({}, "", `${baseLocation}${formattedPath}`);
 
-  const navEvent = new PopStateEvent('popstate');
+  const navEvent = new PopStateEvent("popstate");
   window.dispatchEvent(navEvent);
 };

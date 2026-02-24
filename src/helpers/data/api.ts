@@ -1,14 +1,15 @@
-import { navigate } from 'helpers/router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
+
+import { navigate } from "~/helpers/router";
 
 /**
  * For more information, read
  * https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
  */
 
-const redirectUrl = import.meta.env.VITE_APP_REDIRECT_URI || 'http://localhost:9999/exportify/';
-const authorizationEndpoint = 'https://accounts.spotify.com/authorize';
-const tokenEndpoint = 'https://accounts.spotify.com/api/token';
+const redirectUrl = import.meta.env.VITE_APP_REDIRECT_URI || "http://localhost:9999/exportify/";
+const authorizationEndpoint = "https://accounts.spotify.com/authorize";
+const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = String.raw`
   user-follow-read
   playlist-read-private
@@ -20,27 +21,27 @@ const scope = String.raw`
 
 const currentToken = {
   get access_token() {
-    return localStorage.getItem('access_token') || null;
+    return localStorage.getItem("access_token") || null;
   },
   get refresh_token() {
-    return localStorage.getItem('refresh_token') || null;
+    return localStorage.getItem("refresh_token") || null;
   },
   get expires_in() {
-    return localStorage.getItem('refresh_in') || null;
+    return localStorage.getItem("refresh_in") || null;
   },
   get expires() {
-    return localStorage.getItem('expires') || null;
+    return localStorage.getItem("expires") || null;
   },
 
   save: function (response) {
     const { access_token, refresh_token, expires_in } = response;
-    localStorage.setItem('access_token', access_token);
-    localStorage.setItem('refresh_token', refresh_token);
-    localStorage.setItem('expires_in', expires_in);
+    localStorage.setItem("access_token", access_token);
+    localStorage.setItem("refresh_token", refresh_token);
+    localStorage.setItem("expires_in", expires_in);
 
     const now = new Date();
     const expiry = new Date(now.getTime() + expires_in * 1000);
-    localStorage.setItem('expires', expiry.toString());
+    localStorage.setItem("expires", expiry.toString());
   },
 };
 
@@ -48,24 +49,24 @@ const currentToken = {
 
 export function useLoginRedirect() {
   const args = new URLSearchParams(window.location.search);
-  const code = args.get('code');
+  const code = args.get("code");
 
   const effectRan = useRef(false);
 
   useEffect(() => {
     if (!effectRan.current) {
       if (currentToken.access_token) {
-        navigate('/playlists');
+        navigate("/playlists");
       } else if (code) {
         getToken(code).then((token) => {
           currentToken.save(token);
 
-          if (token) navigate('/playlists');
+          if (token) navigate("/playlists");
         });
       }
 
-      localStorage.removeItem('code_verifier');
-      localStorage.removeItem('client_id');
+      localStorage.removeItem("code_verifier");
+      localStorage.removeItem("client_id");
 
       effectRan.current = true;
     }
@@ -73,17 +74,17 @@ export function useLoginRedirect() {
 }
 
 async function getToken(code: string) {
-  const code_verifier = localStorage.getItem('code_verifier')!;
-  const client_id = localStorage.getItem('client_id')!;
+  const code_verifier = localStorage.getItem("code_verifier")!;
+  const client_id = localStorage.getItem("client_id")!;
 
   const response = await fetch(tokenEndpoint, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
       client_id,
-      grant_type: 'authorization_code',
+      grant_type: "authorization_code",
       code,
       redirect_uri: redirectUrl,
       code_verifier,
@@ -114,29 +115,29 @@ export function useExpiryLogout() {
 // Click handlers
 
 export async function login(client_id: string) {
-  window.localStorage.setItem('client_id', client_id);
+  window.localStorage.setItem("client_id", client_id);
 
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   const randomValues = crypto.getRandomValues(new Uint8Array(64));
-  const randomString = randomValues.reduce((acc, x) => acc + possible[x % possible.length], '');
+  const randomString = randomValues.reduce((acc, x) => acc + possible[x % possible.length], "");
 
   const code_verifier = randomString;
   const data = new TextEncoder().encode(code_verifier);
-  const hashed = await crypto.subtle.digest('SHA-256', data);
+  const hashed = await crypto.subtle.digest("SHA-256", data);
 
   const code_challenge_base64 = btoa(String.fromCharCode(...new Uint8Array(hashed)))
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_');
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
 
-  window.localStorage.setItem('code_verifier', code_verifier);
+  window.localStorage.setItem("code_verifier", code_verifier);
 
   const authUrl = new URL(authorizationEndpoint);
   const params = {
-    response_type: 'code',
+    response_type: "code",
     client_id,
     scope,
-    code_challenge_method: 'S256',
+    code_challenge_method: "S256",
     code_challenge: code_challenge_base64,
     redirect_uri: redirectUrl,
   };
@@ -147,7 +148,7 @@ export async function login(client_id: string) {
 
 export function logout() {
   localStorage.clear();
-  navigate('/');
+  navigate("/");
 }
 
 // Spotify API Call
@@ -155,8 +156,8 @@ export function logout() {
 export async function apiCall(url: string, requestInit: RequestInit) {
   const response = await fetch(url, {
     headers: {
-      'Authorization': 'Bearer ' + currentToken.access_token,
-      'Content-Type': 'application/json',
+      "Authorization": "Bearer " + currentToken.access_token,
+      "Content-Type": "application/json",
     },
     ...requestInit,
   });
@@ -165,7 +166,7 @@ export async function apiCall(url: string, requestInit: RequestInit) {
     if (response.status === 401) {
       logout();
     } else {
-      navigate('/spotify_error');
+      navigate("/spotify_error");
     }
   }
 

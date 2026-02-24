@@ -18,10 +18,10 @@ export function isArraySorted(array: any[]) {
 }
 
 export function formatCompareValue(track: any) {
-  const trackNumber = track.track_number.toString().padStart(2, '0');
+  const trackNumber = track.track_number.toString().padStart(2, "0");
   const artist = sanitizeTrack(track.artists[0].name);
   const albumName = sanitizeTrack(track.album.name);
-  const releaseDate = track.album.release_date === null ? '0000-00-00' : track.album.release_date;
+  const releaseDate = track.album.release_date === null ? "0000-00-00" : track.album.release_date;
 
   return artist + releaseDate + albumName + trackNumber;
 }
@@ -29,12 +29,12 @@ export function formatCompareValue(track: any) {
 function sanitizeTrack(value: string) {
   let returnValue = value;
 
-  if (value.toLowerCase().startsWith('a ')) {
+  if (value.toLowerCase().startsWith("a ")) {
     returnValue = value.substring(2);
-  } else if (value.toLowerCase().startsWith('the ')) {
+  } else if (value.toLowerCase().startsWith("the ")) {
     returnValue = value.substring(4);
-  } else if (value.startsWith('$')) {
-    returnValue = value.replace('$', 'S');
+  } else if (value.startsWith("$")) {
+    returnValue = value.replace("$", "S");
   }
 
   return returnValue.toLowerCase();
@@ -45,7 +45,7 @@ function sanitizeTrack(value: string) {
 // ==========================
 
 export function fileName(name: string) {
-  return name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, '_').toLowerCase() + '.csv';
+  return name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, "_").toLowerCase() + ".csv";
 }
 
 export function convertTracksToCsv(tracks: any[]) {
@@ -53,14 +53,14 @@ export function convertTracksToCsv(tracks: any[]) {
     .map(({ track }) => ({
       uri: track.uri,
       item: [
-        track.uri.startsWith('spotify:local') ? decodeURIComponent(track.uri.replaceAll('+', ' ')) : track.uri,
+        track.uri.startsWith("spotify:local") ? decodeURIComponent(track.uri.replaceAll("+", " ")) : track.uri,
         track.name,
-        track.artists.map((a: any) => String(a.name).replace(/,/g, '\\,')).join(', '),
+        track.artists.map((a: any) => String(a.name).replace(/,/g, "\\,")).join(", "),
         track.album.name,
-        track.album.artists.map((a: any) => String(a.name).replace(/,/g, '\\,')).join(', '),
-        track.album.release_date == null ? '' : track.album.release_date,
-        track.album.images[0] == null ? '' : track.album.images[0].url,
-        track.album.uri == null ? '' : track.album.uri,
+        track.album.artists.map((a: any) => String(a.name).replace(/,/g, "\\,")).join(", "),
+        track.album.release_date == null ? "" : track.album.release_date,
+        track.album.images[0] == null ? "" : track.album.images[0].url,
+        track.album.uri == null ? "" : track.album.uri,
         track.disc_number,
         track.track_number,
         millisecondsToHuman(track.duration_ms),
@@ -71,22 +71,22 @@ export function convertTracksToCsv(tracks: any[]) {
 
   const lines = [
     [
-      'Track URI',
-      'Track Name',
-      'Artist Name(s)',
-      'Album Name',
-      'Album Artist Name(s)',
-      'Album Release Date',
-      'Album Image URL',
-      'Album URI',
-      'Disc Number',
-      'Track Number',
-      'Track Duration (ms)',
+      "Track URI",
+      "Track Name",
+      "Artist Name(s)",
+      "Album Name",
+      "Album Artist Name(s)",
+      "Album Release Date",
+      "Album Image URL",
+      "Album URI",
+      "Disc Number",
+      "Track Number",
+      "Track Duration (ms)",
     ],
     ...formattedTracks,
   ];
 
-  return lines.map((line) => line.map(sanitizeLine).join(',') + '\n').join('');
+  return lines.map((line) => line.map(sanitizeLine).join(",") + "\n").join("");
 }
 
 export function convertArtistsToCsv(artists: any[]) {
@@ -94,9 +94,9 @@ export function convertArtistsToCsv(artists: any[]) {
     .map(({ uri, name, id, external_urls }) => [uri, name, id, external_urls.spotify])
     .sort((a, b) => a[1].localeCompare(b[1]));
 
-  const lines = [['Artist URI', 'Artist Name', 'Artist ID', 'Spotify URL'], ...formattedArtists];
+  const lines = [["Artist URI", "Artist Name", "Artist ID", "Spotify URL"], ...formattedArtists];
 
-  return lines.map((line) => line.map(sanitizeLine).join(',') + '\n').join('');
+  return lines.map((line) => line.map(sanitizeLine).join(",") + "\n").join("");
 }
 
 function sanitizeLine(value: string) {
@@ -107,5 +107,5 @@ function millisecondsToHuman(ms: number) {
   const seconds = Math.floor((ms / 1000) % 60);
   const minutes = Math.floor(ms / 1000 / 60);
 
-  return minutes.toString() + ':' + seconds.toString().padStart(2, '0');
+  return minutes.toString() + ":" + seconds.toString().padStart(2, "0");
 }

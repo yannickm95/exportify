@@ -1,11 +1,11 @@
-import { saveAs } from 'file-saver';
-import chunk from 'lodash/chunk';
+import { saveAs } from "file-saver";
+import chunk from "lodash/chunk";
 
-import { apiCall } from './api';
-import { convertArtistsToCsv, convertTracksToCsv, fileName, formatCompareValue, isArraySorted } from './utils';
+import { apiCall } from "./api";
+import { convertArtistsToCsv, convertTracksToCsv, fileName, formatCompareValue, isArraySorted } from "./utils";
 
 export function getUser() {
-  const user = apiCall('https://api.spotify.com/v1/me', { method: 'GET' });
+  const user = apiCall("https://api.spotify.com/v1/me", { method: "GET" });
 
   return user;
 }
@@ -15,7 +15,7 @@ const PLAYLIST_LIMIT = 20;
 export async function getPlaylists(userId: string) {
   const loadSlice = async (start: number, end: number) => {
     const playlistsUrl = `https://api.spotify.com/v1/users/${userId}/playlists?offset=${start}&limit=${end - start}`;
-    const playlistsResponse = await apiCall(playlistsUrl, { method: 'GET' });
+    const playlistsResponse = await apiCall(playlistsUrl, { method: "GET" });
 
     return playlistsResponse;
   };
@@ -30,8 +30,8 @@ export async function getPlaylists(userId: string) {
   }
 
   return [
-    ...playlists.filter((p) => p && p.name.toLowerCase() !== 'release radar'),
-    ...playlists.filter((p) => p && p.name.toLowerCase() === 'release radar'),
+    ...playlists.filter((p) => p && p.name.toLowerCase() !== "release radar"),
+    ...playlists.filter((p) => p && p.name.toLowerCase() === "release radar"),
   ];
 }
 
@@ -40,10 +40,10 @@ export async function getPlaylistTracks(playlist: any) {
   const limit = playlist.tracks.limit || 100;
 
   for (let offset = 0; offset < playlist.tracks.total; offset = offset + limit) {
-    requests.push(`${playlist.tracks.href.split('?')[0]}?offset=${offset}&limit=${limit}`);
+    requests.push(`${playlist.tracks.href.split("?")[0]}?offset=${offset}&limit=${limit}`);
   }
 
-  const trackResponses = await Promise.all(requests.map((request) => apiCall(request, { method: 'GET' })));
+  const trackResponses = await Promise.all(requests.map((request) => apiCall(request, { method: "GET" })));
 
   // Exclude null track attributes
   return trackResponses.flatMap((response) => response.items.filter((i: any) => i.track));
@@ -52,14 +52,14 @@ export async function getPlaylistTracks(playlist: any) {
 export async function getFollowedArtists() {
   let artists: any[] = [];
 
-  let after = 'start';
+  let after = "start";
 
   while (after !== null) {
-    const afterParam = after === 'start' ? '' : `&after=${after}`;
+    const afterParam = after === "start" ? "" : `&after=${after}`;
 
     const { artists: response } = await apiCall(
       `https://api.spotify.com/v1/me/following?type=artist&limit=50${afterParam}`,
-      { method: 'GET' },
+      { method: "GET" },
     );
 
     after = response.cursors.after;
@@ -69,9 +69,9 @@ export async function getFollowedArtists() {
   return artists.filter((artist) => !!artist);
 }
 
-export function exportToCsv(input: any[], name: string, type: 'tracks' | 'artist') {
-  const converter = type === 'tracks' ? convertTracksToCsv : convertArtistsToCsv;
-  const blob = new Blob([converter(input)], { type: 'text/csv;charset=utf-8' });
+export function exportToCsv(input: any[], name: string, type: "tracks" | "artist") {
+  const converter = type === "tracks" ? convertTracksToCsv : convertArtistsToCsv;
+  const blob = new Blob([converter(input)], { type: "text/csv;charset=utf-8" });
 
   saveAs(blob, fileName(name));
 }
@@ -116,7 +116,7 @@ export async function quickSortPlaylist(items: any[], playlistId: string) {
     arrayToSort[high] = lowValue;
 
     await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify({
         range_start: low,
         insert_before: high + 1,
@@ -124,7 +124,7 @@ export async function quickSortPlaylist(items: any[], playlistId: string) {
     });
 
     await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify({
         range_start: high - 1 > 0 ? high - 1 : 0,
         insert_before: low,
@@ -139,9 +139,9 @@ export async function quickSortPlaylist(items: any[], playlistId: string) {
   if (!isArraySorted(tracks)) {
     await quickSort(tracks, 0, tracks.length - 1);
 
-    return 'sorted';
+    return "sorted";
   } else {
-    return 'is-sorted';
+    return "is-sorted";
   }
 }
 
@@ -166,7 +166,7 @@ export async function lastSort(items: any[], playlistId: string, amount = 95) {
     const newIndex = tracks.findIndex((t) => t > item);
 
     await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify({
         range_start: tracks.length - 1,
         insert_before: newIndex,
@@ -190,14 +190,14 @@ export async function jsSort(items: any[], playlistId: string) {
       return 0;
     });
 
-  if (isArraySorted(items.map(({ track }) => formatCompareValue(track)))) return 'is-sorted';
+  if (isArraySorted(items.map(({ track }) => formatCompareValue(track)))) return "is-sorted";
 
   const nonLocalTracks = tracks.filter(({ track }) => !track.is_local);
   const chunkedTracks = chunk(nonLocalTracks, 100);
 
   for (const chunk of chunkedTracks) {
     await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'DELETE',
+      method: "DELETE",
       body: JSON.stringify({
         tracks: chunk.map(({ track }) => ({ uri: track.uri })),
       }),
@@ -208,7 +208,7 @@ export async function jsSort(items: any[], playlistId: string) {
 
   for (const chunk of chunkedTracks.reverse()) {
     await apiCall(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
         uris: chunk.map(({ track }) => track.uri),
         position: 0,
@@ -221,5 +221,5 @@ export async function jsSort(items: any[], playlistId: string) {
   const localTracks = tracks.filter(({ track }) => track.is_local);
   await lastSort([...nonLocalTracks, ...localTracks], playlistId, localTracks.length);
 
-  return 'sorted';
+  return "sorted";
 }

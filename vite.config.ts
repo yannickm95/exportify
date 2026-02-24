@@ -1,13 +1,13 @@
-import eslintPlugin from '@nabla/vite-plugin-eslint';
-import reactPlugin from '@vitejs/plugin-react';
-import tsConfigPathsPlugin from 'vite-tsconfig-paths';
-import { defineConfig } from 'vite';
+import eslintPlugin from "@nabla/vite-plugin-eslint";
+import reactPlugin from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import tsConfigPathsPlugin from "vite-tsconfig-paths";
 
 // @ts-expect-error
 const PORT = parseInt(process.env.PORT) || 9999;
 
 export default defineConfig(({ mode }) => ({
-  base: '/exportify/',
+  base: "/exportify/",
 
   server: {
     port: PORT,
@@ -22,6 +22,6 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     reactPlugin(),
     tsConfigPathsPlugin(),
-    mode === 'development' && eslintPlugin({ eslintOptions: { cache: false } }),
+    mode === "development" && eslintPlugin({ eslintOptions: { cache: false } }),
   ],
 }));
