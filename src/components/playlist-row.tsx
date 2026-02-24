@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
 
 import { ButtonLoader } from "./button-loader";
-import { Icon } from "./icon-new";
+import { Icon } from "./icon";
 
 export function PlaylistRow({ playlist, index }) {
   const [isJsSorting, setIsJsSorting] = useState(false);

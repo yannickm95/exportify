@@ -1,4 +1,4 @@
-import { Icon } from "./icon-new";
+import { Icon } from "./icon";
 
 export function Error() {
   return (

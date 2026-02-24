@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 
 import { exportToCsv, getFollowedArtists } from "~/helpers/data/actions";
 
-import { Icon } from "./icon-new";
+import { Icon } from "./icon";
 import { useSubtitleDataContext } from "./subtitle-data-context";
 
 export function Template({
