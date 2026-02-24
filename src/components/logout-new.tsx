@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 
 import { logout } from "~/helpers/data/api";
 
-import { Icon } from "./Icon";
+import { Icon } from "./icon-new";
 
 export function Logout() {
   return (

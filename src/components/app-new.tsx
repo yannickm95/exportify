@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useExpiryLogout, useLoginRedirect } from "~/helpers/data/api";
 import { useRouter } from "~/helpers/router";
 
-import { Error } from "./Error";
-import { Login } from "./Login";
-import { Logout } from "./Logout";
-import { PlaylistTable } from "./PlaylistTable";
-import { SubtitleDataContext } from "./SubtitleDataContext";
-import { Template } from "./Template";
+import { Error } from "./error-new";
+import { Login } from "./login-new";
+import { Logout } from "./logout-new";
+import { PlaylistTable } from "./playlist-table";
+import { SubtitleDataContext } from "./subtitle-data-context";
+import { Template } from "./template-new";
 
 export function App() {
   const { matchRoute } = useRouter();

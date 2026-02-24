@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 import { getPlaylists, getUser } from "~/helpers/data/actions";
 
-import { PlaylistRow } from "./PlaylistRow";
-import { useSubtitleDataContext } from "./SubtitleDataContext";
+import { PlaylistRow } from "./playlist-row";
+import { useSubtitleDataContext } from "./subtitle-data-context";
 
 export function PlaylistTable() {
   const [playlists, setPlaylists] = useState<any[] | undefined>();

@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 
 import { login } from "~/helpers/data/api";
 
-import { Icon } from "./Icon";
+import { Icon } from "./icon-new";
 
 export function Login() {
   return (

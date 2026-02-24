@@ -1,5 +1,3 @@
-/* eslint-disable no-control-regex */
-
 // ==========================
 // SORTING
 // ==========================
@@ -45,6 +43,7 @@ function sanitizeTrack(value: string) {
 // ==========================
 
 export function fileName(name: string) {
+  // eslint-disable-next-line no-control-regex
   return name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, "_").toLowerCase() + ".csv";
 }
 
