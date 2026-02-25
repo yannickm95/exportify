@@ -58,11 +58,12 @@ export function useLoginRedirect() {
       if (currentToken.access_token) {
         navigate("/playlists");
       } else if (code) {
-        getToken(code).then((token) => {
-          currentToken.save(token);
-
-          if (token) navigate("/playlists");
-        });
+        getToken(code)
+          .then((token) => {
+            currentToken.save(token);
+            if (token) navigate("/playlists");
+          })
+          .catch(() => {});
       }
 
       localStorage.removeItem("code_verifier");
@@ -166,7 +167,7 @@ export async function apiCall(url: string, requestInit: RequestInit) {
     if (response.status === 401) {
       logout();
     } else {
-      navigate("/spotify_error");
+      throw new Error(`Spotify API error: ${response.status} ${response.statusText}`);
     }
   }
 

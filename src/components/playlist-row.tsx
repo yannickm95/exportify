@@ -16,6 +16,7 @@ export function PlaylistRow({ playlist, index }) {
     getPlaylistTracks(playlist)
       .then((tracks) => jsSort(tracks, playlist.id))
       .then(successToast(playlist.name))
+      .catch(() => errorToast(playlist.name))
       .finally(() => setIsJsSorting(false));
   };
 
@@ -27,6 +28,7 @@ export function PlaylistRow({ playlist, index }) {
     getPlaylistTracks(playlist)
       .then((tracks) => quickSortPlaylist(tracks, playlist.id))
       .then(successToast(playlist.name))
+      .catch(() => errorToast(playlist.name))
       .finally(() => setIsQuickSorting(false));
   };
 
@@ -37,9 +39,8 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => lastSort(tracks, playlist.id))
-      .then((sorted) =>
-        toast.success(sorted ? `Sorted ${sorted} items of "${playlist.name}"!` : `"${playlist.name}" already sorted!`),
-      )
+      .then(successToast(playlist.name))
+      .catch(() => errorToast(playlist.name))
       .finally(() => setIsLastSorting(false));
   };
 
@@ -50,6 +51,7 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => exportToCsv(tracks, playlist.name, "tracks"))
+      .catch(() => toast.error("Failed to export to CSV. Something went wrong!"))
       .finally(() => setIsExporting(false));
   };
 
@@ -152,8 +154,14 @@ function showButton(playlistName: string) {
   return !IGNORE_LIST.includes(playlistName.toUpperCase());
 }
 
-const successToast = (playlistName: string) => (sorted: string) => {
-  return toast.success(
-    sorted !== "is-sorted" ? `Sorted all items of "${playlistName}"!` : `"${playlistName}" already sorted!`,
-  );
+const successToast = (playlistName: string) => (sorted: "sorted" | "is-sorted" | number) => {
+  let successText = `"${playlistName}" already sorted!`;
+  if (sorted === "sorted") successText = `Sorted all items of "${playlistName}"!`;
+  if (typeof sorted === "number") successText = `Sorted ${sorted} items of "${playlistName}"!`;
+
+  return toast.success(successText);
+};
+
+const errorToast = (playlistName: string) => {
+  return toast.error(`Failed to sort "${playlistName}". Something went wrong!`);
 };

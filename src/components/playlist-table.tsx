@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 import { getPlaylists, getUser } from "~/helpers/data/actions";
 
@@ -6,7 +7,7 @@ import { PlaylistRow } from "./playlist-row";
 import { useSubtitleDataContext } from "./subtitle-data-context";
 
 export function PlaylistTable() {
-  const [playlists, setPlaylists] = useState<any[] | undefined>();
+  const [playlists, setPlaylists] = useState<any[]>();
 
   const { setSubtitleData } = useSubtitleDataContext();
 
@@ -17,7 +18,7 @@ export function PlaylistTable() {
 
       setPlaylists(playlists);
       setSubtitleData({ playlistAmount: playlists.length, userId: user.id });
-    })();
+    })().catch(() => toast.error("Failed to fetch playlists. Something went wrong!"));
   }, [setSubtitleData]);
 
   if (!playlists) return <div className="spinner" />;
@@ -30,12 +31,7 @@ export function PlaylistTable() {
             <th style={{ width: "5%" }} />
             <th style={{ width: "27.5%" }}>Name</th>
             <th style={{ width: "7.5%" }}>Tracks</th>
-            <th
-              style={{
-                width: "55%",
-                textAlign: "right",
-              }}
-            >
+            <th style={{ width: "55%", textAlign: "right" }}>
               <span style={{ fontWeight: 400, fontSize: 10 }}>
                 (* JS-sort will update &apos;date added&apos; to the time it was sorted, use with caution!)
               </span>{" "}
