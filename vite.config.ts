@@ -1,6 +1,6 @@
-import eslintPlugin from "@nabla/vite-plugin-eslint";
 import reactPlugin from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import oxlintPlugin from "vite-plugin-oxlint";
 import tsConfigPathsPlugin from "vite-tsconfig-paths";
 
 // @ts-expect-error
@@ -19,9 +19,5 @@ export default defineConfig(({ mode }) => ({
     port: PORT,
   },
 
-  plugins: [
-    reactPlugin(),
-    tsConfigPathsPlugin(),
-    mode === "development" && eslintPlugin({ eslintOptions: { cache: false } }),
-  ],
+  plugins: [reactPlugin(), tsConfigPathsPlugin(), mode === "development" && oxlintPlugin()],
 }));
