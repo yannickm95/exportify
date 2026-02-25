@@ -35,9 +35,10 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
+    // oxlint-disable-next-line typescript/strict-void-return
     const intervalId = window.setInterval(async () => {
       // oxlint-disable-next-line typescript/no-unnecessary-condition
-      const { expires } = (await sdk?.getAccessToken()) || {};
+      const { expires } = (await sdk?.getAccessToken().catch()) || {};
       if (expires && expires < new Date().getTime()) logOut();
     }, 60_000);
 
