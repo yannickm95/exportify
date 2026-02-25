@@ -1,0 +1,94 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "jsx-a11y", "oxc", "react", "typescript"],
+  "jsPlugins": [
+    {
+      "name": "react-compiler",
+      "specifier": "eslint-plugin-react-hooks"
+    }
+  ],
+
+  "env": {
+    "builtin": true,
+    "es2026": true,
+    "browser": true
+  },
+  "settings": {
+    "react": {
+      "version": "19.2.4"
+    }
+  },
+  "categories": {
+    "correctness": "error",
+    "nursery": "warn"
+  },
+  "ignorePatterns": ["*", "!src/**/*"],
+  "rules": {
+    "getter-return": "error",
+    "no-array-constructor": "error",
+    "no-console": "error",
+    "no-case-declarations": "error",
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-fallthrough": "error",
+    "no-prototype-builtins": "error",
+    "no-redeclare": "error",
+    "no-regex-spaces": "error",
+    "no-undef": "error",
+    "no-unexpected-multiline": "error",
+    "no-unreachable": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_"
+      }
+    ],
+
+    "typescript/adjacent-overload-signatures": "error",
+    "typescript/array-type": "error",
+    "typescript/ban-tslint-comment": "error",
+    "typescript/class-literal-property-style": "error",
+    "typescript/consistent-generic-constructors": "error",
+    "typescript/consistent-indexed-object-style": "error",
+    "typescript/consistent-type-assertions": "error",
+    "typescript/consistent-type-definitions": "error",
+    "typescript/no-confusing-non-null-assertion": "error",
+    "typescript/no-empty-object-type": "error",
+    "typescript/no-inferrable-types": "error",
+    "typescript/no-require-imports": "error",
+    "typescript/no-unnecessary-type-constraint": "error",
+    "typescript/no-unsafe-function-type": "error",
+    "typescript/prefer-for-of": "error",
+    "typescript/prefer-function-type": "error",
+    // Typescript: disable base config rules
+    "typescript/prefer-readonly-parameter-types": "off",
+
+    "react/display-name": "error",
+    "react/exhaustive-deps": "warn",
+    "react/jsx-no-comment-textnodes": "error",
+    "react/jsx-no-target-blank": "error",
+    "react/no-unescaped-entities": "error",
+    "react/no-unknown-property": "error",
+    "react/rules-of-hooks": "error",
+
+    // react compiler rules aren't supported by oxlint at the moment.
+    // Enable them via the js plugin "eslint-plugin-react-hooks".
+    "react-compiler/static-components": "warn",
+    "react-compiler/use-memo": "warn",
+    "react-compiler/void-use-memo": "warn",
+    "react-compiler/component-hook-factories": "warn",
+    "react-compiler/immutability": "warn",
+    "react-compiler/globals": "warn",
+    "react-compiler/error-boundaries": "warn",
+    "react-compiler/purity": "warn",
+    "react-compiler/set-state-in-render": "warn",
+    "react-compiler/unsupported-syntax": "warn",
+    "react-compiler/config": "warn",
+    "react-compiler/gating": "warn",
+    "react-compiler/incompatible-library": "warn",
+    "react-compiler/preserve-manual-memoization": "warn",
+    "react-compiler/set-state-in-effect": "warn",
+    "react-compiler/refs": "warn"
+  }
+}
