@@ -1,20 +1,14 @@
 import { Button } from "react-bootstrap";
-import { toast } from "react-toastify";
-
-import { login } from "~/helpers/data/api";
 
 import { Icon } from "./icon";
 
-export function Login() {
+export function Login({ logIn }: { logIn: (clientId: string) => Promise<void> }) {
   return (
     <form
       className="login-container"
       onSubmit={(event) => {
         event.preventDefault();
-
-        login((event.currentTarget.elements.namedItem("clientId") as HTMLInputElement).value).catch(() => {
-          toast.error("Failed to login. Something went wrong!");
-        });
+        void logIn((event.currentTarget.elements.namedItem("clientId") as HTMLInputElement).value);
       }}
     >
       <input id="clientId" required minLength={32} maxLength={32} type="password" placeholder="Enter client id..." />

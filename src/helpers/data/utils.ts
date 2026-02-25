@@ -2,11 +2,13 @@
 // SORTING
 // ==========================
 
-export function isArraySorted(array: any[]) {
+import type { Artist, PlaylistedTrack, Track } from "@spotify/web-api-ts-sdk";
+
+export function isArraySorted(array: string[]) {
   let sorted = true;
 
   for (let i = 0; i < array.length - 1; i++) {
-    if (array[i] > array[i + 1]) {
+    if (array[i]! > array[i + 1]!) {
       sorted = false;
       break;
     }
@@ -15,10 +17,11 @@ export function isArraySorted(array: any[]) {
   return sorted;
 }
 
-export function formatCompareValue(track: any) {
+export function formatCompareValue(track: Track) {
   const trackNumber = track.track_number.toString().padStart(2, "0");
-  const artist = sanitizeTrack(track.artists[0].name);
+  const artist = sanitizeTrack(track.artists[0]!.name);
   const albumName = sanitizeTrack(track.album.name);
+  // oxlint-disable-next-line typescript/no-unnecessary-condition
   const releaseDate = track.album.release_date === null ? "0000-00-00" : track.album.release_date;
 
   return artist + releaseDate + albumName + trackNumber;
@@ -43,25 +46,27 @@ function sanitizeTrack(value: string) {
 // ==========================
 
 export function fileName(name: string) {
-  // eslint-disable-next-line no-control-regex
+  // oxlint-disable-next-line no-control-regex
   return name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, "_").toLowerCase() + ".csv";
 }
 
-export function convertTracksToCsv(tracks: any[]) {
+export function convertTracksToCsv(tracks: PlaylistedTrack<Track>[]) {
   const formattedTracks = tracks
     .map(({ track }) => ({
       uri: track.uri,
       item: [
         track.uri.startsWith("spotify:local") ? decodeURIComponent(track.uri.replaceAll("+", " ")) : track.uri,
         track.name,
-        track.artists.map((a: any) => String(a.name).replace(/,/g, "\\,")).join(", "),
+        track.artists.map((a) => String(a.name).replace(/,/g, "\\,")).join(", "),
         track.album.name,
-        track.album.artists.map((a: any) => String(a.name).replace(/,/g, "\\,")).join(", "),
+        track.album.artists.map((a) => String(a.name).replace(/,/g, "\\,")).join(", "),
+        // oxlint-disable-next-line typescript/no-unnecessary-condition
         track.album.release_date == null ? "" : track.album.release_date,
         track.album.images[0] == null ? "" : track.album.images[0].url,
+        // oxlint-disable-next-line typescript/no-unnecessary-condition
         track.album.uri == null ? "" : track.album.uri,
-        track.disc_number,
-        track.track_number,
+        track.disc_number.toString(),
+        track.track_number.toString(),
         millisecondsToHuman(track.duration_ms),
       ],
     }))
@@ -88,9 +93,9 @@ export function convertTracksToCsv(tracks: any[]) {
   return lines.map((line) => line.map(sanitizeLine).join(",") + "\n").join("");
 }
 
-export function convertArtistsToCsv(artists: any[]) {
+export function convertArtistsToCsv(artists: Artist[]) {
   const formattedArtists = artists
-    .map(({ uri, name, id, external_urls }) => [uri, name, id, external_urls.spotify])
+    .map(({ uri, name, id, external_urls }) => [uri, name, id, external_urls.spotify] as const)
     .sort((a, b) => a[1].localeCompare(b[1]));
 
   const lines = [["Artist URI", "Artist Name", "Artist ID", "Spotify URL"], ...formattedArtists];

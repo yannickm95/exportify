@@ -2,7 +2,7 @@ import { createContext, use } from "react";
 
 export const SubtitleDataContext = createContext<
   | {
-      viewType: "error" | "login" | "playlists" | null;
+      viewType: "login" | "playlists";
       playlistAmount: number;
       userId: string;
       setSubtitleData: (data: { userId: string; playlistAmount: number }) => void;

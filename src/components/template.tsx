@@ -29,7 +29,7 @@ export function Template({
 
         {viewType === "login" ? (
           <p className="lead text-secondary">Export and sort your Spotify playlists.</p>
-        ) : viewType === "playlists" && playlistAmount !== 0 ? (
+        ) : playlistAmount !== 0 ? (
           <p className="lead text-secondary">
             {playlistAmount} playlists for {userId}
             {" ("}
@@ -39,8 +39,8 @@ export function Template({
               className="download-artists"
               onClick={() => {
                 getFollowedArtists()
-                  .then((artists) => exportToCsv(artists, "Followed_artists", "artist"))
-                  .catch(() => toast.error("Failed to export to CSV. Something went wrong!"));
+                  .then((artists) => exportToCsv(artists, "Followed_artists", "artists"))
+                  .catch(() => toast.error("Failed to export to CSV. Something went wrong, please try again!"));
               }}
             >
               export followed artists

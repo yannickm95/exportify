@@ -1,3 +1,4 @@
+import type { SimplifiedPlaylist } from "@spotify/web-api-ts-sdk";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -6,20 +7,22 @@ import { getPlaylists, getUser } from "~/helpers/data/actions";
 import { PlaylistRow } from "./playlist-row";
 import { useSubtitleDataContext } from "./subtitle-data-context";
 
-export function PlaylistTable() {
-  const [playlists, setPlaylists] = useState<any[]>();
+export function PlaylistTable({ initializing }: { initializing: boolean }) {
+  const [playlists, setPlaylists] = useState<SimplifiedPlaylist[]>();
 
   const { setSubtitleData } = useSubtitleDataContext();
 
   useEffect(() => {
     (async function () {
-      const user = await getUser();
-      const playlists = await getPlaylists(user.id);
+      if (!initializing) {
+        const user = await getUser();
+        const playlists = await getPlaylists();
 
-      setPlaylists(playlists);
-      setSubtitleData({ playlistAmount: playlists.length, userId: user.id });
-    })().catch(() => toast.error("Failed to fetch playlists. Something went wrong!"));
-  }, [setSubtitleData]);
+        setPlaylists(playlists);
+        setSubtitleData({ playlistAmount: playlists.length, userId: user.display_name });
+      }
+    })().catch(() => toast.error("Failed to fetch playlists. Something went wrong, please reload the page!"));
+  }, [setSubtitleData, initializing]);
 
   if (!playlists) return <div className="spinner" />;
 

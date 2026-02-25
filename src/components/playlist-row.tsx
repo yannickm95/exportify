@@ -1,3 +1,4 @@
+import { type SimplifiedPlaylist } from "@spotify/web-api-ts-sdk";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -7,7 +8,7 @@ import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } f
 import { ButtonLoader } from "./button-loader";
 import { Icon } from "./icon";
 
-export function PlaylistRow({ playlist, index }) {
+export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist; index: number }) {
   const [isJsSorting, setIsJsSorting] = useState(false);
 
   const sortPlaylistWithJS = () => {
@@ -51,33 +52,21 @@ export function PlaylistRow({ playlist, index }) {
 
     getPlaylistTracks(playlist)
       .then((tracks) => exportToCsv(tracks, playlist.name, "tracks"))
-      .catch(() => toast.error("Failed to export to CSV. Something went wrong!"))
+      .catch(() => toast.error("Failed to export to CSV. Something went wrong, please try again!"))
       .finally(() => setIsExporting(false));
   };
 
   const disabled = isExporting || isQuickSorting || isLastSorting || isJsSorting;
 
-  if (playlist.uri == null) {
-    return (
-      <tr key={playlist.name} className={!isEven(index) ? "alt-color" : ""}>
-        <td>&nbsp;</td>
-        <td>{playlist.name}</td>
-        <td colSpan={2}>This playlist is not supported</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-    );
-  }
-
   return (
     <tr key={playlist.uri} className={!isEven(index) ? "alt-color" : ""}>
       <td>
-        <img alt="cover" src={playlist?.images?.[0].url} />
+        <img alt="cover" src={playlist.images[0]?.url} />
       </td>
       <td className="align-middle">
         <a href={playlist.uri}>{playlist.name}</a>
       </td>
-      <td className="align-middle">{playlist.tracks.total}</td>
+      <td className="align-middle">{playlist.tracks?.total ?? 0}</td>
       <td className="align-middle">
         <div
           style={{
@@ -155,13 +144,13 @@ function showButton(playlistName: string) {
 }
 
 const successToast = (playlistName: string) => (sorted: "sorted" | "is-sorted" | number) => {
-  let successText = `"${playlistName}" already sorted!`;
-  if (sorted === "sorted") successText = `Sorted all items of "${playlistName}"!`;
-  if (typeof sorted === "number") successText = `Sorted ${sorted} items of "${playlistName}"!`;
+  let successText = `${playlistName} already sorted!`;
+  if (sorted === "sorted") successText = `Sorted all items of ${playlistName}!`;
+  if (typeof sorted === "number" && sorted > 0) successText = `Sorted ${sorted} items of ${playlistName}!`;
 
   return toast.success(successText);
 };
 
 const errorToast = (playlistName: string) => {
-  return toast.error(`Failed to sort "${playlistName}". Something went wrong!`);
+  return toast.error(`Failed to sort ${playlistName}. Something went wrong, please try again!`);
 };
