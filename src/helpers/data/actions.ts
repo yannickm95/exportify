@@ -31,7 +31,7 @@ export async function getPlaylists(userId: string) {
 
   return [
     ...playlists.filter((p) => p && p.name.toLowerCase() !== "release radar"),
-    ...playlists.filter((p) => p && p.name.toLowerCase() === "release radar"),
+    ...playlists.filter((p) => p?.name.toLowerCase() === "release radar"),
   ];
 }
 
@@ -52,7 +52,7 @@ export async function getPlaylistTracks(playlist: any) {
 export async function getFollowedArtists() {
   let artists: any[] = [];
 
-  let after = "start";
+  let after: string | null = "start";
 
   while (after !== null) {
     const afterParam = after === "start" ? "" : `&after=${after}`;
@@ -131,7 +131,9 @@ export async function quickSortPlaylist(items: any[], playlistId: string) {
       }),
     });
 
-    await new Promise((resolve) => window.setTimeout(resolve, 200));
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 200);
+    });
   }
 
   const tracks = items.map(({ track }) => formatCompareValue(track));
@@ -203,7 +205,9 @@ export async function jsSort(items: any[], playlistId: string) {
       }),
     });
 
-    await new Promise((resolve) => window.setTimeout(resolve, 200));
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 200);
+    });
   }
 
   for (const chunk of chunkedTracks.reverse()) {
@@ -215,7 +219,9 @@ export async function jsSort(items: any[], playlistId: string) {
       }),
     });
 
-    await new Promise((resolve) => window.setTimeout(resolve, 200));
+    await new Promise((resolve) => {
+      window.setTimeout(resolve, 200);
+    });
   }
 
   const localTracks = tracks.filter(({ track }) => track.is_local);
