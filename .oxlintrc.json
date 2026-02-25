@@ -22,7 +22,7 @@
     "correctness": "error",
     "nursery": "warn"
   },
-  "ignorePatterns": ["*", "!src/**/*"],
+  "ignorePatterns": ["*", "!src/**/*", "!vite.config.ts"],
   "rules": {
     "getter-return": "error",
     "no-array-constructor": "error",
@@ -90,5 +90,13 @@
     "react-compiler/preserve-manual-memoization": "warn",
     "react-compiler/set-state-in-effect": "warn",
     "react-compiler/refs": "warn"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["vite.config.ts"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }
