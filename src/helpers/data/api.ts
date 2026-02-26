@@ -1,3 +1,5 @@
+// oxlint-disable typescript/no-unnecessary-condition
+
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { useCallback, useEffect, useState } from "react";
 
@@ -28,18 +30,19 @@ export function useAuth() {
   }, []);
 
   const logOut = useCallback(() => {
-    // oxlint-disable-next-line typescript/no-unnecessary-condition
     sdk?.logOut();
     localStorage.removeItem("client_id");
     setAuthenticated(false);
   }, []);
 
   useEffect(() => {
-    // oxlint-disable-next-line typescript/strict-void-return
-    const intervalId = window.setInterval(async () => {
-      // oxlint-disable-next-line typescript/no-unnecessary-condition
-      const { expires } = (await sdk?.getAccessToken().catch()) || {};
-      if (expires && expires < new Date().getTime()) logOut();
+    const intervalId = window.setInterval(() => {
+      sdk
+        ?.getAccessToken()
+        .then((token) => {
+          if (token?.expires && token.expires < new Date().getTime()) logOut();
+        })
+        .catch(() => {});
     }, 60_000);
 
     return () => {
@@ -54,7 +57,6 @@ export function useAuth() {
       const clientId = localStorage.getItem("client_id");
 
       if (clientId) {
-        // oxlint-disable-next-line react-compiler/set-state-in-effect
         void logIn(clientId);
       } else {
         navigate("/");

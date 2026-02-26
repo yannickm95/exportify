@@ -1,3 +1,5 @@
+// oxlint-disable typescript/no-unnecessary-condition
+
 // ==========================
 // SORTING
 // ==========================
@@ -21,7 +23,6 @@ export function formatCompareValue(track: Track) {
   const trackNumber = track.track_number.toString().padStart(2, "0");
   const artist = sanitizeTrack(track.artists[0]!.name);
   const albumName = sanitizeTrack(track.album.name);
-  // oxlint-disable-next-line typescript/no-unnecessary-condition
   const releaseDate = track.album.release_date === null ? "0000-00-00" : track.album.release_date;
 
   return artist + releaseDate + albumName + trackNumber;
@@ -46,7 +47,6 @@ function sanitizeTrack(value: string) {
 // ==========================
 
 export function fileName(name: string) {
-  // oxlint-disable-next-line no-control-regex
   return name.replace(/[\x00-\x1F\x7F/\\<>:;"|=,.?*[\] ]+/g, "_").toLowerCase() + ".csv";
 }
 
@@ -60,10 +60,8 @@ export function convertTracksToCsv(tracks: PlaylistedTrack<Track>[]) {
         track.artists.map((a) => String(a.name).replace(/,/g, "\\,")).join(", "),
         track.album.name,
         track.album.artists.map((a) => String(a.name).replace(/,/g, "\\,")).join(", "),
-        // oxlint-disable-next-line typescript/no-unnecessary-condition
         track.album.release_date == null ? "" : track.album.release_date,
         track.album.images[0] == null ? "" : track.album.images[0].url,
-        // oxlint-disable-next-line typescript/no-unnecessary-condition
         track.album.uri == null ? "" : track.album.uri,
         track.disc_number.toString(),
         track.track_number.toString(),
