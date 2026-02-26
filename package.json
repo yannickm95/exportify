@@ -7,12 +7,12 @@
   "author": "Hatlaron",
   "type": "module",
   "scripts": {
-    "preinstall": "npx --yes only-allow pnpm",
-    "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview",
+    "dev": "vite dev",
     "format": "oxfmt --write .",
-    "lint": "oxlint --type-aware --type-check"
+    "lint": "oxlint --type-aware --type-check",
+    "preinstall": "npx --yes only-allow pnpm",
+    "preview": "vite preview"
   },
   "dependencies": {
     "bootstrap": "5.3.1",

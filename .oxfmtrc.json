@@ -2,7 +2,7 @@
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 120,
   "quoteProps": "consistent",
-  "sortPackageJson": true,
+  "sortPackageJson": { "sortScripts": true },
   "sortImports": {},
   "ignorePatterns": ["release", "pnpm-lock.yaml"]
 }
