@@ -3,8 +3,6 @@
   "printWidth": 120,
   "quoteProps": "consistent",
   "sortPackageJson": true,
-  "sortImports": {
-    "newlinesBetween": true
-  },
+  "sortImports": {},
   "ignorePatterns": ["release", "pnpm-lock.yaml"]
 }

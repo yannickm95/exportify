@@ -1,4 +1,4 @@
-import { type SimplifiedPlaylist } from "@spotify/web-api-ts-sdk";
+import type { SimplifiedPlaylist } from "@spotify/web-api-ts-sdk";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";

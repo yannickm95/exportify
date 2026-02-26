@@ -1,10 +1,9 @@
 // oxlint-disable typescript/no-unnecessary-condition
 
-// ==========================
+import type { Artist, PlaylistedTrack, Track } from "@spotify/web-api-ts-sdk";
+
 // SORTING
 // ==========================
-
-import type { Artist, PlaylistedTrack, Track } from "@spotify/web-api-ts-sdk";
 
 export function isArraySorted(array: string[]) {
   let sorted = true;
@@ -42,7 +41,6 @@ function sanitizeTrack(value: string) {
   return returnValue.toLowerCase();
 }
 
-// ==========================
 // FILE EXPORT
 // ==========================
 
