@@ -70,8 +70,8 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@25.3.0)(lightningcss@1.30.2)(yaml@2.8.1)
       vite-plugin-oxlint:
-        specifier: ^1.6.0
-        version: 1.6.0(oxlint@1.50.0(oxlint-tsgolint@0.15.0))(vite@7.3.1(@types/node@25.3.0)(lightningcss@1.30.2)(yaml@2.8.1))
+        specifier: ^2.0.1
+        version: 2.0.1(oxlint@1.50.0(oxlint-tsgolint@0.15.0))(vite@7.3.1(@types/node@25.3.0)(lightningcss@1.30.2)(yaml@2.8.1))
       vite-tsconfig-paths:
         specifier: ^6.1.1
         version: 6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@25.3.0)(lightningcss@1.30.2)(yaml@2.8.1))
@@ -798,9 +798,6 @@ packages:
   '@types/confusing-browser-globals@1.0.3':
     resolution: {integrity: sha512-q+6axdE3RyjrSsy2ONE4UpF89rwOfpoMBP3lqJ+OzLuOeYHwP+o2GITzuleKb1UT3FSYybO8QmeACgyHleu2CA==}
 
-  '@types/cross-spawn@6.0.6':
-    resolution: {integrity: sha512-fXRhhUkG4H3TQk5dBhQ7m/JDdSNHKwR2BBia62lhwEIq9xGiQKLxd6LymNhn47SjXhsUEPmxi+PKw2OkW4LLjA==}
-
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -1205,8 +1202,8 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  vite-plugin-oxlint@1.6.0:
-    resolution: {integrity: sha512-/lFnIzI2u4aLCzeateyC91p5mhC1GG4vS9GZS73xLGCW0Jrmp48bQacul4XRl1awvHpJyL0jdQ6U9PEL8uHSew==}
+  vite-plugin-oxlint@2.0.1:
+    resolution: {integrity: sha512-+WPw00LwN8BZ9uKro0a2lOE8+Da8YHM6p5p10E43mXw/zYCQNV2pEnDuxehCUhUJ/KyAf4cs01n6i4Ey4JfhfQ==}
     peerDependencies:
       oxlint: '>=0.9.0'
       vite: '>=5.0.0'
@@ -1754,10 +1751,6 @@ snapshots:
 
   '@types/confusing-browser-globals@1.0.3': {}
 
-  '@types/cross-spawn@6.0.6':
-    dependencies:
-      '@types/node': 25.3.0
-
   '@types/estree@1.0.8': {}
 
   '@types/file-saver@2.0.7': {}
@@ -1767,6 +1760,7 @@ snapshots:
   '@types/node@25.3.0':
     dependencies:
       undici-types: 7.18.2
+    optional: true
 
   '@types/react-bootstrap@0.32.37':
     dependencies:
@@ -2170,7 +2164,8 @@ snapshots:
     dependencies:
       react: 19.2.4
 
-  undici-types@7.18.2: {}
+  undici-types@7.18.2:
+    optional: true
 
   update-browserslist-db@1.2.3(browserslist@4.28.1):
     dependencies:
@@ -2178,9 +2173,8 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
-  vite-plugin-oxlint@1.6.0(oxlint@1.50.0(oxlint-tsgolint@0.15.0))(vite@7.3.1(@types/node@25.3.0)(lightningcss@1.30.2)(yaml@2.8.1)):
+  vite-plugin-oxlint@2.0.1(oxlint@1.50.0(oxlint-tsgolint@0.15.0))(vite@7.3.1(@types/node@25.3.0)(lightningcss@1.30.2)(yaml@2.8.1)):
     dependencies:
-      '@types/cross-spawn': 6.0.6
       cross-spawn: 7.0.6
       oxlint: 1.50.0(oxlint-tsgolint@0.15.0)
       package-manager-detector: 1.6.0
