@@ -55,9 +55,9 @@ export function convertTracksToCsv(tracks: PlaylistedTrack<Track>[]) {
       item: [
         track.uri.startsWith("spotify:local") ? decodeURIComponent(track.uri.replaceAll("+", " ")) : track.uri,
         track.name,
-        track.artists.map((a) => String(a.name).replace(/,/g, "\\,")).join(", "),
+        track.artists.map((a) => a.name.replace(/,/g, "\\,")).join(", "),
         track.album.name,
-        track.album.artists.map((a) => String(a.name).replace(/,/g, "\\,")).join(", "),
+        track.album.artists.map((a) => a.name.replace(/,/g, "\\,")).join(", "),
         track.album.release_date == null ? "" : track.album.release_date,
         track.album.images[0] == null ? "" : track.album.images[0].url,
         track.album.uri == null ? "" : track.album.uri,
@@ -100,7 +100,7 @@ export function convertArtistsToCsv(artists: Artist[]) {
 }
 
 function sanitizeLine(value: string) {
-  return '"' + String(value).replace(/"/g, '""') + '"';
+  return '"' + value.replace(/"/g, '""') + '"';
 }
 
 function millisecondsToHuman(ms: number) {

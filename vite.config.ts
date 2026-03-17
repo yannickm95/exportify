@@ -1,12 +1,15 @@
 import reactPlugin from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import tsConfigPathsPlugin from "vite-tsconfig-paths";
 
 // @ts-expect-error
 const PORT = parseInt(process.env.PORT) || 9999;
 
 export default defineConfig({
   base: "/exportify/",
+
+  resolve: {
+    tsconfigPaths: true,
+  },
 
   server: {
     port: PORT,
@@ -18,5 +21,5 @@ export default defineConfig({
     port: PORT,
   },
 
-  plugins: [reactPlugin(), tsConfigPathsPlugin()],
+  plugins: [reactPlugin()],
 });
