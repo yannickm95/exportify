@@ -33,8 +33,10 @@ export function Template({
           <p className="lead text-secondary">
             {playlistAmount} playlists for {userId}
             {" ("}
+            {/* oxlint-disable-next-line jsx_a11y/click-events-have-key-events */}
             <span
-              role="none"
+              // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
+              role="button"
               tabIndex={0}
               className="download-artists"
               onClick={() => {
