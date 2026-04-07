@@ -1,4 +1,3 @@
-import restrictedBrowserGlobals from "confusing-browser-globals";
 import { defineConfig } from "oxlint";
 
 import pkg from "./package.json" with { type: "json" };
@@ -30,9 +29,7 @@ export default defineConfig({
     "no-prototype-builtins": "error",
     "no-redeclare": "error",
     "no-regex-spaces": "error",
-    "no-restricted-globals": ["error", "setTimeout", "setInterval", "clearTimeout", "clearInterval"].concat(
-      restrictedBrowserGlobals,
-    ),
+    "no-restricted-globals": ["error", ...(await getRestrictedBrowserGlobals())],
     "no-undef": "error",
     "no-unexpected-multiline": "error",
     "no-unreachable": "error",
@@ -94,3 +91,8 @@ export default defineConfig({
     },
   ],
 });
+
+async function getRestrictedBrowserGlobals() {
+  const { default: globals } = await import("confusing-browser-globals");
+  return ["setTimeout", "setInterval", "clearTimeout", "clearInterval"].concat(globals).map((name) => ({ name }));
+}
