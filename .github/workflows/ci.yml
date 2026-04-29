@@ -21,9 +21,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Check lock file changes
-        run: git diff
-
       - name: Lint and typecheck
         run: pnpm run lint
 
