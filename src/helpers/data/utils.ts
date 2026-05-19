@@ -1,5 +1,3 @@
-// oxlint-disable typescript/no-unnecessary-condition
-
 import type { Artist, PlaylistedTrack, Track } from "@spotify/web-api-ts-sdk";
 
 // SORTING
@@ -58,9 +56,9 @@ export function convertTracksToCsv(tracks: PlaylistedTrack<Track>[]) {
         track.artists.map((a) => a.name.replace(/,/g, "\\,")).join(", "),
         track.album.name,
         track.album.artists.map((a) => a.name.replace(/,/g, "\\,")).join(", "),
-        track.album.release_date == null ? "" : track.album.release_date,
-        track.album.images[0] == null ? "" : track.album.images[0].url,
-        track.album.uri == null ? "" : track.album.uri,
+        track.album.release_date === null ? "" : track.album.release_date,
+        !track.album.images[0] ? "" : track.album.images[0].url,
+        track.album.uri === null ? "" : track.album.uri,
         track.disc_number.toString(),
         track.track_number.toString(),
         millisecondsToHuman(track.duration_ms),

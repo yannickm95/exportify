@@ -33,7 +33,6 @@ export function Template({
           <p className="lead text-secondary">
             {playlistAmount} playlists for {userId}
             {" ("}
-            {/* oxlint-disable-next-line jsx_a11y/click-events-have-key-events */}
             <span
               // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
               role="button"

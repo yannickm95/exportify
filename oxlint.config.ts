@@ -49,6 +49,9 @@ export default defineConfig({
     "import/no-duplicates": "warn",
     "import/no-empty-named-blocks": "warn",
 
+    "jsx-a11y/click-events-have-key-events": "allow",
+    "jsx-a11y/control-has-associated-label": "allow",
+
     "react/display-name": "error",
     "react/jsx-no-comment-textnodes": "error",
     "react/jsx-no-target-blank": "error",
