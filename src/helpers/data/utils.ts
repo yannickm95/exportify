@@ -33,7 +33,7 @@ function sanitizeTrack(value: string) {
   } else if (value.toLowerCase().startsWith("the ")) {
     returnValue = value.substring(4);
   } else if (value.startsWith("$")) {
-    returnValue = value.replace("$", "S");
+    returnValue = "S" + value.substring(1);
   }
 
   return returnValue.toLowerCase();
@@ -53,9 +53,9 @@ export function convertTracksToCsv(tracks: PlaylistedTrack<Track>[]) {
       item: [
         track.uri.startsWith("spotify:local") ? decodeURIComponent(track.uri.replaceAll("+", " ")) : track.uri,
         track.name,
-        track.artists.map((a) => a.name.replace(/,/g, "\\,")).join(", "),
+        track.artists.map((a) => a.name.replaceAll(";", " ")).join("; "),
         track.album.name,
-        track.album.artists.map((a) => a.name.replace(/,/g, "\\,")).join(", "),
+        track.album.artists.map((a) => a.name.replaceAll(";", " ")).join("; "),
         track.album.release_date === null ? "" : track.album.release_date,
         !track.album.images[0] ? "" : track.album.images[0].url,
         track.album.uri === null ? "" : track.album.uri,
