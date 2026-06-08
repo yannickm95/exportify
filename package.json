@@ -27,7 +27,7 @@
     "@types/confusing-browser-globals": "^1.0.3",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.24",
-    "@types/react": "^19.2.16",
+    "@types/react": "^19.2.17",
     "@types/react-bootstrap": "^0.32.37",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
