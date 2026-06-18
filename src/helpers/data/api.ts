@@ -36,11 +36,18 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
+    if (!authenticated) return;
+
     const intervalId = window.setInterval(() => {
       sdk
         ?.getAccessToken()
         .then((token) => {
-          if (token?.expires && token.expires < new Date().getTime()) logOut();
+          const expired = !token || (token.expires && token.expires < new Date().getTime());
+
+          if (expired) {
+            sdk.logOut();
+            setAuthenticated(false);
+          }
         })
         .catch(() => {});
     }, 60_000);
@@ -48,7 +55,7 @@ export function useAuth() {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [logOut]);
+  }, [authenticated]);
 
   useEffect(() => {
     if (authenticated) {
