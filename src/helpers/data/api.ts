@@ -1,4 +1,5 @@
 // oxlint-disable typescript/no-unnecessary-condition
+// oxlint-disable react/react-compiler
 
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { useCallback, useEffect, useState } from "react";
