@@ -97,5 +97,8 @@ export default defineConfig({
 
 async function getRestrictedBrowserGlobals() {
   const { default: globals } = await import("confusing-browser-globals");
-  return ["setTimeout", "setInterval", "clearTimeout", "clearInterval"].concat(globals).map((name) => ({ name }));
+  return ["setTimeout", "setInterval", "clearTimeout", "clearInterval"]
+    .concat(globals)
+    .filter((global) => global !== "name" && global !== "event")
+    .map((name) => ({ name }));
 }
