@@ -1,3 +1,4 @@
+import basicSsl from "@vitejs/plugin-basic-ssl";
 import reactPlugin from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
@@ -21,5 +22,5 @@ export default defineConfig({
     port: PORT,
   },
 
-  plugins: [reactPlugin()],
+  plugins: [reactPlugin(), basicSsl()],
 });

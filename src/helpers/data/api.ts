@@ -14,7 +14,7 @@ export function useAuth() {
   const logIn = useCallback(async (clientId: string) => {
     try {
       localStorage.setItem("client_id", clientId);
-      const redirectUrl = import.meta.env.VITE_APP_REDIRECT_URI || "http://localhost:9999/exportify/";
+      const redirectUrl = import.meta.env.VITE_APP_REDIRECT_URI || "https://localhost:9999/exportify/";
       const internalSdk = SpotifyApi.withUserAuthorization(clientId, redirectUrl, [
         "user-follow-read",
         "playlist-read-private",
