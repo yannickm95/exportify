@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@spotify/web-api-ts-sdk@1.2.0': patches/@spotify__web-api-ts-sdk@1.2.0.patch

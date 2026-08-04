@@ -48,20 +48,20 @@ export function fileName(name: string) {
 
 export function convertTracksToCsv(tracks: PlaylistedTrack<Track>[]) {
   const formattedTracks = tracks
-    .map(({ track }) => ({
-      uri: track.uri,
+    .map(({ item }) => ({
+      uri: item.uri,
       item: [
-        track.uri.startsWith("spotify:local") ? decodeURIComponent(track.uri.replaceAll("+", " ")) : track.uri,
-        track.name,
-        track.artists.map((a) => a.name.replaceAll(";", " ")).join("; "),
-        track.album.name,
-        track.album.artists.map((a) => a.name.replaceAll(";", " ")).join("; "),
-        track.album.release_date === null ? "" : track.album.release_date,
-        !track.album.images[0] ? "" : track.album.images[0].url,
-        track.album.uri === null ? "" : track.album.uri,
-        track.disc_number.toString(),
-        track.track_number.toString(),
-        millisecondsToHuman(track.duration_ms),
+        item.uri.startsWith("spotify:local") ? decodeURIComponent(item.uri.replaceAll("+", " ")) : item.uri,
+        item.name,
+        item.artists.map((a) => a.name.replaceAll(";", " ")).join("; "),
+        item.album.name,
+        item.album.artists.map((a) => a.name.replaceAll(";", " ")).join("; "),
+        item.album.release_date === null ? "" : item.album.release_date,
+        !item.album.images[0] ? "" : item.album.images[0].url,
+        item.album.uri === null ? "" : item.album.uri,
+        item.disc_number.toString(),
+        item.track_number.toString(),
+        millisecondsToHuman(item.duration_ms),
       ],
     }))
     .filter((track) => track.uri)

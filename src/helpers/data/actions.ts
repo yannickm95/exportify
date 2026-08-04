@@ -29,17 +29,15 @@ export async function getPlaylists() {
 }
 
 export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
-  const args: { id: string; limit: number; offset: number }[] = [];
-  const limit = 100;
+  const args: { id: string; limit: MaxInt<50>; offset: number }[] = [];
+  const limit: MaxInt<50> = 50;
 
-  for (let offset = 0; offset < playlist.tracks!.total; offset = offset + limit) {
+  for (let offset = 0; offset < playlist.items!.total; offset = offset + limit) {
     args.push({ id: playlist.id, limit, offset });
   }
 
   const trackResponses = await Promise.all(
-    args.map(({ id, limit, offset }) =>
-      sdk.playlists.getPlaylistItems(id, undefined, undefined, limit as MaxInt<50>, offset),
-    ),
+    args.map(({ id, limit, offset }) => sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset)),
   );
 
   return trackResponses.flatMap((response) => response.items);
@@ -122,7 +120,7 @@ export async function quickSortPlaylist(items: PlaylistedTrack<Track>[], playlis
     });
   }
 
-  const tracks = items.map(({ track }) => formatCompareValue(track));
+  const tracks = items.map(({ item }) => formatCompareValue(item));
 
   if (!isArraySorted(tracks)) {
     await quickSort(tracks, 0, tracks.length - 1);
@@ -134,7 +132,7 @@ export async function quickSortPlaylist(items: PlaylistedTrack<Track>[], playlis
 }
 
 export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: string, amount = 95) {
-  const tracks = items.map(({ track }) => formatCompareValue(track));
+  const tracks = items.map(({ item }) => formatCompareValue(item));
 
   const newItems: string[] = [];
 
@@ -167,7 +165,7 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
 
 export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string) {
   const tracks = items
-    .map((item) => ({ ...item, sortValue: formatCompareValue(item.track) }))
+    .map((playlistItem) => ({ ...playlistItem, sortValue: formatCompareValue(playlistItem.item) }))
     .toSorted((a, b) => {
       if (a.sortValue < b.sortValue) return -1;
       if (a.sortValue > b.sortValue) return 1;
@@ -175,13 +173,13 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
       return 0;
     });
 
-  if (isArraySorted(items.map(({ track }) => formatCompareValue(track)))) return "is-sorted";
+  if (isArraySorted(items.map(({ item }) => formatCompareValue(item)))) return "is-sorted";
 
-  const nonLocalTracks = tracks.filter(({ track }) => !track.is_local);
+  const nonLocalTracks = tracks.filter(({ item }) => !item.is_local);
   const chunkedTracks = chunk(nonLocalTracks, 100);
 
   for (const chunk of chunkedTracks) {
-    await sdk.playlists.removeItemsFromPlaylist(playlistId, { tracks: chunk.map(({ track }) => ({ uri: track.uri })) });
+    await sdk.playlists.removeItemsFromPlaylist(playlistId, { items: chunk.map(({ item }) => ({ uri: item.uri })) });
 
     await new Promise((resolve) => {
       window.setTimeout(resolve, 200);
@@ -191,7 +189,7 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
   for (const chunk of chunkedTracks.reverse()) {
     await sdk.playlists.addItemsToPlaylist(
       playlistId,
-      chunk.map(({ track }) => track.uri),
+      chunk.map(({ item }) => item.uri),
       0,
     );
 
@@ -200,7 +198,7 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
     });
   }
 
-  const localTracks = tracks.filter(({ track }) => track.is_local);
+  const localTracks = tracks.filter(({ item }) => item.is_local);
   await lastSort([...nonLocalTracks, ...localTracks], playlistId, localTracks.length);
 
   return "sorted";

@@ -4,13 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@spotify/web-api-ts-sdk@1.2.0': 12d119cde3922c41d40644d5aac5393c357b0b459f8e3308417741b04e529cdb
+
 importers:
 
   .:
     dependencies:
       '@spotify/web-api-ts-sdk':
         specifier: ^1.2.0
-        version: 1.2.0
+        version: 1.2.0(patch_hash=12d119cde3922c41d40644d5aac5393c357b0b459f8e3308417741b04e529cdb)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -1148,7 +1151,7 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.1': {}
 
-  '@spotify/web-api-ts-sdk@1.2.0': {}
+  '@spotify/web-api-ts-sdk@1.2.0(patch_hash=12d119cde3922c41d40644d5aac5393c357b0b459f8e3308417741b04e529cdb)': {}
 
   '@tailwindcss/node@4.3.3':
     dependencies:

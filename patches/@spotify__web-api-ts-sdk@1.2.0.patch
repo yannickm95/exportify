@@ -1,0 +1,481 @@
+diff --git a/dist/cjs/endpoints/BrowseEndpoints.d.ts b/dist/cjs/endpoints/BrowseEndpoints.d.ts
+index 7f998995a6b7cdb8c31dcfc9d0284826cf9b8a90..59339f20dedba58ba1a3aa9ee8f77efa2081d27c 100644
+--- a/dist/cjs/endpoints/BrowseEndpoints.d.ts
++++ b/dist/cjs/endpoints/BrowseEndpoints.d.ts
+@@ -3,7 +3,9 @@ import EndpointsBase from './EndpointsBase.js';
+ export default class BrowseEndpoints extends EndpointsBase {
+     getCategories(country?: CountryCodeA2, locale?: string, limit?: MaxInt<50>, offset?: number): Promise<Categories>;
+     getCategory(categoryId: string, country?: CountryCodeA2, locale?: string): Promise<Category>;
++    /** @deprecated This endpoint is deprecated by the Spotify Web API. */
+     getNewReleases(country?: string, limit?: MaxInt<50>, offset?: number): Promise<NewReleases>;
++    /** @deprecated This endpoint is deprecated by the Spotify Web API. */
+     getFeaturedPlaylists(country?: CountryCodeA2, locale?: string, timestamp?: string, limit?: MaxInt<50>, offset?: number): Promise<FeaturedPlaylists>;
+     getPlaylistsForCategory(category_id: string, country?: CountryCodeA2, limit?: MaxInt<50>, offset?: number): Promise<FeaturedPlaylists>;
+ }
+diff --git a/dist/cjs/endpoints/CurrentUserEndpoints.d.ts b/dist/cjs/endpoints/CurrentUserEndpoints.d.ts
+index ef1c96f9bb072d17d9ce2aecfd3ac918c0f268f9..ea3ffd04d1013e046f01f0c368750e9107591ecc 100644
+--- a/dist/cjs/endpoints/CurrentUserEndpoints.d.ts
++++ b/dist/cjs/endpoints/CurrentUserEndpoints.d.ts
+@@ -1,6 +1,7 @@
+ import { SpotifyApi } from '../SpotifyApi.js';
+-import type { Page, Artist, Track, MaxInt, FollowedArtists, Market, SavedAlbum, SimplifiedAudiobook, SimplifiedPlaylist, SavedEpisode, SavedShow, SavedTrack, UserProfile } from '../types.js';
++import type { Page, Artist, Track, MaxInt, FollowedArtists, Market, Playlist, SavedAlbum, SimplifiedAudiobook, SimplifiedPlaylist, SavedEpisode, SavedShow, SavedTrack, UserProfile } from '../types.js';
+ import EndpointsBase from './EndpointsBase.js';
++import type { CreatePlaylistRequest } from './PlaylistsEndpoints.js';
+ export default class CurrentUserEndpoints extends EndpointsBase {
+     albums: CurrentUserAlbumsEndpoints;
+     audiobooks: CurrentUserAudiobooksEndpoints;
+@@ -38,6 +39,7 @@ declare class CurrentUserPlaylistsEndpoints extends EndpointsBase {
+     playlists(limit?: MaxInt<50>, offset?: number): Promise<Page<SimplifiedPlaylist>>;
+     follow(playlist_id: string): Promise<void>;
+     unfollow(playlist_id: string): Promise<void>;
++    createPlaylist(request: CreatePlaylistRequest): Promise<Playlist>;
+     isFollowing(playlistId: string, ids: string[]): Promise<boolean[]>;
+ }
+ declare class CurrentUserShowsEndpoints extends EndpointsBase {
+diff --git a/dist/cjs/endpoints/CurrentUserEndpoints.js b/dist/cjs/endpoints/CurrentUserEndpoints.js
+index d3b46e0c3dbf5e8505a0c3efedcbdebc2ec0e4aa..f865b693b85e26956d5e74848fbd5035721edafe 100644
+--- a/dist/cjs/endpoints/CurrentUserEndpoints.js
++++ b/dist/cjs/endpoints/CurrentUserEndpoints.js
+@@ -104,6 +104,9 @@ class CurrentUserPlaylistsEndpoints extends EndpointsBase_js_1.default {
+     async unfollow(playlist_id) {
+         await this.deleteRequest(`playlists/${playlist_id}/followers`);
+     }
++    createPlaylist(request) {
++        return this.postRequest('me/playlists', request);
++    }
+     isFollowing(playlistId, ids) {
+         const params = this.paramsFor({ ids });
+         return this.getRequest(`playlists/${playlistId}/followers/contains${params}`);
+diff --git a/dist/cjs/endpoints/PlaylistsEndpoints.d.ts b/dist/cjs/endpoints/PlaylistsEndpoints.d.ts
+index 8760c8c7b8d61681a85537a40d33aafeff8d1cd0..fa2a90b51d0d44fc42af7c398d66c10eb18c5ba3 100644
+--- a/dist/cjs/endpoints/PlaylistsEndpoints.d.ts
++++ b/dist/cjs/endpoints/PlaylistsEndpoints.d.ts
+@@ -9,14 +9,16 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+     updatePlaylistItems(playlist_id: string, request: UpdatePlaylistItemsRequest): Promise<SnapshotReference>;
+     addItemsToPlaylist(playlist_id: string, uris?: string[], position?: number): Promise<void>;
+     removeItemsFromPlaylist(playlist_id: string, request: RemovePlaylistItemsRequest): Promise<void>;
++    /** @deprecated Use `currentUser.playlists.playlists()` instead. */
+     getUsersPlaylists(user_id: string, limit?: MaxInt<50>, offset?: number): Promise<Page<Playlist<TrackItem>>>;
++    /** @deprecated Use `currentUser.playlists.createPlaylist()` instead. */
+     createPlaylist(user_id: string, request: CreatePlaylistRequest): Promise<Playlist<TrackItem>>;
+     getPlaylistCoverImage(playlist_id: string): Promise<Image[]>;
+     addCustomPlaylistCoverImage(playlist_id: string, imageData: Buffer | HTMLImageElement | HTMLCanvasElement | string): Promise<void>;
+     addCustomPlaylistCoverImageFromBase64String(playlist_id: string, base64EncodedJpeg: string): Promise<void>;
+ }
+ interface RemovePlaylistItemsRequest {
+-    tracks: Array<{
++    items: Array<{
+         uri: string;
+     }>;
+     snapshot_id?: string;
+@@ -34,10 +36,9 @@ interface ChangePlaylistDetailsRequest {
+     collaborative?: boolean;
+     description?: string;
+ }
+-interface CreatePlaylistRequest {
++export interface CreatePlaylistRequest {
+     name: string;
+     public?: boolean;
+     collaborative?: boolean;
+     description?: string;
+ }
+-export {};
+diff --git a/dist/cjs/endpoints/PlaylistsEndpoints.js b/dist/cjs/endpoints/PlaylistsEndpoints.js
+index dc9a6e8f8dc1072a4fe7b7cc9ea785ccc4b27df2..d4f16d5678fc03838212713a893da55023a3a8d2 100644
+--- a/dist/cjs/endpoints/PlaylistsEndpoints.js
++++ b/dist/cjs/endpoints/PlaylistsEndpoints.js
+@@ -13,7 +13,7 @@ class PlaylistsEndpoints extends EndpointsBase_js_1.default {
+     getPlaylistItems(playlist_id, market, fields, limit, offset, additional_types) {
+         // TODO: better support for fields
+         const params = this.paramsFor({ market, fields, limit, offset, additional_types: additional_types?.join(',') });
+-        return this.getRequest(`playlists/${playlist_id}/tracks${params}`);
++        return this.getRequest(`playlists/${playlist_id}/items${params}`);
+     }
+     async changePlaylistDetails(playlist_id, request) {
+         await this.putRequest(`playlists/${playlist_id}`, request);
+@@ -26,13 +26,13 @@ class PlaylistsEndpoints extends EndpointsBase_js_1.default {
+         });
+     }
+     updatePlaylistItems(playlist_id, request) {
+-        return this.putRequest(`playlists/${playlist_id}/tracks`, request);
++        return this.putRequest(`playlists/${playlist_id}/items`, request);
+     }
+     async addItemsToPlaylist(playlist_id, uris, position) {
+-        await this.postRequest(`playlists/${playlist_id}/tracks`, { position, uris: uris });
++        await this.postRequest(`playlists/${playlist_id}/items`, { position, uris: uris });
+     }
+     async removeItemsFromPlaylist(playlist_id, request) {
+-        await this.deleteRequest(`playlists/${playlist_id}/tracks`, request);
++        await this.deleteRequest(`playlists/${playlist_id}/items`, request);
+     }
+     getUsersPlaylists(user_id, limit, offset) {
+         const params = this.paramsFor({ limit, offset });
+diff --git a/dist/cjs/types.d.ts b/dist/cjs/types.d.ts
+index 105c49ceaa2e2dec9694c43467a6dfcb0a5e925c..66995f8bd840574e06baa623fc06f49febf3e602 100644
+--- a/dist/cjs/types.d.ts
++++ b/dist/cjs/types.d.ts
+@@ -74,12 +74,12 @@ interface AlbumBase {
+     label: string;
+     name: string;
+     popularity: number;
+-    release_date: string;
++    release_date: string | null;
+     release_date_precision: string;
+     restrictions?: Restrictions;
+     total_tracks: number;
+     type: string;
+-    uri: string;
++    uri: string | null;
+ }
+ export interface SimplifiedAlbum extends AlbumBase {
+     album_group: string;
+@@ -120,7 +120,9 @@ export interface PlaylistedTrack<Item extends TrackItem = TrackItem> {
+     added_by: AddedBy;
+     is_local: boolean;
+     primary_color: string;
+-    track: Item;
++    item: Item;
++    /** @deprecated Use `item` instead. */
++    track?: Item;
+ }
+ export interface AddedBy {
+     external_urls: ExternalUrls;
+@@ -413,14 +415,18 @@ interface PlaylistBase {
+     uri: string;
+ }
+ export interface Playlist<Item extends TrackItem = TrackItem> extends PlaylistBase {
+-    tracks: Page<PlaylistedTrack<Item>>;
++    items: Page<PlaylistedTrack<Item>>;
++    /** @deprecated Use `items` instead. */
++    tracks?: Page<PlaylistedTrack<Item>>;
+ }
+ export interface FeaturedPlaylists {
+     message: string;
+     playlists: Page<SimplifiedPlaylist>;
+ }
+ export interface SimplifiedPlaylist extends PlaylistBase {
+-    tracks: TrackReference | null;
++    items: TrackReference | null;
++    /** @deprecated Use `items` instead. */
++    tracks?: TrackReference | null;
+ }
+ export interface TrackReference {
+     href: string;
+diff --git a/dist/mjs/endpoints/BrowseEndpoints.d.ts b/dist/mjs/endpoints/BrowseEndpoints.d.ts
+index 7f998995a6b7cdb8c31dcfc9d0284826cf9b8a90..59339f20dedba58ba1a3aa9ee8f77efa2081d27c 100644
+--- a/dist/mjs/endpoints/BrowseEndpoints.d.ts
++++ b/dist/mjs/endpoints/BrowseEndpoints.d.ts
+@@ -3,7 +3,9 @@ import EndpointsBase from './EndpointsBase.js';
+ export default class BrowseEndpoints extends EndpointsBase {
+     getCategories(country?: CountryCodeA2, locale?: string, limit?: MaxInt<50>, offset?: number): Promise<Categories>;
+     getCategory(categoryId: string, country?: CountryCodeA2, locale?: string): Promise<Category>;
++    /** @deprecated This endpoint is deprecated by the Spotify Web API. */
+     getNewReleases(country?: string, limit?: MaxInt<50>, offset?: number): Promise<NewReleases>;
++    /** @deprecated This endpoint is deprecated by the Spotify Web API. */
+     getFeaturedPlaylists(country?: CountryCodeA2, locale?: string, timestamp?: string, limit?: MaxInt<50>, offset?: number): Promise<FeaturedPlaylists>;
+     getPlaylistsForCategory(category_id: string, country?: CountryCodeA2, limit?: MaxInt<50>, offset?: number): Promise<FeaturedPlaylists>;
+ }
+diff --git a/dist/mjs/endpoints/CurrentUserEndpoints.d.ts b/dist/mjs/endpoints/CurrentUserEndpoints.d.ts
+index ef1c96f9bb072d17d9ce2aecfd3ac918c0f268f9..ea3ffd04d1013e046f01f0c368750e9107591ecc 100644
+--- a/dist/mjs/endpoints/CurrentUserEndpoints.d.ts
++++ b/dist/mjs/endpoints/CurrentUserEndpoints.d.ts
+@@ -1,6 +1,7 @@
+ import { SpotifyApi } from '../SpotifyApi.js';
+-import type { Page, Artist, Track, MaxInt, FollowedArtists, Market, SavedAlbum, SimplifiedAudiobook, SimplifiedPlaylist, SavedEpisode, SavedShow, SavedTrack, UserProfile } from '../types.js';
++import type { Page, Artist, Track, MaxInt, FollowedArtists, Market, Playlist, SavedAlbum, SimplifiedAudiobook, SimplifiedPlaylist, SavedEpisode, SavedShow, SavedTrack, UserProfile } from '../types.js';
+ import EndpointsBase from './EndpointsBase.js';
++import type { CreatePlaylistRequest } from './PlaylistsEndpoints.js';
+ export default class CurrentUserEndpoints extends EndpointsBase {
+     albums: CurrentUserAlbumsEndpoints;
+     audiobooks: CurrentUserAudiobooksEndpoints;
+@@ -38,6 +39,7 @@ declare class CurrentUserPlaylistsEndpoints extends EndpointsBase {
+     playlists(limit?: MaxInt<50>, offset?: number): Promise<Page<SimplifiedPlaylist>>;
+     follow(playlist_id: string): Promise<void>;
+     unfollow(playlist_id: string): Promise<void>;
++    createPlaylist(request: CreatePlaylistRequest): Promise<Playlist>;
+     isFollowing(playlistId: string, ids: string[]): Promise<boolean[]>;
+ }
+ declare class CurrentUserShowsEndpoints extends EndpointsBase {
+diff --git a/dist/mjs/endpoints/CurrentUserEndpoints.js b/dist/mjs/endpoints/CurrentUserEndpoints.js
+index a310bfc3d28cbc2ca54ec6bde0393b20e08e2d57..dab4be562f735353c0a475135d366d1482cf57a2 100644
+--- a/dist/mjs/endpoints/CurrentUserEndpoints.js
++++ b/dist/mjs/endpoints/CurrentUserEndpoints.js
+@@ -98,6 +98,9 @@ class CurrentUserPlaylistsEndpoints extends EndpointsBase {
+     async unfollow(playlist_id) {
+         await this.deleteRequest(`playlists/${playlist_id}/followers`);
+     }
++    createPlaylist(request) {
++        return this.postRequest('me/playlists', request);
++    }
+     isFollowing(playlistId, ids) {
+         const params = this.paramsFor({ ids });
+         return this.getRequest(`playlists/${playlistId}/followers/contains${params}`);
+diff --git a/dist/mjs/endpoints/PlaylistsEndpoints.d.ts b/dist/mjs/endpoints/PlaylistsEndpoints.d.ts
+index 8760c8c7b8d61681a85537a40d33aafeff8d1cd0..fa2a90b51d0d44fc42af7c398d66c10eb18c5ba3 100644
+--- a/dist/mjs/endpoints/PlaylistsEndpoints.d.ts
++++ b/dist/mjs/endpoints/PlaylistsEndpoints.d.ts
+@@ -9,14 +9,16 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+     updatePlaylistItems(playlist_id: string, request: UpdatePlaylistItemsRequest): Promise<SnapshotReference>;
+     addItemsToPlaylist(playlist_id: string, uris?: string[], position?: number): Promise<void>;
+     removeItemsFromPlaylist(playlist_id: string, request: RemovePlaylistItemsRequest): Promise<void>;
++    /** @deprecated Use `currentUser.playlists.playlists()` instead. */
+     getUsersPlaylists(user_id: string, limit?: MaxInt<50>, offset?: number): Promise<Page<Playlist<TrackItem>>>;
++    /** @deprecated Use `currentUser.playlists.createPlaylist()` instead. */
+     createPlaylist(user_id: string, request: CreatePlaylistRequest): Promise<Playlist<TrackItem>>;
+     getPlaylistCoverImage(playlist_id: string): Promise<Image[]>;
+     addCustomPlaylistCoverImage(playlist_id: string, imageData: Buffer | HTMLImageElement | HTMLCanvasElement | string): Promise<void>;
+     addCustomPlaylistCoverImageFromBase64String(playlist_id: string, base64EncodedJpeg: string): Promise<void>;
+ }
+ interface RemovePlaylistItemsRequest {
+-    tracks: Array<{
++    items: Array<{
+         uri: string;
+     }>;
+     snapshot_id?: string;
+@@ -34,10 +36,9 @@ interface ChangePlaylistDetailsRequest {
+     collaborative?: boolean;
+     description?: string;
+ }
+-interface CreatePlaylistRequest {
++export interface CreatePlaylistRequest {
+     name: string;
+     public?: boolean;
+     collaborative?: boolean;
+     description?: string;
+ }
+-export {};
+diff --git a/dist/mjs/endpoints/PlaylistsEndpoints.js b/dist/mjs/endpoints/PlaylistsEndpoints.js
+index 8842fa5487cd06bcf068ba6475e20ec23cf38af8..f85f2bbef4de30c6d5ce6542f01dd790972886ec 100644
+--- a/dist/mjs/endpoints/PlaylistsEndpoints.js
++++ b/dist/mjs/endpoints/PlaylistsEndpoints.js
+@@ -8,7 +8,7 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+     getPlaylistItems(playlist_id, market, fields, limit, offset, additional_types) {
+         // TODO: better support for fields
+         const params = this.paramsFor({ market, fields, limit, offset, additional_types: additional_types?.join(',') });
+-        return this.getRequest(`playlists/${playlist_id}/tracks${params}`);
++        return this.getRequest(`playlists/${playlist_id}/items${params}`);
+     }
+     async changePlaylistDetails(playlist_id, request) {
+         await this.putRequest(`playlists/${playlist_id}`, request);
+@@ -21,13 +21,13 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+         });
+     }
+     updatePlaylistItems(playlist_id, request) {
+-        return this.putRequest(`playlists/${playlist_id}/tracks`, request);
++        return this.putRequest(`playlists/${playlist_id}/items`, request);
+     }
+     async addItemsToPlaylist(playlist_id, uris, position) {
+-        await this.postRequest(`playlists/${playlist_id}/tracks`, { position, uris: uris });
++        await this.postRequest(`playlists/${playlist_id}/items`, { position, uris: uris });
+     }
+     async removeItemsFromPlaylist(playlist_id, request) {
+-        await this.deleteRequest(`playlists/${playlist_id}/tracks`, request);
++        await this.deleteRequest(`playlists/${playlist_id}/items`, request);
+     }
+     getUsersPlaylists(user_id, limit, offset) {
+         const params = this.paramsFor({ limit, offset });
+diff --git a/dist/mjs/types.d.ts b/dist/mjs/types.d.ts
+index 105c49ceaa2e2dec9694c43467a6dfcb0a5e925c..66995f8bd840574e06baa623fc06f49febf3e602 100644
+--- a/dist/mjs/types.d.ts
++++ b/dist/mjs/types.d.ts
+@@ -74,12 +74,12 @@ interface AlbumBase {
+     label: string;
+     name: string;
+     popularity: number;
+-    release_date: string;
++    release_date: string | null;
+     release_date_precision: string;
+     restrictions?: Restrictions;
+     total_tracks: number;
+     type: string;
+-    uri: string;
++    uri: string | null;
+ }
+ export interface SimplifiedAlbum extends AlbumBase {
+     album_group: string;
+@@ -120,7 +120,9 @@ export interface PlaylistedTrack<Item extends TrackItem = TrackItem> {
+     added_by: AddedBy;
+     is_local: boolean;
+     primary_color: string;
+-    track: Item;
++    item: Item;
++    /** @deprecated Use `item` instead. */
++    track?: Item;
+ }
+ export interface AddedBy {
+     external_urls: ExternalUrls;
+@@ -413,14 +415,18 @@ interface PlaylistBase {
+     uri: string;
+ }
+ export interface Playlist<Item extends TrackItem = TrackItem> extends PlaylistBase {
+-    tracks: Page<PlaylistedTrack<Item>>;
++    items: Page<PlaylistedTrack<Item>>;
++    /** @deprecated Use `items` instead. */
++    tracks?: Page<PlaylistedTrack<Item>>;
+ }
+ export interface FeaturedPlaylists {
+     message: string;
+     playlists: Page<SimplifiedPlaylist>;
+ }
+ export interface SimplifiedPlaylist extends PlaylistBase {
+-    tracks: TrackReference | null;
++    items: TrackReference | null;
++    /** @deprecated Use `items` instead. */
++    tracks?: TrackReference | null;
+ }
+ export interface TrackReference {
+     href: string;
+diff --git a/src/endpoints/BrowseEndpoints.ts b/src/endpoints/BrowseEndpoints.ts
+index ef586ba60537a24e068fdc51464706122e64d6ea..8361d16a27dcc19b0521d774e80e34402c1fc046 100644
+--- a/src/endpoints/BrowseEndpoints.ts
++++ b/src/endpoints/BrowseEndpoints.ts
+@@ -15,11 +15,13 @@ export default class BrowseEndpoints extends EndpointsBase {
+         return this.getRequest<Category>(`browse/categories/${categoryId}${params}`);
+     }
+ 
++    /** @deprecated This endpoint is deprecated by the Spotify Web API. */
+     public getNewReleases(country?: string, limit?: MaxInt<50>, offset?: number) {
+         const params = this.paramsFor({ country, limit, offset });
+         return this.getRequest<NewReleases>(`browse/new-releases${params}`);
+     }
+ 
++    /** @deprecated This endpoint is deprecated by the Spotify Web API. */
+     public getFeaturedPlaylists(country?: CountryCodeA2, locale?: string, timestamp?: string, limit?: MaxInt<50>, offset?: number) {
+         const params = this.paramsFor({ country, locale, timestamp, limit, offset });
+         return this.getRequest<FeaturedPlaylists>(`browse/featured-playlists${params}`);
+diff --git a/src/endpoints/CurrentUserEndpoints.ts b/src/endpoints/CurrentUserEndpoints.ts
+index c3847c34ee522399c6720e418fb256e7d4eb7bb3..68c3d95a1c9158c490918e722dcce0681fb21e59 100644
+--- a/src/endpoints/CurrentUserEndpoints.ts
++++ b/src/endpoints/CurrentUserEndpoints.ts
+@@ -1,6 +1,7 @@
+ import { SpotifyApi } from '../SpotifyApi.js';
+-import type { User, Page, Artist, Track, MaxInt, FollowedArtists, Market, SavedAlbum, SimplifiedAudiobook, SimplifiedPlaylist, SavedEpisode, SavedShow, SavedTrack, UserProfile } from '../types.js';
++import type { User, Page, Artist, Track, MaxInt, FollowedArtists, Market, Playlist, SavedAlbum, SimplifiedAudiobook, SimplifiedPlaylist, SavedEpisode, SavedShow, SavedTrack, UserProfile } from '../types.js';
+ import EndpointsBase from './EndpointsBase.js';
++import type { CreatePlaylistRequest } from './PlaylistsEndpoints.js';
+ 
+ export default class CurrentUserEndpoints extends EndpointsBase {
+     public albums: CurrentUserAlbumsEndpoints;
+@@ -126,6 +127,10 @@ class CurrentUserPlaylistsEndpoints extends EndpointsBase {
+         await this.deleteRequest(`playlists/${playlist_id}/followers`);
+     }
+ 
++    public createPlaylist(request: CreatePlaylistRequest) {
++        return this.postRequest<Playlist>('me/playlists', request);
++    }
++
+     public isFollowing(playlistId: string, ids: string[]) {
+         const params = this.paramsFor({ ids });
+         return this.getRequest<boolean[]>(`playlists/${playlistId}/followers/contains${params}`)
+diff --git a/src/endpoints/PlaylistsEndpoints.ts b/src/endpoints/PlaylistsEndpoints.ts
+index 16986563530dd38a2039595ba1cf3c871624755a..55f74bfce92b7fe95a7525a0b76e4f5a0aab9c50 100644
+--- a/src/endpoints/PlaylistsEndpoints.ts
++++ b/src/endpoints/PlaylistsEndpoints.ts
+@@ -16,7 +16,7 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+     ) {
+         // TODO: better support for fields
+         const params = this.paramsFor({ market, fields, limit, offset, additional_types: additional_types?.join(',') });
+-        return this.getRequest<Page<PlaylistedTrack<AdditionalTypes extends undefined ? Track : TrackItem>>>(`playlists/${playlist_id}/tracks${params}`);
++        return this.getRequest<Page<PlaylistedTrack<AdditionalTypes extends undefined ? Track : TrackItem>>>(`playlists/${playlist_id}/items${params}`);
+     }
+ 
+     public async changePlaylistDetails(playlist_id: string, request: ChangePlaylistDetailsRequest) {
+@@ -32,22 +32,24 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+     }
+ 
+     public updatePlaylistItems(playlist_id: string, request: UpdatePlaylistItemsRequest) {
+-        return this.putRequest<SnapshotReference>(`playlists/${playlist_id}/tracks`, request);
++        return this.putRequest<SnapshotReference>(`playlists/${playlist_id}/items`, request);
+     }
+ 
+     public async addItemsToPlaylist(playlist_id: string, uris?: string[], position?: number) {
+-        await this.postRequest(`playlists/${playlist_id}/tracks`, { position, uris: uris });
++        await this.postRequest(`playlists/${playlist_id}/items`, { position, uris: uris });
+     }
+ 
+     public async removeItemsFromPlaylist(playlist_id: string, request: RemovePlaylistItemsRequest) {
+-        await this.deleteRequest(`playlists/${playlist_id}/tracks`, request);
++        await this.deleteRequest(`playlists/${playlist_id}/items`, request);
+     }
+ 
++    /** @deprecated Use `currentUser.playlists.playlists()` instead. */
+     public getUsersPlaylists(user_id: string, limit?: MaxInt<50>, offset?: number) {
+         const params = this.paramsFor({ limit, offset });
+         return this.getRequest<Page<Playlist>>(`users/${user_id}/playlists${params}`);
+     }
+ 
++    /** @deprecated Use `currentUser.playlists.createPlaylist()` instead. */
+     public createPlaylist(user_id: string, request: CreatePlaylistRequest) {
+         return this.postRequest<Playlist>(`users/${user_id}/playlists`, request);
+     }
+@@ -88,7 +90,7 @@ export default class PlaylistsEndpoints extends EndpointsBase {
+ }
+ 
+ interface RemovePlaylistItemsRequest {
+-    tracks: Array<{ uri: string }>;
++    items: Array<{ uri: string }>;
+     snapshot_id?: string;
+ }
+ 
+@@ -108,7 +110,7 @@ interface ChangePlaylistDetailsRequest {
+ }
+ 
+ // TODO: deduplicate this from above
+-interface CreatePlaylistRequest {
++export interface CreatePlaylistRequest {
+     name: string;
+     public?: boolean;
+     collaborative?: boolean;
+diff --git a/src/types.ts b/src/types.ts
+index 2e930ba6479a815e66ef504db85f607f346622a3..2d2d04bb5ac457bff58f02e81233a64ba832df8d 100644
+--- a/src/types.ts
++++ b/src/types.ts
+@@ -104,12 +104,12 @@ interface AlbumBase {
+     label: string
+     name: string
+     popularity: number
+-    release_date: string
++    release_date: string | null
+     release_date_precision: string
+     restrictions?: Restrictions
+     total_tracks: number
+     type: string
+-    uri: string
++    uri: string | null
+ }
+ 
+ export interface SimplifiedAlbum extends AlbumBase {
+@@ -159,7 +159,9 @@ export interface PlaylistedTrack<Item extends TrackItem = TrackItem> {
+     added_by: AddedBy
+     is_local: boolean
+     primary_color: string
+-    track: Item
++    item: Item
++    /** @deprecated Use `item` instead. */
++    track?: Item
+ }
+ 
+ export interface AddedBy {
+@@ -504,7 +506,9 @@ interface PlaylistBase {
+ }
+ 
+ export interface Playlist<Item extends TrackItem = TrackItem> extends PlaylistBase {
+-    tracks: Page<PlaylistedTrack<Item>>
++    items: Page<PlaylistedTrack<Item>>
++    /** @deprecated Use `items` instead. */
++    tracks?: Page<PlaylistedTrack<Item>>
+ }
+ 
+ export interface FeaturedPlaylists {
+@@ -513,7 +517,9 @@ export interface FeaturedPlaylists {
+ }
+ 
+ export interface SimplifiedPlaylist extends PlaylistBase {
+-    tracks: TrackReference | null
++    items: TrackReference | null
++    /** @deprecated Use `items` instead. */
++    tracks?: TrackReference | null
+ }
+ 
+ export interface TrackReference {

@@ -74,7 +74,7 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
           {playlist.name}
         </a>
       </td>
-      <td>{playlist.tracks?.total ?? 0}</td>
+      <td>{playlist.items?.total ?? 0}</td>
       <td className="p-2.5">
         <div className="flex items-center justify-end gap-2.5">
           {showButton(playlist.name) ? (
