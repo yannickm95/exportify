@@ -3,12 +3,13 @@
 
 import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { useCallback, useEffect, useState } from "react";
-
-import { navigate } from "~/helpers/router";
+import { useLocation, useNavigate } from "react-router";
 
 export let sdk: SpotifyApi;
 
 export function useAuth() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
 
   const logIn = useCallback(async (clientId: string) => {
@@ -60,17 +61,17 @@ export function useAuth() {
 
   useEffect(() => {
     if (authenticated) {
-      if (window.location.pathname === "/exportify/") navigate("/playlists");
+      if (pathname === "/") void navigate("/playlists");
     } else {
       const clientId = localStorage.getItem("client_id");
 
       if (clientId) {
         void logIn(clientId);
-      } else {
-        navigate("/");
+      } else if (pathname !== "/") {
+        void navigate("/");
       }
     }
-  }, [authenticated, logIn]);
+  }, [authenticated, logIn, navigate, pathname]);
 
   return { authenticated, setAuthenticated, logOut, logIn };
 }
