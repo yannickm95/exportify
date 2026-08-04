@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 
 import { useAuth } from "~/helpers/data/api";
 import { useRouter } from "~/helpers/router";
 
+import { Button } from "./button";
 import { Icon } from "./icon";
 import { Login } from "./login";
 import { PlaylistTable } from "./playlist-table";
@@ -21,7 +21,14 @@ export function App() {
       <SubtitleDataContext value={{ viewType: "playlists", setSubtitleData, ...subtitleData }}>
         <Template
           logoutElement={
-            <Button id="logoutButton" type="submit" variant="link" size="lg" onClick={logOut} title="Change user">
+            <Button
+              type="button"
+              variant="link"
+              size="large"
+              className="absolute top-0 right-0 h-auto p-5 sm:p-10"
+              onClick={logOut}
+              title="Change user"
+            >
               <Icon size="large">logout</Icon>
             </Button>
           }

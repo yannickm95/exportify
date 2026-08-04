@@ -4,5 +4,9 @@
   "quoteProps": "consistent",
   "sortPackageJson": { "sortScripts": true },
   "sortImports": {},
+  "sortTailwindcss": {
+    "stylesheet": "./src/index.css",
+    "functions": ["cn", "cva"]
+  },
   "ignorePatterns": ["release", "pnpm-lock.yaml"]
 }

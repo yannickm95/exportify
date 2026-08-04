@@ -15,20 +15,21 @@
   },
   "dependencies": {
     "@spotify/web-api-ts-sdk": "^1.2.0",
-    "bootstrap": "5.3.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "file-saver": "^2.0.5",
     "lodash": "^4.18.1",
     "react": "^19.2.8",
-    "react-bootstrap": "2.8.0",
     "react-dom": "^19.2.8",
-    "react-toastify": "^11.1.0"
+    "react-toastify": "^11.1.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
     "@types/confusing-browser-globals": "^1.0.3",
     "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.25",
     "@types/react": "^19.2.18",
-    "@types/react-bootstrap": "^0.32.37",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-basic-ssl": "^2.3.0",
     "@vitejs/plugin-react": "^6.0.5",
@@ -36,6 +37,7 @@
     "oxfmt": "^0.62.0",
     "oxlint": "^1.77.0",
     "oxlint-tsgolint": "^7.0.2001",
+    "tailwindcss": "^4.1.11",
     "vite": "^8.2.0"
   },
   "packageManager": "pnpm@11.13.0"

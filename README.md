@@ -56,7 +56,7 @@ Create a build of the app and deploy to github pages.
 In addition to [Vite](https://vitejs.dev/), the application is built using the following tools/libraries:
 
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
-- [Bootstrap 4](https://getbootstrap.com/) - styling and UI components
+- [Tailwind CSS 4](https://tailwindcss.com/) - utility-first styling
 
 ## Notes
 

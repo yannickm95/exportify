@@ -1,10 +1,11 @@
 import type { SimplifiedPlaylist } from "@spotify/web-api-ts-sdk";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
+import { cn } from "~/helpers/cn";
 import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
 
+import { Button } from "./button";
 import { ButtonLoader } from "./button-loader";
 import { Icon } from "./icon";
 
@@ -59,29 +60,28 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
   const disabled = isExporting || isQuickSorting || isLastSorting || isJsSorting;
 
   return (
-    <tr key={playlist.uri} className={!isEven(index) ? "alt-color" : ""}>
+    <tr
+      key={playlist.uri}
+      className={cn("border-b border-gray-300 px-2 hover:bg-neutral-950", !isEven(index) && "bg-neutral-800")}
+    >
+      <td className="p-2.5">
+        <div className="mr-6 size-20 min-w-20 overflow-hidden rounded-md">
+          <img className="size-full object-cover" alt="cover" src={playlist.images[0]?.url} />
+        </div>
+      </td>
       <td>
-        <img alt="cover" src={playlist.images[0]?.url} />
+        <a className="text-blue-300 underline hover:text-blue-500" href={playlist.uri}>
+          {playlist.name}
+        </a>
       </td>
-      <td className="align-middle">
-        <a href={playlist.uri}>{playlist.name}</a>
-      </td>
-      <td className="align-middle">{playlist.tracks?.total ?? 0}</td>
-      <td className="align-middle">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: 10,
-            alignItems: "center",
-          }}
-        >
+      <td>{playlist.tracks?.total ?? 0}</td>
+      <td className="p-2.5">
+        <div className="flex items-center justify-end gap-2.5">
           {showButton(playlist.name) ? (
             <Button
-              type="submit"
-              variant="primary"
+              type="button"
               onClick={sortPlaylistWithJS}
-              className="text-nowrap text-center"
+              className="text-center whitespace-nowrap"
               disabled={disabled}
             >
               {isJsSorting ? <ButtonLoader /> : "JS*"}
@@ -90,10 +90,9 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
 
           {showButton(playlist.name) ? (
             <Button
-              type="submit"
-              variant="primary"
+              type="button"
               onClick={sortPlaylistWithQuick}
-              className="text-nowrap text-center button-flex"
+              className="w-30 text-center whitespace-nowrap"
               disabled={disabled}
             >
               {isQuickSorting ? <ButtonLoader /> : <Icon>sort_by_alpha</Icon>}
@@ -103,10 +102,9 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
 
           {showButton(playlist.name) ? (
             <Button
-              type="submit"
-              variant="primary"
+              type="button"
               onClick={sortPlaylistWithLast}
-              className="text-nowrap text-center button-flex"
+              className="w-30 text-center whitespace-nowrap"
               disabled={disabled}
             >
               {isLastSorting ? <ButtonLoader /> : <Icon>sort</Icon>}
@@ -115,10 +113,9 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
           ) : null}
 
           <Button
-            type="submit"
-            variant="primary"
+            type="button"
             onClick={exportPlaylist}
-            className="text-nowrap text-center button-flex"
+            className="w-30 text-center whitespace-nowrap"
             disabled={disabled}
           >
             {isExporting ? <ButtonLoader /> : <Icon>download</Icon>}

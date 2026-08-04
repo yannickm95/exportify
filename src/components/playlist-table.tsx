@@ -24,18 +24,24 @@ export function PlaylistTable({ initializing }: { initializing: boolean }) {
     })().catch(() => toast.error("Failed to fetch playlists. Something went wrong, please reload the page!"));
   }, [setSubtitleData, initializing]);
 
-  if (!playlists) return <div className="spinner" />;
+  if (!playlists) {
+    return (
+      <div className="flex min-h-40 items-center justify-center" aria-label="Loading playlists">
+        <span className="size-24 animate-spin rounded-full border-4 border-gray-200 border-t-gray-500" />
+      </div>
+    );
+  }
 
   return (
-    <div id="playlists">
-      <table className="table table-hover table-sm">
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-5xl border-collapse text-left">
         <thead>
-          <tr>
-            <th style={{ width: "5%" }} />
-            <th style={{ width: "27.5%" }}>Name</th>
-            <th style={{ width: "7.5%" }}>Tracks</th>
-            <th style={{ width: "55%", textAlign: "right" }}>
-              <span style={{ fontWeight: 400, fontSize: 10 }}>
+          <tr className="border-b border-gray-300">
+            <th className="w-[5%] py-2" />
+            <th className="w-[27.5%] py-2">Name</th>
+            <th className="w-[7.5%] py-2">Tracks</th>
+            <th className="w-[55%] py-2 text-right">
+              <span className="text-[10px] font-normal">
                 (* JS-sort will update &apos;date added&apos; to the time it was sorted, use with caution!)
               </span>{" "}
               Actions

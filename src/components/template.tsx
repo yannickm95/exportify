@@ -16,44 +16,44 @@ export function Template({
   const { viewType, playlistAmount, userId } = useSubtitleDataContext();
 
   return (
-    <div className="App container">
-      <header className="App-header">
-        {logoutElement}
+    <div className="min-h-screen bg-neutral-900 px-6 py-4 text-white xl:px-12">
+      <div className="mx-auto w-full max-w-7xl">
+        <header className="relative px-4 pt-8 pb-3 text-center">
+          {logoutElement}
 
-        <h1 className="flex">
-          <Icon color="#1ed760" size="larger">
-            exportify:spotify
-          </Icon>
-          <span>Hatlaron&apos;s Exportify</span>
-        </h1>
+          <h1 className="flex items-center justify-center gap-2 text-2xl font-semibold sm:text-4xl">
+            <Icon color="var(--color-green-500)" size="larger">
+              exportify:spotify
+            </Icon>
+            <span className="wrap-break-word">Hatlaron&apos;s Exportify</span>
+          </h1>
 
-        {viewType === "login" ? (
-          <p className="lead text-secondary">Export and sort your Spotify playlists.</p>
-        ) : playlistAmount !== 0 ? (
-          <p className="lead text-secondary">
-            {playlistAmount} playlists for {userId}
-            {" ("}
-            <span
-              // oxlint-disable-next-line jsx_a11y/prefer-tag-over-role
-              role="button"
-              tabIndex={0}
-              className="download-artists"
-              onClick={() => {
-                getFollowedArtists()
-                  .then((artists) => exportToCsv(artists, "Followed_artists", "artists"))
-                  .catch(() => toast.error("Failed to export to CSV. Something went wrong, please try again!"));
-              }}
-            >
-              export followed artists
-            </span>
-            {")"}
-          </p>
-        ) : null}
+          {viewType === "login" ? (
+            <p className="mt-2 text-xl font-light text-gray-400">Export and sort your Spotify playlists.</p>
+          ) : playlistAmount !== 0 ? (
+            <p className="mt-2 text-xl font-light text-gray-400">
+              {playlistAmount} playlists for {userId}
+              {" ("}
+              <button
+                type="button"
+                className="cursor-pointer rounded-md p-1 text-white underline hover:bg-black hover:opacity-80 focus:bg-black focus:opacity-80 focus:outline-2 focus:outline-offset-2 focus:outline-green-500"
+                onClick={() => {
+                  getFollowedArtists()
+                    .then((artists) => exportToCsv(artists, "Followed_artists", "artists"))
+                    .catch(() => toast.error("Failed to export to CSV. Something went wrong, please try again!"));
+                }}
+              >
+                export followed artists
+              </button>
+              {")"}
+            </p>
+          ) : null}
 
-        <div id="subtitle" />
-      </header>
+          <div id="subtitle" />
+        </header>
 
-      {children}
+        {children}
+      </div>
 
       <ToastContainer theme="dark" autoClose={3_000} limit={5} stacked position="bottom-right" />
     </div>
