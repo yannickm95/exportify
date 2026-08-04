@@ -4,7 +4,7 @@ import { useAuth } from "~/helpers/data/api";
 import { useRouter } from "~/helpers/router";
 
 import { Button } from "./button";
-import { Icon } from "./icon";
+import { LogoutIcon } from "./icon";
 import { Login } from "./login";
 import { PlaylistTable } from "./playlist-table";
 import { SubtitleDataContext } from "./subtitle-data-context";
@@ -29,7 +29,7 @@ export function App() {
               onClick={logOut}
               title="Change user"
             >
-              <Icon size="large">logout</Icon>
+              <LogoutIcon size="large" />
             </Button>
           }
         >

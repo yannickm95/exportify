@@ -1,5 +1,5 @@
 import { Button } from "./button";
-import { Icon } from "./icon";
+import { CheckCircleOutlineIcon } from "./icon";
 
 export function Login({ logIn }: { logIn: (clientId: string) => Promise<void> }) {
   return (
@@ -21,7 +21,7 @@ export function Login({ logIn }: { logIn: (clientId: string) => Promise<void> })
       />
 
       <Button type="submit" variant="outline" size="large" className="w-full sm:w-44">
-        <Icon>check_circle_outline</Icon>
+        <CheckCircleOutlineIcon />
         <span>Get Started</span>
       </Button>
     </form>

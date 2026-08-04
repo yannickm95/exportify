@@ -7,7 +7,7 @@ import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } f
 
 import { Button } from "./button";
 import { ButtonLoader } from "./button-loader";
-import { Icon } from "./icon";
+import { DownloadIcon, SortByAlphaIcon, SortIcon } from "./icon";
 
 export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist; index: number }) {
   const [isJsSorting, setIsJsSorting] = useState(false);
@@ -95,7 +95,7 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
               className="w-30 text-center whitespace-nowrap"
               disabled={disabled}
             >
-              {isQuickSorting ? <ButtonLoader /> : <Icon>sort_by_alpha</Icon>}
+              {isQuickSorting ? <ButtonLoader /> : <SortByAlphaIcon />}
               Quicksort
             </Button>
           ) : null}
@@ -107,7 +107,7 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
               className="w-30 text-center whitespace-nowrap"
               disabled={disabled}
             >
-              {isLastSorting ? <ButtonLoader /> : <Icon>sort</Icon>}
+              {isLastSorting ? <ButtonLoader /> : <SortIcon />}
               Sort Last
             </Button>
           ) : null}
@@ -118,7 +118,7 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
             className="w-30 text-center whitespace-nowrap"
             disabled={disabled}
           >
-            {isExporting ? <ButtonLoader /> : <Icon>download</Icon>}
+            {isExporting ? <ButtonLoader /> : <DownloadIcon />}
             Export
           </Button>
         </div>

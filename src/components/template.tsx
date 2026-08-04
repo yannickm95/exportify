@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import { exportToCsv, getFollowedArtists } from "~/helpers/data/actions";
 
-import { Icon } from "./icon";
+import { SpotifyIcon } from "./icon";
 import { useSubtitleDataContext } from "./subtitle-data-context";
 
 export function Template({
@@ -22,9 +22,7 @@ export function Template({
           {logoutElement}
 
           <h1 className="flex items-center justify-center gap-2 text-2xl font-semibold sm:text-4xl">
-            <Icon color="var(--color-green-500)" size="larger">
-              exportify:spotify
-            </Icon>
+            <SpotifyIcon className="fill-green-500" size="larger" />
             <span className="wrap-break-word">Hatlaron&apos;s Exportify</span>
           </h1>
 
