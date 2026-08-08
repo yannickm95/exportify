@@ -56,8 +56,6 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   }
 
   for (const { id, limit, offset } of args.filter(({ offset }) => offset >= offsetLimit)) {
-    await new Promise((resolve) => window.setTimeout(resolve, 50));
-
     const response = await sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset);
     tracks.push(...response.items);
   }
