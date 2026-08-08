@@ -5,6 +5,8 @@ import { SpotifyApi } from "@spotify/web-api-ts-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
+import { spotifyResponseValidator } from "./spotify-response-validator";
+
 export let sdk: SpotifyApi;
 
 export function useAuth() {
@@ -16,13 +18,18 @@ export function useAuth() {
     try {
       localStorage.setItem("client_id", clientId);
       const redirectUrl = import.meta.env.VITE_APP_REDIRECT_URI || "https://localhost:9999/exportify/";
-      const internalSdk = SpotifyApi.withUserAuthorization(clientId, redirectUrl, [
-        "user-follow-read",
-        "playlist-read-private",
-        "playlist-read-collaborative",
-        "playlist-modify-private",
-        "playlist-modify-public",
-      ]);
+      const internalSdk = SpotifyApi.withUserAuthorization(
+        clientId,
+        redirectUrl,
+        [
+          "user-follow-read",
+          "playlist-read-private",
+          "playlist-read-collaborative",
+          "playlist-modify-private",
+          "playlist-modify-public",
+        ],
+        { responseValidator: spotifyResponseValidator },
+      );
 
       const { authenticated } = await internalSdk.authenticate();
 

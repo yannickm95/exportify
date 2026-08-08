@@ -26,6 +26,9 @@ jobs:
       - name: Lint and typecheck
         run: pnpm run lint
 
+      - name: Test
+        run: pnpm run test:ci
+
   build-and-deploy:
     runs-on: ubuntu-latest
     name: Build and Deploy

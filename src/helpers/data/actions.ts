@@ -10,6 +10,18 @@ export function getUser() {
 }
 
 const PLAYLIST_LIMIT = 20;
+const PLAYLIST_TRACK_LIMIT: MaxInt<50> = 50;
+const LARGE_PLAYLIST_SIZE = 5_000;
+const BACKGROUND_TRACK_BATCH_SIZE = 1_000;
+const REQUEST_BATCH_SIZE = 25;
+const REQUEST_BATCH_DELAY = 100;
+const LARGE_PLAYLIST_DELAY = 5_000;
+
+interface PlaylistTrackRequest {
+  id: string;
+  limit: MaxInt<50>;
+  offset: number;
+}
 
 export async function getPlaylists() {
   const loadSlice = async (start: number, end: number) => {
@@ -29,33 +41,87 @@ export async function getPlaylists() {
 }
 
 export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
-  const args: { id: string; limit: MaxInt<50>; offset: number }[] = [];
-  const limit: MaxInt<50> = 50;
-
-  for (let offset = 0; offset < playlist.items!.total; offset = offset + limit) {
-    args.push({ id: playlist.id, limit, offset });
-  }
-
+  const requests = createPlaylistTrackRequests(playlist);
   const tracks: PlaylistedTrack<Track>[] = [];
-  const requestGroups = playlist.items!.total > 5_000 ? chunk(args, Math.ceil(args.length / 4)) : [args];
+  const requestGroups =
+    playlist.items!.total > LARGE_PLAYLIST_SIZE ? chunk(requests, Math.ceil(requests.length / 2)) : [requests];
 
   for (const [groupIndex, requestGroup] of requestGroups.entries()) {
-    if (groupIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 1_000));
+    if (groupIndex > 0) await wait(LARGE_PLAYLIST_DELAY);
 
-    for (const [batchIndex, requestBatch] of chunk(requestGroup, 25).entries()) {
-      if (batchIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 100));
-
-      const responses = await Promise.all(
-        requestBatch.map(({ id, limit, offset }) =>
-          sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
-        ),
-      );
-
-      tracks.push(...responses.flatMap((response) => response.items));
-    }
+    tracks.push(...(await fetchPlaylistTrackRequests(requestGroup)));
   }
 
   return tracks;
+}
+
+export async function getPlaylistTracksInBackground(
+  playlist: SimplifiedPlaylist,
+  signal: AbortSignal,
+  onProgress: (tracks: PlaylistedTrack<Track>[]) => void,
+) {
+  const requests = createPlaylistTrackRequests(playlist);
+  const requestGroups = chunk(requests, BACKGROUND_TRACK_BATCH_SIZE / PLAYLIST_TRACK_LIMIT);
+  const tracks: PlaylistedTrack<Track>[] = [];
+
+  for (const [groupIndex, requestGroup] of requestGroups.entries()) {
+    throwIfAborted(signal);
+    if (groupIndex > 0) await wait(LARGE_PLAYLIST_DELAY, signal);
+
+    tracks.push(...(await fetchPlaylistTrackRequests(requestGroup)));
+
+    throwIfAborted(signal);
+    onProgress([...tracks]);
+  }
+
+  return tracks;
+}
+
+function createPlaylistTrackRequests(playlist: SimplifiedPlaylist) {
+  const requests: PlaylistTrackRequest[] = [];
+
+  for (let offset = 0; offset < playlist.items!.total; offset = offset + PLAYLIST_TRACK_LIMIT) {
+    requests.push({ id: playlist.id, limit: PLAYLIST_TRACK_LIMIT, offset });
+  }
+
+  return requests;
+}
+
+async function fetchPlaylistTrackRequests(requests: PlaylistTrackRequest[]) {
+  const tracks: PlaylistedTrack<Track>[] = [];
+
+  for (const [batchIndex, requestBatch] of chunk(requests, REQUEST_BATCH_SIZE).entries()) {
+    if (batchIndex > 0) await wait(REQUEST_BATCH_DELAY);
+
+    const responses = await Promise.all(
+      requestBatch.map(({ id, limit, offset }) =>
+        sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
+      ),
+    );
+
+    tracks.push(...responses.flatMap((response) => response.items));
+  }
+
+  return tracks;
+}
+
+function throwIfAborted(signal: AbortSignal) {
+  if (signal.aborted) throw new DOMException("Background fetch aborted", "AbortError");
+}
+
+function wait(delay: number, signal?: AbortSignal) {
+  return new Promise<void>((resolve, reject) => {
+    const timeoutId = window.setTimeout(resolve, delay);
+
+    signal?.addEventListener(
+      "abort",
+      () => {
+        window.clearTimeout(timeoutId);
+        reject(new DOMException("Background fetch aborted", "AbortError"));
+      },
+      { once: true },
+    );
+  });
 }
 
 export async function getFollowedArtists() {
@@ -82,32 +148,38 @@ export function exportToCsv<T extends "tracks" | "artists">(
   saveAs(blob, fileName(name));
 }
 
+export interface PlaylistSortOutcome<T extends "sorted" | "is-sorted" | number> {
+  result: T;
+  tracks: PlaylistedTrack<Track>[];
+}
+
 export async function quickSortPlaylist(items: PlaylistedTrack<Track>[], playlistId: string) {
-  async function quickSort(arrayToSort: string[], low: number, high: number) {
-    const instanceArray = [...arrayToSort];
-    const index = await partition(instanceArray, low, high);
+  const orderedItems = [...items];
+
+  async function quickSort(low: number, high: number) {
+    const index = await partition(low, high);
 
     if (low < index - 1) {
-      await quickSort(instanceArray, low, index - 1);
+      await quickSort(low, index - 1);
     }
     if (index < high) {
-      await quickSort(instanceArray, index, high);
+      await quickSort(index, high);
     }
   }
 
-  async function partition(arrayToSort: string[], low: number, high: number) {
-    const pivot = arrayToSort[Math.floor((low + high) / 2)];
+  async function partition(low: number, high: number) {
+    const pivot = formatCompareValue(orderedItems[Math.floor((low + high) / 2)]!.item);
 
     while (low <= high) {
-      while (arrayToSort[low]! < pivot!) {
+      while (formatCompareValue(orderedItems[low]!.item) < pivot) {
         low++;
       }
-      while (arrayToSort[high]! > pivot!) {
+      while (formatCompareValue(orderedItems[high]!.item) > pivot) {
         high--;
       }
 
       if (low <= high) {
-        await swap(arrayToSort, low, high);
+        await swap(low, high);
         low++;
         high--;
       }
@@ -116,10 +188,8 @@ export async function quickSortPlaylist(items: PlaylistedTrack<Track>[], playlis
     return low;
   }
 
-  async function swap(arrayToSort: string[], low: number, high: number) {
-    const lowValue = arrayToSort[low]!;
-    arrayToSort[low] = arrayToSort[high]!;
-    arrayToSort[high] = lowValue;
+  async function swap(low: number, high: number) {
+    if (low === high) return;
 
     await sdk.playlists.updatePlaylistItems(playlistId, {
       range_start: low,
@@ -130,23 +200,26 @@ export async function quickSortPlaylist(items: PlaylistedTrack<Track>[], playlis
       insert_before: low,
     });
 
-    await new Promise((resolve) => {
-      window.setTimeout(resolve, 200);
-    });
+    const lowValue = orderedItems[low]!;
+    orderedItems[low] = orderedItems[high]!;
+    orderedItems[high] = lowValue;
+
+    await wait(200);
   }
 
-  const tracks = items.map(({ item }) => formatCompareValue(item));
+  const compareValues = items.map(({ item }) => formatCompareValue(item));
 
-  if (!isArraySorted(tracks)) {
-    await quickSort(tracks, 0, tracks.length - 1);
+  if (!isArraySorted(compareValues)) {
+    await quickSort(0, orderedItems.length - 1);
 
-    return "sorted";
+    return { result: "sorted", tracks: orderedItems } satisfies PlaylistSortOutcome<"sorted">;
   } else {
-    return "is-sorted";
+    return { result: "is-sorted", tracks: orderedItems } satisfies PlaylistSortOutcome<"is-sorted">;
   }
 }
 
 export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: string, amount = 95) {
+  const orderedItems = [...items];
   const tracks = items.map(({ item }) => formatCompareValue(item));
 
   const newItems: string[] = [];
@@ -161,7 +234,9 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
     }
   }
 
-  if (newItems.length === 0) return 0;
+  if (newItems.length === 0) {
+    return { result: 0, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
+  }
 
   for (const item of newItems) {
     const newIndex = tracks.findIndex((t) => t > item);
@@ -173,9 +248,12 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
 
     tracks.splice(newIndex, 0, item);
     tracks.splice(-1, 1);
+
+    const movedTrack = orderedItems.pop()!;
+    orderedItems.splice(newIndex, 0, movedTrack);
   }
 
-  return newItems.length;
+  return { result: newItems.length, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
 }
 
 export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string) {
@@ -188,7 +266,9 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
       return 0;
     });
 
-  if (isArraySorted(items.map(({ item }) => formatCompareValue(item)))) return "is-sorted";
+  if (isArraySorted(items.map(({ item }) => formatCompareValue(item)))) {
+    return { result: "is-sorted", tracks: [...items] } satisfies PlaylistSortOutcome<"is-sorted">;
+  }
 
   const nonLocalTracks = tracks.filter(({ item }) => !item.is_local);
   const chunkedTracks = chunk(nonLocalTracks, 100);
@@ -196,9 +276,7 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
   for (const chunk of chunkedTracks) {
     await sdk.playlists.removeItemsFromPlaylist(playlistId, { items: chunk.map(({ item }) => ({ uri: item.uri })) });
 
-    await new Promise((resolve) => {
-      window.setTimeout(resolve, 200);
-    });
+    await wait(200);
   }
 
   for (const chunk of chunkedTracks.reverse()) {
@@ -208,13 +286,11 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
       0,
     );
 
-    await new Promise((resolve) => {
-      window.setTimeout(resolve, 200);
-    });
+    await wait(200);
   }
 
   const localTracks = tracks.filter(({ item }) => item.is_local);
-  await lastSort([...nonLocalTracks, ...localTracks], playlistId, localTracks.length);
+  const { tracks: sortedTracks } = await lastSort([...nonLocalTracks, ...localTracks], playlistId, localTracks.length);
 
-  return "sorted";
+  return { result: "sorted", tracks: sortedTracks } satisfies PlaylistSortOutcome<"sorted">;
 }

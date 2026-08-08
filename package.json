@@ -11,7 +11,9 @@
     "dev": "vite dev",
     "format": "oxfmt --write .",
     "lint": "oxlint --type-aware --type-check",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest dev",
+    "test:ci": "vitest run"
   },
   "dependencies": {
     "@spotify/web-api-ts-sdk": "^1.2.0",
@@ -39,7 +41,8 @@
     "oxlint": "^1.77.0",
     "oxlint-tsgolint": "^7.0.2001",
     "tailwindcss": "^4.1.11",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@11.13.0"
 }

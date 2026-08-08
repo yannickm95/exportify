@@ -3,20 +3,37 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { cn } from "~/helpers/cn";
-import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
+import { exportToCsv, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
+import type { PlaylistTrackCache } from "~/helpers/data/playlist-track-cache";
 
 import { Button } from "./button";
 import { ButtonLoader } from "./button-loader";
 import { DownloadIcon, SortByAlphaIcon, SortIcon } from "./icon";
 
-export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist; index: number }) {
+export function PlaylistRow({
+  playlist,
+  playlistTrackCache,
+  index,
+}: {
+  playlist: SimplifiedPlaylist;
+  playlistTrackCache: PlaylistTrackCache;
+  index: number;
+}) {
   const [isJsSorting, setIsJsSorting] = useState(false);
 
   const sortPlaylistWithJS = () => {
     setIsJsSorting(true);
 
-    getPlaylistTracks(playlist)
-      .then((tracks) => jsSort(tracks, playlist.id))
+    playlistTrackCache
+      .get(playlist)
+      .then(async (tracks) => {
+        playlistTrackCache.invalidate(playlist.id);
+        const outcome = await jsSort(tracks, playlist.id);
+        playlistTrackCache.set(playlist.id, outcome.tracks);
+
+        return outcome;
+      })
+      .then(({ result }) => result)
       .then(successToast(playlist.name))
       .catch(() => errorToast(playlist.name))
       .finally(() => setIsJsSorting(false));
@@ -27,8 +44,16 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
   const sortPlaylistWithQuick = () => {
     setIsQuickSorting(true);
 
-    getPlaylistTracks(playlist)
-      .then((tracks) => quickSortPlaylist(tracks, playlist.id))
+    playlistTrackCache
+      .get(playlist)
+      .then(async (tracks) => {
+        playlistTrackCache.invalidate(playlist.id);
+        const outcome = await quickSortPlaylist(tracks, playlist.id);
+        playlistTrackCache.set(playlist.id, outcome.tracks);
+
+        return outcome;
+      })
+      .then(({ result }) => result)
       .then(successToast(playlist.name))
       .catch(() => errorToast(playlist.name))
       .finally(() => setIsQuickSorting(false));
@@ -39,8 +64,16 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
   const sortPlaylistWithLast = () => {
     setIsLastSorting(true);
 
-    getPlaylistTracks(playlist)
-      .then((tracks) => lastSort(tracks, playlist.id))
+    playlistTrackCache
+      .get(playlist)
+      .then(async (tracks) => {
+        playlistTrackCache.invalidate(playlist.id);
+        const outcome = await lastSort(tracks, playlist.id);
+        playlistTrackCache.set(playlist.id, outcome.tracks);
+
+        return outcome;
+      })
+      .then(({ result }) => result)
       .then(successToast(playlist.name))
       .catch(() => errorToast(playlist.name))
       .finally(() => setIsLastSorting(false));
@@ -51,7 +84,8 @@ export function PlaylistRow({ playlist, index }: { playlist: SimplifiedPlaylist;
   const exportPlaylist = () => {
     setIsExporting(true);
 
-    getPlaylistTracks(playlist)
+    playlistTrackCache
+      .get(playlist)
       .then((tracks) => exportToCsv(tracks, playlist.name, "tracks"))
       .catch(() => toast.error("Failed to export to CSV. Something went wrong, please try again!"))
       .finally(() => setIsExporting(false));

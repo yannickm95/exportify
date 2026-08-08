@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { getPlaylists, getUser } from "~/helpers/data/actions";
+import { createPlaylistTrackCache } from "~/helpers/data/playlist-track-cache";
 
 import { PlaylistRow } from "./playlist-row";
 import { useSubtitleDataContext } from "./subtitle-data-context";
 
 export function PlaylistTable({ initializing }: { initializing: boolean }) {
   const [playlists, setPlaylists] = useState<SimplifiedPlaylist[]>();
+  const [playlistTrackCache] = useState(createPlaylistTrackCache);
 
   const { setSubtitleData } = useSubtitleDataContext();
 
@@ -23,6 +25,14 @@ export function PlaylistTable({ initializing }: { initializing: boolean }) {
       }
     })().catch(() => toast.error("Failed to fetch playlists. Something went wrong, please reload the page!"));
   }, [setSubtitleData, initializing]);
+
+  useEffect(() => {
+    if (!playlists) return;
+
+    playlistTrackCache.startPrefetch(playlists);
+
+    return () => playlistTrackCache.dispose();
+  }, [playlistTrackCache, playlists]);
 
   if (!playlists) {
     return (
@@ -51,7 +61,7 @@ export function PlaylistTable({ initializing }: { initializing: boolean }) {
 
         <tbody>
           {playlists.map((playlist, index) => (
-            <PlaylistRow playlist={playlist} key={playlist.id} index={index} />
+            <PlaylistRow playlist={playlist} playlistTrackCache={playlistTrackCache} key={playlist.id} index={index} />
           ))}
         </tbody>
       </table>
