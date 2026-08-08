@@ -37,11 +37,11 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   }
 
   const tracks: PlaylistedTrack<Track>[] = [];
-  const midpoint = Math.ceil(args.length / 2);
-  const requestGroups = playlist.items!.total > 5_000 ? [args.slice(0, midpoint), args.slice(midpoint)] : [args];
+  const requestGroups =
+    playlist.items!.total > 5_000 ? chunk(args, Math.ceil(args.length / 4)) : [args];
 
   for (const [groupIndex, requestGroup] of requestGroups.entries()) {
-    if (groupIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 5_000));
+    if (groupIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 2_500));
 
     for (const [batchIndex, requestBatch] of chunk(requestGroup, 25).entries()) {
       if (batchIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 100));
