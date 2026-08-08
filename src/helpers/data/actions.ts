@@ -61,7 +61,7 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   );
 
   for (const [index, requestBatch] of offsetLimitRequestBatches.entries()) {
-    await new Promise((resolve) => window.setTimeout(resolve, index === 0 ? 3_000 : 100));
+    await new Promise((resolve) => window.setTimeout(resolve, index === 0 ? 3_000 : 300));
 
     const responses = await Promise.all(
       requestBatch.map(({ id, limit, offset }) =>
