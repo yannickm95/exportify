@@ -87,6 +87,46 @@ describe("playlist track cache", () => {
     expect(loadInBackground).toHaveBeenCalledTimes(2);
   });
 
+  it("cancels an in-flight background load when invalidated", async () => {
+    const loadInBackground = vi.fn((_playlist: SimplifiedPlaylist, signal: AbortSignal) => {
+      return new Promise<PlaylistedTrack<Track>[]>((_resolve, reject) => {
+        signal.addEventListener("abort", () => reject(new DOMException("Background fetch aborted", "AbortError")));
+      });
+    });
+    const cache = createPlaylistTrackCache({ load: vi.fn(), loadInBackground });
+    const playlist = createPlaylist("invalidated", 5_001);
+
+    cache.startPrefetch([playlist]);
+    await vi.advanceTimersByTimeAsync(0);
+    cache.invalidate(playlist.id);
+    await vi.runAllTimersAsync();
+
+    expect(loadInBackground.mock.calls[0]![1].aborted).toBe(true);
+  });
+
+  it("does not cache an in-flight foreground load after invalidation", async () => {
+    let resolveFirstLoad!: (value: PlaylistedTrack<Track>[]) => void;
+    const load = vi
+      .fn()
+      .mockImplementationOnce(
+        () =>
+          new Promise<PlaylistedTrack<Track>[]>((resolve) => {
+            resolveFirstLoad = resolve;
+          }),
+      )
+      .mockResolvedValueOnce(tracks);
+    const cache = createPlaylistTrackCache({ load, loadInBackground: vi.fn() });
+    const playlist = createPlaylist("invalidated-foreground", 100);
+
+    const firstLoad = cache.get(playlist);
+    cache.invalidate(playlist.id);
+    resolveFirstLoad(tracks);
+    await firstLoad;
+    await cache.get(playlist);
+
+    expect(load).toHaveBeenCalledTimes(2);
+  });
+
   it("preserves data during a Strict Mode remount and clears it after route disposal", async () => {
     const load = vi.fn().mockResolvedValue(tracks);
     const cache = createPlaylistTrackCache({ load, loadInBackground: vi.fn() });

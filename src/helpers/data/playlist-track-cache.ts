@@ -55,7 +55,9 @@ export function createPlaylistTrackCache(
     const promise = dependencies
       .load(playlist)
       .then((tracks) => {
-        if (generation === loadGeneration) completedTracks.set(playlist.id, tracks);
+        if (generation === loadGeneration && inFlightTracks.get(playlist.id)?.promise === promise) {
+          completedTracks.set(playlist.id, tracks);
+        }
 
         return tracks;
       })
@@ -74,6 +76,10 @@ export function createPlaylistTrackCache(
 
   const invalidate = (playlistId: string) => {
     completedTracks.delete(playlistId);
+
+    const inFlight = inFlightTracks.get(playlistId);
+    inFlight?.cancel?.();
+    if (inFlightTracks.get(playlistId) === inFlight) inFlightTracks.delete(playlistId);
   };
 
   const startBackgroundLoad = (playlist: SimplifiedPlaylist, signal: AbortSignal, loadGeneration: number) => {
