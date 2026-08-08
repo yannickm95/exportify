@@ -37,15 +37,9 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   }
 
   const tracks: PlaylistedTrack<Track>[] = [];
-  const requestBatches = chunk(args, 5);
+  const requestBatches = chunk(args, 50);
 
-  for (const [index, requestBatch] of requestBatches.entries()) {
-    if (index > 0) {
-      await new Promise((resolve) => {
-        window.setTimeout(resolve, 50);
-      });
-    }
-
+  for (const requestBatch of requestBatches) {
     const responses = await Promise.all(
       requestBatch.map(({ id, limit, offset }) =>
         sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
