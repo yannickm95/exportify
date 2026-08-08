@@ -55,21 +55,11 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
     tracks.push(...responses.flatMap((response) => response.items));
   }
 
-  const offsetLimitRequestBatches = chunk(
-    args.filter(({ offset }) => offset >= offsetLimit),
-    25,
-  );
+  for (const { id, limit, offset } of args.filter(({ offset }) => offset >= offsetLimit)) {
+    await new Promise((resolve) => window.setTimeout(resolve, 500));
 
-  for (const [index, requestBatch] of offsetLimitRequestBatches.entries()) {
-    await new Promise((resolve) => window.setTimeout(resolve, index === 0 ? 2_000 : 100));
-
-    const responses = await Promise.all(
-      requestBatch.map(({ id, limit, offset }) =>
-        sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
-      ),
-    );
-
-    tracks.push(...responses.flatMap((response) => response.items));
+    const response = await sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset);
+    tracks.push(...response.items);
   }
 
   return tracks;
