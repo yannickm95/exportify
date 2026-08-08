@@ -16,6 +16,7 @@ const BACKGROUND_TRACK_BATCH_SIZE = 1_000;
 const REQUEST_BATCH_SIZE = 25;
 const REQUEST_BATCH_DELAY = 100;
 const LARGE_PLAYLIST_DELAY = 5_000;
+const LARGE_PLAYLIST_BACKGROUND_DELAY = 7_500;
 
 interface PlaylistTrackRequest {
   id: string;
@@ -62,7 +63,7 @@ export async function getPlaylistTracksInBackground(playlist: SimplifiedPlaylist
 
   for (const [groupIndex, requestGroup] of requestGroups.entries()) {
     throwIfAborted(signal);
-    if (groupIndex > 0) await wait(LARGE_PLAYLIST_DELAY, signal);
+    if (groupIndex > 0) await wait(LARGE_PLAYLIST_BACKGROUND_DELAY, signal);
 
     tracks.push(...(await fetchPlaylistTrackRequests(requestGroup)));
 
