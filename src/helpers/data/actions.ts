@@ -41,7 +41,7 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
 
   for (const [index, requestBatch] of requestBatches.entries()) {
     if (index > 0) {
-      const delay = (requestBatch[0]?.offset ?? 0) >= 5_000 ? 500 : 100;
+      const delay = (requestBatch[0]?.offset ?? 0) >= 4_500 ? 500 : 100;
       await new Promise((resolve) => window.setTimeout(resolve, delay));
     }
 
