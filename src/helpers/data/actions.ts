@@ -37,7 +37,7 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   }
 
   const tracks: PlaylistedTrack<Track>[] = [];
-  const offsetLimit = 4_800;
+  const offsetLimit = 4_500;
   const requestBatches = chunk(
     args.filter(({ offset }) => offset < offsetLimit),
     25,
