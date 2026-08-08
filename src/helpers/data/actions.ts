@@ -37,13 +37,14 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   }
 
   const tracks: PlaylistedTrack<Track>[] = [];
-  const requestBatches = chunk(args, 25);
+  const offsetLimit = 4_500;
+  const requestBatches = chunk(
+    args.filter(({ offset }) => offset < offsetLimit),
+    25,
+  );
 
   for (const [index, requestBatch] of requestBatches.entries()) {
-    if (index > 0) {
-      const delay = (requestBatch[0]?.offset ?? 0) >= 4_500 ? 1_000 : 100;
-      await new Promise((resolve) => window.setTimeout(resolve, delay));
-    }
+    if (index > 0) await new Promise((resolve) => window.setTimeout(resolve, 100));
 
     const responses = await Promise.all(
       requestBatch.map(({ id, limit, offset }) =>
@@ -52,6 +53,13 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
     );
 
     tracks.push(...responses.flatMap((response) => response.items));
+  }
+
+  for (const { id, limit, offset } of args.filter(({ offset }) => offset >= offsetLimit)) {
+    await new Promise((resolve) => window.setTimeout(resolve, 500));
+
+    const response = await sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset);
+    tracks.push(...response.items);
   }
 
   return tracks;
