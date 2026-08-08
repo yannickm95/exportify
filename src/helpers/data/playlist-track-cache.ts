@@ -6,11 +6,13 @@ type PlaylistTracks = PlaylistedTrack<Track>[];
 
 interface PlaylistTrackCacheDependencies {
   load: (playlist: SimplifiedPlaylist) => Promise<PlaylistTracks>;
-  loadInBackground: (
-    playlist: SimplifiedPlaylist,
-    signal: AbortSignal,
-    onProgress: (tracks: PlaylistTracks) => void,
-  ) => Promise<PlaylistTracks>;
+  loadInBackground: (playlist: SimplifiedPlaylist, signal: AbortSignal) => Promise<PlaylistTracks>;
+}
+
+interface InFlightPlaylistTracks {
+  promise: Promise<PlaylistTracks>;
+  source: "foreground" | "background";
+  cancel?: () => void;
 }
 
 export interface PlaylistTrackCache {
@@ -30,8 +32,7 @@ export function createPlaylistTrackCache(
   },
 ): PlaylistTrackCache {
   const completedTracks = new Map<string, PlaylistTracks>();
-  const partialTracks = new Map<string, PlaylistTracks>();
-  const inFlightTracks = new Map<string, Promise<PlaylistTracks>>();
+  const inFlightTracks = new Map<string, InFlightPlaylistTracks>();
 
   let generation = 0;
   let prefetchController: AbortController | undefined;
@@ -43,7 +44,12 @@ export function createPlaylistTrackCache(
     if (completed) return Promise.resolve(completed);
 
     const inFlight = inFlightTracks.get(playlist.id);
-    if (inFlight) return inFlight;
+    if (inFlight?.source === "foreground") return inFlight.promise;
+
+    if (inFlight) {
+      inFlight.cancel?.();
+      if (inFlightTracks.get(playlist.id) === inFlight) inFlightTracks.delete(playlist.id);
+    }
 
     const loadGeneration = generation;
     const promise = dependencies
@@ -54,10 +60,10 @@ export function createPlaylistTrackCache(
         return tracks;
       })
       .finally(() => {
-        if (inFlightTracks.get(playlist.id) === promise) inFlightTracks.delete(playlist.id);
+        if (inFlightTracks.get(playlist.id)?.promise === promise) inFlightTracks.delete(playlist.id);
       });
 
-    inFlightTracks.set(playlist.id, promise);
+    inFlightTracks.set(playlist.id, { promise, source: "foreground" });
 
     return promise;
   };
@@ -68,28 +74,31 @@ export function createPlaylistTrackCache(
 
   const invalidate = (playlistId: string) => {
     completedTracks.delete(playlistId);
-    partialTracks.delete(playlistId);
   };
 
   const startBackgroundLoad = (playlist: SimplifiedPlaylist, signal: AbortSignal, loadGeneration: number) => {
     const existing = inFlightTracks.get(playlist.id);
-    if (existing) return existing;
+    if (existing) return existing.promise;
+
+    const controller = new AbortController();
+    const abortLoad = () => controller.abort();
+
+    if (signal.aborted) controller.abort();
+    else signal.addEventListener("abort", abortLoad, { once: true });
 
     const promise = dependencies
-      .loadInBackground(playlist, signal, (tracks) => {
-        if (!signal.aborted && generation === loadGeneration) partialTracks.set(playlist.id, tracks);
-      })
+      .loadInBackground(playlist, controller.signal)
       .then((tracks) => {
-        if (!signal.aborted && generation === loadGeneration) completedTracks.set(playlist.id, tracks);
+        if (!controller.signal.aborted && generation === loadGeneration) completedTracks.set(playlist.id, tracks);
 
         return tracks;
       })
       .finally(() => {
-        partialTracks.delete(playlist.id);
-        if (inFlightTracks.get(playlist.id) === promise) inFlightTracks.delete(playlist.id);
+        signal.removeEventListener("abort", abortLoad);
+        if (inFlightTracks.get(playlist.id)?.promise === promise) inFlightTracks.delete(playlist.id);
       });
 
-    inFlightTracks.set(playlist.id, promise);
+    inFlightTracks.set(playlist.id, { promise, source: "background", cancel: abortLoad });
 
     return promise;
   };
@@ -100,9 +109,18 @@ export function createPlaylistTrackCache(
       if (completedTracks.has(playlist.id)) continue;
 
       try {
-        await (inFlightTracks.get(playlist.id) ?? startBackgroundLoad(playlist, signal, loadGeneration));
+        await (inFlightTracks.get(playlist.id)?.promise ?? startBackgroundLoad(playlist, signal, loadGeneration));
       } catch (error) {
-        if (isAbortError(error) || isRateLimitError(error)) return;
+        if (isRateLimitError(error)) return;
+
+        const replacement = inFlightTracks.get(playlist.id);
+        if (isAbortError(error)) {
+          if (replacement?.source !== "foreground") return;
+
+          try {
+            await replacement.promise;
+          } catch {}
+        }
       }
     }
   };
@@ -110,6 +128,13 @@ export function createPlaylistTrackCache(
   const stopPrefetch = () => {
     prefetchController?.abort();
     prefetchController = undefined;
+
+    for (const [playlistId, inFlight] of inFlightTracks) {
+      if (inFlight.source !== "background") continue;
+
+      inFlight.cancel?.();
+      inFlightTracks.delete(playlistId);
+    }
 
     if (prefetchStartTimer !== undefined) {
       window.clearTimeout(prefetchStartTimer);
@@ -143,7 +168,6 @@ export function createPlaylistTrackCache(
 
     disposalTimer = window.setTimeout(() => {
       completedTracks.clear();
-      partialTracks.clear();
       inFlightTracks.clear();
       disposalTimer = undefined;
     }, 0);

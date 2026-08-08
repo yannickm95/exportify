@@ -55,11 +55,7 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   return tracks;
 }
 
-export async function getPlaylistTracksInBackground(
-  playlist: SimplifiedPlaylist,
-  signal: AbortSignal,
-  onProgress: (tracks: PlaylistedTrack<Track>[]) => void,
-) {
+export async function getPlaylistTracksInBackground(playlist: SimplifiedPlaylist, signal: AbortSignal) {
   const requests = createPlaylistTrackRequests(playlist);
   const requestGroups = chunk(requests, BACKGROUND_TRACK_BATCH_SIZE / PLAYLIST_TRACK_LIMIT);
   const tracks: PlaylistedTrack<Track>[] = [];
@@ -71,7 +67,6 @@ export async function getPlaylistTracksInBackground(
     tracks.push(...(await fetchPlaylistTrackRequests(requestGroup)));
 
     throwIfAborted(signal);
-    onProgress([...tracks]);
   }
 
   return tracks;

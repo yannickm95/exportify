@@ -47,6 +47,46 @@ describe("playlist track cache", () => {
     expect(load).toHaveBeenCalledOnce();
   });
 
+  it("promotes an in-flight background load when tracks are requested", async () => {
+    const load = vi.fn().mockResolvedValue(tracks);
+    const loadInBackground = vi.fn((_playlist: SimplifiedPlaylist, signal: AbortSignal) => {
+      return new Promise<PlaylistedTrack<Track>[]>((_resolve, reject) => {
+        signal.addEventListener("abort", () => reject(new DOMException("Background fetch aborted", "AbortError")));
+      });
+    });
+    const cache = createPlaylistTrackCache({ load, loadInBackground });
+    const playlist = createPlaylist("promoted", 5_001);
+
+    cache.startPrefetch([playlist]);
+    await vi.advanceTimersByTimeAsync(0);
+
+    await expect(cache.get(playlist)).resolves.toBe(tracks);
+
+    expect(loadInBackground).toHaveBeenCalledOnce();
+    expect(loadInBackground.mock.calls[0]![1].aborted).toBe(true);
+    expect(load).toHaveBeenCalledOnce();
+  });
+
+  it("starts a fresh background load when prefetch is restarted", async () => {
+    const loadInBackground = vi
+      .fn()
+      .mockImplementationOnce((_playlist: SimplifiedPlaylist, signal: AbortSignal) => {
+        return new Promise<PlaylistedTrack<Track>[]>((_resolve, reject) => {
+          signal.addEventListener("abort", () => reject(new DOMException("Background fetch aborted", "AbortError")));
+        });
+      })
+      .mockResolvedValueOnce(tracks);
+    const cache = createPlaylistTrackCache({ load: vi.fn(), loadInBackground });
+    const playlist = createPlaylist("restarted", 5_001);
+
+    cache.startPrefetch([playlist]);
+    await vi.advanceTimersByTimeAsync(0);
+    cache.startPrefetch([playlist]);
+    await vi.runAllTimersAsync();
+
+    expect(loadInBackground).toHaveBeenCalledTimes(2);
+  });
+
   it("preserves data during a Strict Mode remount and clears it after route disposal", async () => {
     const load = vi.fn().mockResolvedValue(tracks);
     const cache = createPlaylistTrackCache({ load, loadInBackground: vi.fn() });
