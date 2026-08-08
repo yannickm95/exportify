@@ -37,29 +37,23 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
   }
 
   const tracks: PlaylistedTrack<Track>[] = [];
-  const offsetLimit = 4_500;
-  const requestBatches = chunk(
-    args.filter(({ offset }) => offset < offsetLimit),
-    25,
-  );
+  const midpoint = Math.ceil(args.length / 2);
+  const requestGroups = playlist.items!.total > 5_000 ? [args.slice(0, midpoint), args.slice(midpoint)] : [args];
 
-  for (const [index, requestBatch] of requestBatches.entries()) {
-    if (index > 0) await new Promise((resolve) => window.setTimeout(resolve, 100));
+  for (const [groupIndex, requestGroup] of requestGroups.entries()) {
+    if (groupIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 5_000));
 
-    const responses = await Promise.all(
-      requestBatch.map(({ id, limit, offset }) =>
-        sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
-      ),
-    );
+    for (const [batchIndex, requestBatch] of chunk(requestGroup, 25).entries()) {
+      if (batchIndex > 0) await new Promise((resolve) => window.setTimeout(resolve, 100));
 
-    tracks.push(...responses.flatMap((response) => response.items));
-  }
+      const responses = await Promise.all(
+        requestBatch.map(({ id, limit, offset }) =>
+          sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
+        ),
+      );
 
-  for (const { id, limit, offset } of args.filter(({ offset }) => offset >= offsetLimit)) {
-    await new Promise((resolve) => window.setTimeout(resolve, 500));
-
-    const response = await sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset);
-    tracks.push(...response.items);
+      tracks.push(...responses.flatMap((response) => response.items));
+    }
   }
 
   return tracks;
