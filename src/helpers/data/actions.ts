@@ -36,11 +36,26 @@ export async function getPlaylistTracks(playlist: SimplifiedPlaylist) {
     args.push({ id: playlist.id, limit, offset });
   }
 
-  const trackResponses = await Promise.all(
-    args.map(({ id, limit, offset }) => sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset)),
-  );
+  const tracks: PlaylistedTrack<Track>[] = [];
+  const requestBatches = chunk(args, 5);
 
-  return trackResponses.flatMap((response) => response.items);
+  for (const [index, requestBatch] of requestBatches.entries()) {
+    if (index > 0) {
+      await new Promise((resolve) => {
+        window.setTimeout(resolve, 50);
+      });
+    }
+
+    const responses = await Promise.all(
+      requestBatch.map(({ id, limit, offset }) =>
+        sdk.playlists.getPlaylistItems(id, undefined, undefined, limit, offset),
+      ),
+    );
+
+    tracks.push(...responses.flatMap((response) => response.items));
+  }
+
+  return tracks;
 }
 
 export async function getFollowedArtists() {
