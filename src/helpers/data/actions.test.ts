@@ -47,19 +47,19 @@ describe("playlist track fetching", () => {
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(101);
   });
 
-  it("fetches background tracks in one-thousand-track waves five seconds apart", async () => {
+  it("fetches background tracks in one-thousand-track waves 7.5 seconds apart", async () => {
     const load = getPlaylistTracksInBackground(createPlaylist("background", 2_001), new AbortController().signal);
 
     await vi.advanceTimersByTimeAsync(0);
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(20);
 
-    await vi.advanceTimersByTimeAsync(4_999);
+    await vi.advanceTimersByTimeAsync(7_499);
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(20);
 
     await vi.advanceTimersByTimeAsync(1);
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(40);
 
-    await vi.advanceTimersByTimeAsync(5_000);
+    await vi.advanceTimersByTimeAsync(7_500);
     await load;
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(41);
   });
