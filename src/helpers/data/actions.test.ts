@@ -53,13 +53,13 @@ describe("playlist track fetching", () => {
     await vi.advanceTimersByTimeAsync(0);
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(20);
 
-    await vi.advanceTimersByTimeAsync(7_499);
+    await vi.advanceTimersByTimeAsync(2_499);
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(20);
 
     await vi.advanceTimersByTimeAsync(1);
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(40);
 
-    await vi.advanceTimersByTimeAsync(7_500);
+    await vi.advanceTimersByTimeAsync(2_500);
     await load;
     expect(spotifyMocks.getPlaylistItems).toHaveBeenCalledTimes(41);
   });
