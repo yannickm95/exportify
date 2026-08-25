@@ -17,7 +17,7 @@ export default defineConfig({
   },
   categories: {
     correctness: "error",
-    nursery: "warn",
+    nursery: "error",
   },
   ignorePatterns: ["*", "!src/**/*", "!vite.config.ts", "!oxlint.config.ts"],
   rules: {
@@ -89,6 +89,20 @@ export default defineConfig({
     "typescript/no-unsafe-function-type": "error",
     "typescript/prefer-for-of": "error",
     "typescript/prefer-function-type": "error",
+
+    // Suggested rules (not required); can be disabled with a comment
+    "react/error-boundaries": "warn",
+    "react/globals": "warn",
+    "react/immutability": "warn",
+    "react/incompatible-library": "warn",
+    "react/preserve-manual-memoization": "warn",
+    "react/purity": "warn",
+    "react/refs": "warn",
+    "react/set-state-in-effect": "warn",
+    "react/set-state-in-render": "warn",
+    "react/static-components": "warn",
+    "react/use-memo": "warn",
+    "react/void-use-memo": "warn",
 
     // disable unneeded plugin enabled rules
     "no-control-regex": "allow",
