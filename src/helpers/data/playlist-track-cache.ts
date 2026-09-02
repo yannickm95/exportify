@@ -75,8 +75,6 @@ export function createPlaylistTrackCache(
   };
 
   const invalidate = (playlistId: string) => {
-    completedTracks.delete(playlistId);
-
     const inFlight = inFlightTracks.get(playlistId);
     inFlight?.cancel?.();
     if (inFlightTracks.get(playlistId) === inFlight) inFlightTracks.delete(playlistId);

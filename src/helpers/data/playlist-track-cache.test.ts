@@ -104,6 +104,20 @@ describe("playlist track cache", () => {
     expect(loadInBackground.mock.calls[0]![1].aborted).toBe(true);
   });
 
+  it("preserves completed background tracks when invalidated", async () => {
+    const load = vi.fn().mockResolvedValue(tracks);
+    const loadInBackground = vi.fn().mockResolvedValue(tracks);
+    const cache = createPlaylistTrackCache({ load, loadInBackground });
+    const playlist = createPlaylist("completed-background", 5_001);
+
+    cache.startPrefetch([playlist]);
+    await vi.runAllTimersAsync();
+    cache.invalidate(playlist.id);
+
+    await expect(cache.get(playlist)).resolves.toBe(tracks);
+    expect(load).not.toHaveBeenCalled();
+  });
+
   it("does not cache an in-flight foreground load after invalidation", async () => {
     let resolveFirstLoad!: (value: PlaylistedTrack<Track>[]) => void;
     const load = vi
