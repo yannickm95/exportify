@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { cn } from "~/helpers/cn";
-import { exportToCsv, getPlaylistTracks, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
+import { exportToCsv, jsSort, lastSort, quickSortPlaylist } from "~/helpers/data/actions";
 import type { PlaylistTrackCache } from "~/helpers/data/playlist-track-cache";
 
 import { Button } from "./button";
@@ -25,7 +25,8 @@ export function PlaylistRow({
     setIsJsSorting(true);
     playlistTrackCache.invalidate(playlist.id);
 
-    getPlaylistTracks(playlist)
+    playlistTrackCache
+      .get(playlist)
       .then(async (tracks) => {
         const outcome = await jsSort(tracks, playlist.id);
         playlistTrackCache.set(playlist.id, outcome.tracks);
@@ -44,7 +45,8 @@ export function PlaylistRow({
     setIsQuickSorting(true);
     playlistTrackCache.invalidate(playlist.id);
 
-    getPlaylistTracks(playlist)
+    playlistTrackCache
+      .get(playlist)
       .then(async (tracks) => {
         const outcome = await quickSortPlaylist(tracks, playlist.id);
         playlistTrackCache.set(playlist.id, outcome.tracks);
@@ -63,7 +65,8 @@ export function PlaylistRow({
     setIsLastSorting(true);
     playlistTrackCache.invalidate(playlist.id);
 
-    getPlaylistTracks(playlist)
+    playlistTrackCache
+      .get(playlist)
       .then(async (tracks) => {
         const outcome = await lastSort(tracks, playlist.id);
         playlistTrackCache.set(playlist.id, outcome.tracks);
