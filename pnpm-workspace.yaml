@@ -1,2 +1,11 @@
+# Dependabot fix: doesn't add the double document in the lock file.
+# TODO: remove once https://github.com/dependabot/dependabot-core/issues/15904 is supported in Dependabot.
+pmOnFail: ignore
+
+minimumReleaseAge: 4320 # 3 days, align with Dependabot.
+
+allowBuilds:
+  node: true
+
 patchedDependencies:
-  '@spotify/web-api-ts-sdk@1.2.0': patches/@spotify__web-api-ts-sdk@1.2.0.patch
+  "@spotify/web-api-ts-sdk@1.2.0": patches/@spotify__web-api-ts-sdk@1.2.0.patch
