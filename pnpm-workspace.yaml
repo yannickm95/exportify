@@ -4,8 +4,5 @@ pmOnFail: ignore
 
 minimumReleaseAge: 4320 # 3 days, align with Dependabot.
 
-allowBuilds:
-  node: true
-
 patchedDependencies:
   "@spotify/web-api-ts-sdk@1.2.0": patches/@spotify__web-api-ts-sdk@1.2.0.patch
