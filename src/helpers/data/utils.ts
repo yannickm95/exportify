@@ -16,6 +16,37 @@ export function isArraySorted(array: string[]) {
   return sorted;
 }
 
+// Positions of the longest non-decreasing run of values; every other value is out of place.
+// Built back to front so ties keep earlier values and treat later ones as out of place.
+export function longestSortedSubsequence(values: string[]) {
+  const tails: number[] = [];
+  const previous: number[] = [];
+
+  for (let position = values.length - 1; position >= 0; position--) {
+    const value = values[position]!;
+    let low = 0;
+    let high = tails.length;
+
+    while (low < high) {
+      const middle = (low + high) >> 1;
+
+      if (values[tails[middle]!]! >= value) low = middle + 1;
+      else high = middle;
+    }
+
+    previous[position] = low > 0 ? tails[low - 1]! : -1;
+    tails[low] = position;
+  }
+
+  const sorted = new Set<number>();
+
+  for (let position = tails.at(-1) ?? -1; position !== -1; position = previous[position]!) {
+    sorted.add(position);
+  }
+
+  return sorted;
+}
+
 export function formatCompareValue(track: Track) {
   const trackNumber = track.track_number.toString().padStart(2, "0");
   const artist = sanitizeTrack(track.artists[0]!.name);

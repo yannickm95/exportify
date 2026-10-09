@@ -4,7 +4,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getPlaylistTracks, getPlaylistTracksInBackground, jsSort, lastSort, quickSortPlaylist } from "./actions";
 
 const spotifyMocks = vi.hoisted(() => ({
+  addItemsToPlaylist: vi.fn(),
   getPlaylistItems: vi.fn(),
+  removeItemsFromPlaylist: vi.fn(),
   updatePlaylistItems: vi.fn(),
 }));
 
@@ -107,16 +109,51 @@ describe("playlist sorting", () => {
     expect(lastSortOutcome).toEqual({ result: 0, tracks: [first, second] });
     expect(spotifyMocks.updatePlaylistItems).not.toHaveBeenCalled();
   });
+
+  it("moves stray tracks to the bottom before last-sorting them", async () => {
+    const [a, z, b, c, e, d] = ["A", "Z", "B", "C", "E", "D"].map((name) => createTrack(name, name));
+
+    const outcome = await lastSort([a!, z!, b!, c!, e!, d!], "playlist");
+
+    expect(outcome).toEqual({ result: 2, tracks: [a, b, c, d, e, z] });
+    expect(spotifyMocks.updatePlaylistItems.mock.calls).toEqual([
+      ["playlist", { range_start: 1, insert_before: 6 }],
+      ["playlist", { range_start: 5, insert_before: 4 }],
+      ["playlist", { range_start: 5, insert_before: 3 }],
+    ]);
+  });
+
+  it("moves out-of-place local files into place", async () => {
+    const [a, local, b] = [createTrack("a", "A"), createTrack("local", "Z", true), createTrack("b", "B")];
+
+    const outcome = await lastSort([a!, local!, b!], "playlist");
+
+    expect(outcome).toEqual({ result: 1, tracks: [a, b, local] });
+    expect(spotifyMocks.updatePlaylistItems.mock.calls).toEqual([["playlist", { range_start: 2, insert_before: 1 }]]);
+  });
+
+  it("inserts local files after js-sorting the other tracks", async () => {
+    const [a, local, b] = [createTrack("a", "A"), createTrack("local", "AB", true), createTrack("b", "B")];
+    const sorting = jsSort([b!, local!, a!], "playlist");
+
+    await vi.runAllTimersAsync();
+    const outcome = await sorting;
+
+    expect(outcome.result).toBe("sorted");
+    expect(outcome.tracks.map(({ item }) => item.uri)).toEqual(["a", "local", "b"]);
+    expect(spotifyMocks.updatePlaylistItems.mock.calls).toEqual([["playlist", { range_start: 2, insert_before: 1 }]]);
+  });
 });
 
 function createPlaylist(id: string, total: number) {
   return { id, items: { total } } as SimplifiedPlaylist;
 }
 
-function createTrack(uri: string, artistName: string) {
+function createTrack(uri: string, artistName: string, isLocal = false) {
   return {
     item: {
       uri,
+      is_local: isLocal,
       track_number: 1,
       artists: [{ name: artistName }],
       album: { name: "Album", release_date: "2020" },

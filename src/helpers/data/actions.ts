@@ -3,7 +3,14 @@ import { saveAs } from "file-saver";
 import chunk from "lodash/chunk";
 
 import { sdk } from "./api";
-import { convertArtistsToCsv, convertTracksToCsv, fileName, formatCompareValue, isArraySorted } from "./utils";
+import {
+  convertArtistsToCsv,
+  convertTracksToCsv,
+  fileName,
+  formatCompareValue,
+  isArraySorted,
+  longestSortedSubsequence,
+} from "./utils";
 
 export function getUser() {
   return sdk.currentUser.profile();
@@ -214,28 +221,39 @@ export async function quickSortPlaylist(items: PlaylistedTrack<Track>[], playlis
   }
 }
 
-export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: string, amount = 95) {
+export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: string) {
   const orderedItems = [...items];
-  const tracks = items.map(({ item }) => formatCompareValue(item));
+  const sortedPositions = longestSortedSubsequence(orderedItems.map(({ item }) => formatCompareValue(item)));
+  const outOfPlace = orderedItems.flatMap((_, index) => (sortedPositions.has(index) ? [] : [index]));
 
-  const newItems: string[] = [];
-
-  for (let index = tracks.length - 1; index > 0; index--) {
-    const item = tracks[index];
-
-    if (item && tracks.slice(Math.max(index - (amount + 5), 0), index).some((prevItem) => item < prevItem)) {
-      newItems.push(item);
-    } else {
-      break;
-    }
-  }
-
-  if (newItems.length === 0) {
+  if (outOfPlace.length === 0) {
     return { result: 0, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
   }
 
-  for (const item of newItems) {
-    const newIndex = tracks.findIndex((t) => t > item);
+  const outOfPlaceSet = new Set(outOfPlace);
+  let bottomStart = orderedItems.length;
+  while (outOfPlaceSet.has(bottomStart - 1)) bottomStart--;
+
+  for (const index of outOfPlace.toReversed()) {
+    if (index >= bottomStart) continue;
+
+    await sdk.playlists.updatePlaylistItems(playlistId, {
+      range_start: index,
+      insert_before: orderedItems.length,
+    });
+
+    orderedItems.push(...orderedItems.splice(index, 1));
+  }
+
+  const tracks = orderedItems.map(({ item }) => formatCompareValue(item));
+
+  for (let remaining = outOfPlace.length; remaining > 0; remaining--) {
+    const item = tracks.at(-1)!;
+    const sortedLength = tracks.length - remaining;
+    const nextIndex = tracks.findIndex((t, index) => index < sortedLength && t > item);
+    const newIndex = nextIndex === -1 ? sortedLength : nextIndex;
+
+    if (newIndex === tracks.length - 1) continue;
 
     await sdk.playlists.updatePlaylistItems(playlistId, {
       range_start: tracks.length - 1,
@@ -249,7 +267,7 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
     orderedItems.splice(newIndex, 0, movedTrack);
   }
 
-  return { result: newItems.length, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
+  return { result: outOfPlace.length, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
 }
 
 export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string) {
@@ -286,7 +304,7 @@ export async function jsSort(items: PlaylistedTrack<Track>[], playlistId: string
   }
 
   const localTracks = tracks.filter(({ item }) => item.is_local);
-  const { tracks: sortedTracks } = await lastSort([...nonLocalTracks, ...localTracks], playlistId, localTracks.length);
+  const { tracks: sortedTracks } = await lastSort([...nonLocalTracks, ...localTracks], playlistId);
 
   return { result: "sorted", tracks: sortedTracks } satisfies PlaylistSortOutcome<"sorted">;
 }
