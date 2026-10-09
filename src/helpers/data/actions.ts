@@ -231,15 +231,14 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
     return { result: 0, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
   }
 
-  // oxlint-disable-next-line no-console
-  console.log(
-    "Out of place items:",
-    outOfPlace.map((index) => describeTrack(orderedItems[index]?.item)),
-  );
-
   const outOfPlaceSet = new Set(outOfPlace);
   let bottomStart = orderedItems.length;
   while (outOfPlaceSet.has(bottomStart - 1)) bottomStart--;
+
+  outOfPlace
+    .filter((index) => index < bottomStart)
+    // oxlint-disable-next-line no-console
+    .map((index) => console.log("Out of place item:", describeTrack(orderedItems[index]?.item)));
 
   for (const index of outOfPlace.toReversed()) {
     if (index >= bottomStart) continue;
