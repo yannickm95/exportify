@@ -3,6 +3,10 @@ import type { Artist, PlaylistedTrack, Track } from "@spotify/web-api-ts-sdk";
 // SORTING
 // ==========================
 
+export function describeTrack(track?: Track) {
+  return track ? `${track.artists.map(({ name }) => name).join(", ")} - ${track.name} - ${track.album.name}` : "";
+}
+
 export function isArraySorted(array: string[]) {
   let sorted = true;
 

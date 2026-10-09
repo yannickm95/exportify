@@ -6,6 +6,7 @@ import { sdk } from "./api";
 import {
   convertArtistsToCsv,
   convertTracksToCsv,
+  describeTrack,
   fileName,
   formatCompareValue,
   isArraySorted,
@@ -230,6 +231,12 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
     return { result: 0, tracks: orderedItems } satisfies PlaylistSortOutcome<number>;
   }
 
+  // oxlint-disable-next-line no-console
+  console.log(
+    "Out of place items:",
+    outOfPlace.map((index) => describeTrack(orderedItems[index]?.item)),
+  );
+
   const outOfPlaceSet = new Set(outOfPlace);
   let bottomStart = orderedItems.length;
   while (outOfPlaceSet.has(bottomStart - 1)) bottomStart--;
@@ -252,6 +259,9 @@ export async function lastSort(items: PlaylistedTrack<Track>[], playlistId: stri
     const sortedLength = tracks.length - remaining;
     const nextIndex = tracks.findIndex((t, index) => index < sortedLength && t > item);
     const newIndex = nextIndex === -1 ? sortedLength : nextIndex;
+
+    // oxlint-disable-next-line no-console
+    console.log("Sorted item:", describeTrack(orderedItems.at(-1)?.item), "insert position:", newIndex);
 
     if (newIndex === tracks.length - 1) continue;
 
