@@ -45,8 +45,8 @@ export function useAuth() {
     if (!authenticated) return;
 
     const intervalId = window.setInterval(() => {
-      sdk
-        ?.getAccessToken() // oxlint-disable-line typescript/no-unnecessary-condition
+      sdk // oxlint-disable-line typescript/no-unnecessary-condition
+        ?.getAccessToken()
         .then((token) => {
           const expired = !token || (token.expires && token.expires < new Date().getTime());
 
