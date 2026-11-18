@@ -1,7 +1,4 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-
-import { parse } from "csv-parse/sync";
+import { readPlaylistCsv } from "./playlist-csv.ts";
 
 const usage = "Usage: pnpm compare-playlists <first.csv> <second.csv>";
 
@@ -36,22 +33,7 @@ try {
 
 function readPlaylist(path: string) {
   try {
-    const [headers, ...rows] = parse(readFileSync(resolve(process.env.INIT_CWD ?? process.cwd(), path), "utf8"), {
-      bom: true,
-      skip_empty_lines: true,
-    });
-    if (!headers) {
-      throw new Error('Expected exactly one "Track Name" column.');
-    }
-
-    const requiredHeaders = ["Track Name", "Artist Name(s)"];
-
-    for (const header of requiredHeaders) {
-      if (headers.filter((value) => value === header).length !== 1) {
-        throw new Error(`Expected exactly one "${header}" column.`);
-      }
-    }
-
+    const { headers, rows } = readPlaylistCsv(path, ["Track Name", "Artist Name(s)"]);
     const nameIndex = headers.indexOf("Track Name");
     const artistIndex = headers.indexOf("Artist Name(s)");
     const tracks = new Map<string, { name: string; artist: string }>();

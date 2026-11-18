@@ -70,6 +70,18 @@ Use `--help` to display the command syntax.
 
 It prints all the mutual tracks, matching `Track Name` and the full `Artist Name(s)` field, ignoring case and surrounding whitespace
 
+### Report or filter release years
+
+```sh
+pnpm run playlist-range playlist.csv report
+pnpm run playlist-range playlist.csv filter 1990-2000
+```
+
+Use `--help` to display the command syntax.
+
+`report` prints the track count for each `Album Release Date` year, ordered from earliest to latest, and a total.
+`filter` prints matching songs as `Year - Artist - Track`, ordered from earliest to latest year, including both boundary years.
+
 ## Notes
 
 Spotify does not associate with `Exportify`. Their business name, graphics, style guide, and other references are the trademarks of their respective copyright holders.

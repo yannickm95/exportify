@@ -12,6 +12,7 @@
     "dev": "vite dev",
     "format": "oxfmt --write .",
     "lint": "oxlint --type-aware --type-check",
+    "playlist-range": "node scripts/playlist-range.ts",
     "preview": "vite preview",
     "test": "vitest dev",
     "test:ci": "vitest run"
