@@ -19,7 +19,7 @@ export default defineConfig({
     correctness: "error",
     nursery: "error",
   },
-  ignorePatterns: ["*", "!src/**/*", "!vite.config.ts", "!oxlint.config.ts"],
+  ignorePatterns: ["*", "!src/**/*", "!scripts/**/*", "!vite.config.ts", "!oxlint.config.ts"],
   rules: {
     "getter-return": "error",
     "no-array-constructor": "error",
@@ -114,9 +114,24 @@ export default defineConfig({
   },
   overrides: [
     {
+      files: ["scripts/**/*", "vite.config.ts", "oxlint.config.ts"],
+      env: {
+        browser: false,
+        node: true,
+      },
+      rules: {
+        "no-restricted-globals": "allow",
+      },
+    },
+    {
+      files: ["scripts/**/*"],
+      rules: {
+        "no-console": "allow",
+      },
+    },
+    {
       files: ["vite.config.ts", "oxlint.config.ts"],
       rules: {
-        "no-undef": "allow",
         "import/no-default-export": "allow",
       },
     },

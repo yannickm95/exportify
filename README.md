@@ -58,6 +58,18 @@ In addition to [Vite](https://vitejs.dev/), the application is built using the f
 - [React](https://reactjs.org/) - A JavaScript library for building user interfaces
 - [Tailwind CSS 4](https://tailwindcss.com/) - utility-first styling
 
+## Helper scripts
+
+### Compare two playlists
+
+```sh
+pnpm run compare-playlists first.csv second.csv
+```
+
+Use `--help` to display the command syntax.
+
+It prints all the mutual tracks, matching `Track Name` and the full `Artist Name(s)` field, ignoring case and surrounding whitespace
+
 ## Notes
 
 Spotify does not associate with `Exportify`. Their business name, graphics, style guide, and other references are the trademarks of their respective copyright holders.
