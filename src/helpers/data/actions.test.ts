@@ -110,6 +110,25 @@ describe("playlist sorting", () => {
     expect(spotifyMocks.updatePlaylistItems).not.toHaveBeenCalled();
   });
 
+  it.each([
+    ["quicksort", quickSortPlaylist],
+    ["last sort", lastSort],
+    ["JS sort", jsSort],
+  ])("orders tracks by disc before track number with %s", async (_name, sort) => {
+    const discOne = createTrack("disc-one", "Artist");
+    discOne.item.track_number = 4;
+    const discTwo = createTrack("disc-two", "Artist");
+    discTwo.item.disc_number = 2;
+    const discTen = createTrack("disc-ten", "Artist");
+    discTen.item.disc_number = 10;
+
+    const sorting = sort([discTwo, discTen, discOne], "playlist");
+    await vi.runAllTimersAsync();
+    const outcome = await sorting;
+
+    expect(outcome.tracks.map(({ item }) => item.uri)).toEqual(["disc-one", "disc-two", "disc-ten"]);
+  });
+
   it("moves stray tracks to the bottom before last-sorting them", async () => {
     const [a, z, b, c, e, d] = ["A", "Z", "B", "C", "E", "D"].map((name) => createTrack(name, name));
 
@@ -154,6 +173,7 @@ function createTrack(uri: string, artistName: string, isLocal = false) {
     item: {
       uri,
       is_local: isLocal,
+      disc_number: 1,
       track_number: 1,
       artists: [{ name: artistName }],
       album: { name: "Album", release_date: "2020" },

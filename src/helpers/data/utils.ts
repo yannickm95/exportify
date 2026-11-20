@@ -52,12 +52,13 @@ export function longestSortedSubsequence(values: string[]) {
 }
 
 export function formatCompareValue(track: Track) {
+  const discNumber = track.disc_number.toString().padStart(2, "0");
   const trackNumber = track.track_number.toString().padStart(2, "0");
   const artist = sanitizeTrack(track.artists[0]!.name);
   const albumName = sanitizeTrack(track.album.name);
   const releaseDate = track.album.release_date === null ? "0000-00-00" : track.album.release_date;
 
-  return artist + releaseDate + albumName + trackNumber;
+  return artist + releaseDate + albumName + discNumber + trackNumber;
 }
 
 function sanitizeTrack(value: string) {
